@@ -1,0 +1,64 @@
+<div class="brand visible-xs">
+
+  <!-- toggle offscreen menu -->
+  <div class="toggle-offscreen">
+    <offscreen class="visible-xs"></offscreen>
+  </div>
+  <!-- /toggle offscreen menu -->
+
+  <!-- logo -->
+  <div class="brand-logo">
+    <img data-ng-src="images/logo-dark.png" height="15" alt="">
+  </div>
+  <!-- /logo -->
+
+  <!-- toggle chat sidebar small screen-->
+  <div class="toggle-chat">
+    <a class="hamburger-icon v2 visible-xs" ui-sref="user.logout">
+      <span></span>
+      <span></span>
+      <span></span>
+    </a>
+  </div>
+  <!-- /toggle chat sidebar small screen-->
+
+</div>
+
+<ul class="nav navbar-nav hidden-xs">
+  <li>
+    <p class="navbar-text">
+      {{$state.current.data.title}}
+    </p>
+  </li>
+</ul>
+
+<ul class="nav navbar-nav navbar-right hidden-xs">
+  <li>
+    <a href="javascript:;" quick-launch>
+      <i class="fa fa-circle-thin"></i>
+    </a>
+  </li>
+
+  <li class="dropdown" dropdown>
+    <a href="javascript:;" class="dropdown-toggle" dropdown-toggle>
+      <img data-ng-src="{{user.avatar}}" class="header-avatar img-circle ml10" alt="user" title="user">
+      <span class="pull-left">
+        {{user.fname}}
+      </span>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a ui-sref="user.logout">Logout</a>
+      </li>
+    </ul>
+
+  </li>
+
+  <li>
+    <a ui-sref="user.logout" class="hamburger-icon v2">
+      <span></span>
+      <span></span>
+      <span></span>
+    </a>
+  </li>
+</ul>

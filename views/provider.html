@@ -1,0 +1,80 @@
+<div class="panel" data-ng-controller="providerCtrl">
+  <div class="panel-heading border">
+    <ol class="breadcrumb mb0 no-padding">
+      <li>
+        <a href="javascript:;">Home</a>
+      </li>
+      <li class="active">Provider</li>     
+    </ol>
+  </div>
+  
+  <form class="form-inline">
+        <div style="padding:5px" class="form-group">
+            <label style="font-family:Courier New, Courier, monospace; color:rgb(37, 37, 175); font-weight:bolder; padding-right:10px; vertical-align: middle">Sort by Category:</label>
+              <select class="form-control" style="" id="cat">
+                  <option value="-">All</option>
+                  <option ng-repeat="x in serviceCat" value="{{x.id}}">{{x.name}}</option>
+                </select>
+          </div>
+          <div style="padding:5px" class="form-group">
+              <label style="font-family:Courier New, Courier, monospace; color:rgb(37, 37, 175); font-weight:bolder; padding-right:10px; vertical-align: middle">Sort by State:</label>
+                <select class="form-control" id="stateID">
+                    <option value="-">All</option>
+                    <option ng-repeat="x in states" value="{{x.id}}">{{x.name}} </option>
+                  </select>
+            </div>
+            <div style="padding:5px" class="form-group">
+                <label style="font-family:Courier New, Courier, monospace; color:rgb(37, 37, 175); font-weight:bolder; padding-right:10px; vertical-align: middle">Sort by LG: <span id="fetcher"></span></label>
+                  <select class="form-control" id="LGID">
+                      <option value="-">All</option>
+                      <option ng-repeat="x in lgs" value="{{x.id}}">{{x.name}} </option>
+                    </select>
+              </div>
+          <button type="button" class="btn btn-primary" ng-click="filterProvider($event)"><i class="fa fa-filter"></i> Filter</button>
+  </form>
+
+  <div class="panel-body">
+      <table class="table table-bordered bordered table-striped table-condensed datatable dataTable"datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+          <thead>
+            <tr class="bold">
+              <td>ID</td>
+              <td>Name</td>
+              <td>Phone</td>
+              <td>Address</td>
+              <td>State</td>         
+              <td>Local Goverment</td>
+              <td>Action</td>
+            </tr>
+          </thead>
+          <tr ng-repeat="x in providers">
+            <td>{{$index + 1}}</td>
+              <td>
+                <!-- editable username (text with validation) -->
+                {{x.providersName}}
+              </td>
+              <td>
+                <!-- editable username (text with validation) -->
+                {{x.providersPhone}}
+              </td>
+               <td>
+                <!-- editable username (text with validation) -->
+                {{x.providersAddress}}
+              </td>
+              <td>
+                <!-- editable username (text with validation) -->
+                {{x.providerstate}}
+              </td>
+              <td>
+                  <!-- editable username (text with validation) -->
+                  {{x.providerLG}}
+              </td>
+              <td style="white-space: nowrap">            
+                <div class="buttons">
+                  <button class="btn {{(x.providerStatus > 0) && 'btn-danger' || 'btn-success' }} btn-sm btn-icon loading-demo mr5" ng-if="x.providerStatus" ng-click="updateProvider($event, x.providerStatus, x.providerID)"><i class="fa fa-undo"></i> {{(x.providerStatus > 0) && 'Deactivate' || 'Reactivate'}}</button>
+                  <button class="btn btn-primary btn-sm btn-icon loading-demo mr5" ng-if="!x.sheetID" ng-click="updateProvider($event, x.sheetID, x.providerID)"><i class="fa fa-user-plus"></i>sign up</button>
+                </div>
+              </td>
+            </tr>
+        </table>
+  </div>
+</div>

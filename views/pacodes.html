@@ -1,0 +1,164 @@
+<div class="page-container" data-ng-controller="pacodeCtrl">
+        <headertop></headertop>  
+           <!-- PAGE CONTENT -->
+           <div class="page-content">
+               <top></top>
+
+
+               <!-- PAGE CONTENT WRAPPER -->
+               <div class="page-content-wrap">
+                       <style type="text/css">
+                           .cardLink{
+                               background: #37474f;
+                               color: #fff;
+                           }
+                       </style> 
+                   <!-- START WIDGETS -->                    
+                   
+                   <!-- END WIDGETS -->                    
+                   
+                   <div class="row">
+                    
+                    <div class="col-md-12">
+                         <!-- START DATATABLE EXPORT -->
+                            <!-- START DATATABLE EXPORT -->
+                           <div class="panel panel-default">
+                               <div class="panel-heading">
+                                   <h3 class="panel-title"><a><span class="xn-text" style="margin-left: 20px;">P A Codes </span></a></span></h3>
+                                   <div class="btn-group pull-right">
+                                        <button class="btn btn btn-info btn-corner openBtn" data-toggle="modal" id="modalFling" data-target="#add-staff" style="color: #ffffff;"><span class="fa fa-qrcode"></span> Create New PA Code</button>
+                                      <!--<button class="btn btn-info" data-toggle="modal" data-target="#add-card"><span class="fa fa-user"></span>Add Card</button>-->
+                                       <button class="btn btn-danger btn-corner dropdown-toggle" data-toggle="dropdown" style="color: #ffffff;"><i class="fa fa-bars"></i> Export Data</button>
+                                       <ul class="dropdown-menu">
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false'});"><img src='img/icons/json.png' width="24"/> JSON</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src='img/icons/json.png' width="24"/> JSON (ignoreColumn)</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'true'});"><img src='img/icons/json.png' width="24"/> JSON (with Escape)</a></li>
+                                           <li class="divider"></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'xml',escape:'false'});"><img src='img/icons/xml.png' width="24"/> XML</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'sql'});"><img src='img/icons/sql.png' width="24"/> SQL</a></li>
+                                           <li class="divider"></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'csv',escape:'false'});"><img src='img/icons/csv.png' width="24"/> CSV</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'txt',escape:'false'});"><img src='img/icons/txt.png' width="24"/> TXT</a></li>
+                                           <li class="divider"></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='img/icons/word.png' width="24"/> Word</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'powerpoint',escape:'false'});"><img src='img/icons/ppt.png' width="24"/> PowerPoint</a></li>
+                                           <li class="divider"></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'png',escape:'false'});"><img src='img/icons/png.png' width="24"/> PNG</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
+                                       </ul>
+                                   </div>                                    
+                                   
+                               </div>
+                               <div class="panel-body">
+                                   <table id="customers2" class="table table-striped datatable" class="table datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                       <thead>
+                                           <tr>
+                                               <th>S/N</th>
+                                               <th>Code</th>
+                                               <th>Enrolee </th>
+                                               <th>Enrolee ID</th>
+                                               <th>Provider </th>
+                                               <th>Date</th>
+                                           </tr>
+                                       </thead>
+                                       <thead>
+                                               <tr class="searchParam">
+                                                       <th>S/N</th>
+                                                        <th><input type="text" id = "extended1" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Code" /></th>
+                                                        <th><input type="text" id = "extended2" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Enrolee Name" /></th>
+                                                        <th><input type="text" id = "extended3" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Enrolee ID" /></th>
+                                                        <th><input type="text" id = "extended4" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Provider" /></th>
+                                                        <th><input type="text" id = "extended5" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Date" /></th>
+                                                        <!--<th>Action</th>-->
+                                               </tr>
+                                           </thead>
+                                       <tbody>
+                                           <tr ng-repeat="x in code">
+                                               <td>{{$index + 1}}</td>
+                                               <td>{{x.code}}</td>
+                                               <td>{{x.enroleeName}}</td>
+                                               <td>{{x.enrolee}}</td>                                               
+                                               <td>{{x.providerName}}</td>
+                                               <td>{{dateFormater(x.transDate)}}</td>                                               
+                                           </tr>   
+                                       </tbody>                                       
+                                   </table>                                    
+                                   
+                               </div>
+                           </div>
+                           <!-- END DATATABLE EXPORT -->                            
+                           
+
+                   </div>
+                   <!-- END DATATABLE EXPORT -->                            
+                   
+
+                   </div>      
+                   
+                  
+               </div>
+               <!-- END PAGE CONTENT WRAPPER -->                                
+           </div>            
+           <!-- END PAGE CONTENT -->
+           <!-- Modal -->
+           <style>
+                .scroll::-webkit-scrollbar {
+                    width: 3px;
+                }
+                
+                .scroll::-webkit-scrollbar-track {
+                    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+                    border-radius: 10px;
+                }
+                
+                .scroll::-webkit-scrollbar-thumb {
+                    border-radius: 10px;
+                    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+                }
+                .select2-container{
+                    z-index:2010;                    
+                }
+                .select2{
+                    width:400px !important;
+                }
+                </style>
+                  <div style="width:100%; height:100%; background:black; position:fixed; left:0px; right:0px; top:0px; z-index:2000; opacity:0.6; display:none" class="bcover">
+                  </div>
+                      <div class="modal-content" style="display:none; background:none; z-index:2005; width:100%; height:100%; position:fixed; left:0px; right:0px; top:0px; padding:20px;" align="center">
+                        <div class="scroll" style="max-width:60%; background:white; padding:20px; max-height:100%; overflow:auto; border-radius:6px" align="left">
+                        <div class="modal-header">
+                          <button type="button" class="close closeBtn" id="closeBtn" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title"><span class="fa fa-money"> </span> Create new Code</h4>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                              <p>Enter Code</p>
+                              <input type="text" class="form-control" id="code" value="">
+                          </div>
+                          <div class="form-group">
+                              <p>Enter Details</p>
+                              <textarea class="form-control" id="details"></textarea>
+                          </div>
+                          <div class="form-group">
+                              <p>Assigned Enrolee</p>
+                              <select id="enrolee" class="form-control">
+                                <option value="0">Select an enrolee</option>                                
+                                <option ng-repeat="x in enrolees" value="{{x.enroleeID}}">{{x.name}}</option>
+                              </select>
+                          </div>
+                          <div class="form-group">
+                              <p>Assigned Provider</p>
+                              <select id="provider" class="form-control">
+                                  <option value="0">Select a Provider</option>
+                                  <option ng-repeat="x in providers" value="{{x.providerID}}">{{x.name}}</option>
+                                </select>
+                          </div>       
+                        </div>
+                        <div class="modal-footer">
+                          <span id="work" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span>
+                          <button type="button" class="btn btn-danger closeBtn" id="editbtn">Close</button>                          
+                          <button type="button" class="btn btn-success" id="editbtn" ng-click="createCode($event)">Update</button>
+                        </div>
+                      </div>      
+<footertop></footertop>

@@ -1,0 +1,104 @@
+<div class="panel" data-ng-controller="enrolleesCtrl">
+  <div class="panel-heading border">
+    <ol class="breadcrumb mb0 no-padding">
+      <li>
+        <a href="javascript:;">Home</a>
+      </li>
+      <li class="active">Enrolees</li>
+    </ol>
+</div>
+<div class="row">
+  <div class="col-md-12">
+
+  </div>
+</div>
+<form class="form-inline">
+  <div class="row" style="padding:12px">
+    <div class="col-md-3">
+        Sort by Organization:
+    </div>
+    <div class="col-md-3">
+        Sort by Provider:
+    </div>
+    <div class="col-md-3">
+        Sort by Enrolee Type:
+    </div>
+    <div class="col-md-3">Action</div>
+    <div class="col-md-3">
+          <select id="orgs" class="form-control">
+              <option value="-">All</option>
+              <option ng-repeat="x in organization" ng-selected="$index ==0" value="{{x.id}}">{{x.name}} </option>
+            </select>
+      </div>
+      <div class="col-md-3">
+            <select class="form-control" id="provider">
+                <option value="-">All</option>
+                <option ng-repeat="x in providersheet" value="{{x.providerID}}">{{x.name}} </option>
+              </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" id="type">
+                <option value="1">Primary</option>
+                <option value="2">Dependants</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <button type="button" class="btn btn-primary" id="btnn" ng-click="filterEnrolees()"><i class="fa fa-filter"></i> Filter</button>
+        </div>
+  </div>
+</form>
+  <div class="panel-body" style="overflow: auto; padding: 12px">
+    <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+      <thead>
+        <tr>
+          <th>SN</th>
+          <th  style="width:20%">Name</th>
+          <th  style="width:15%">Phone</th>
+          <th  style="width:30%">Address</th>
+          <th  style="width:20%">Email</th>
+          <th  style="width:20%">Provider</th>
+          <th  style="width:20%">Organization</th>
+          <th  style="width:20%">Enrolee ID</th>
+          <th  style="width:15%">Action</th>
+        </tr>
+      </thead>
+      <tr ng-repeat="x in enrolees">
+        <td>{{$index + 1}}</td>
+          <td>
+              {{ x.name || 'empty' }}
+          </td>
+          <td>
+              {{ x.phone || 'empty' }}           
+          </td>
+          <td>
+            {{ x.enroleeAddress || 'empty' }}            
+          </td>
+          <td>  
+            {{ x.email || 'empty' }}
+          </td>
+          <td>
+              {{ x.providerName || 'empty' }}           
+          </td>
+          <td>
+            {{ x.orgName || 'empty' }}            
+          </td>
+          <td>  
+            {{ x.enroleeID || 'empty' }}
+          </td>
+          <td style="white-space: nowrap">
+            <div class="buttons">
+              <button type="button" class="btn btn-edit btn-sm btn-icon loading-demo mr5" ng-click="details(x)">
+                <i class="fa fa-info"></i>  <span>Details</span>
+              </button>
+              <button type="button" class="btn {{(x.active == 1) && 'btn-success' || 'btn-danger' }} btn-sm btn-icon loading-demo mr5" ng-click="alter($event, x.cardSerial, x.active)">
+                  <i class="fa {{(x.active == 1) && 'fa-lock' || 'fa-unlock'}}"></i> <span>{{(x.active == 1) && 'Block' || 'Unblock'}}</span>
+              </button>
+              <button type="button" class="btn btn-sm btn-icon btn-danger loading-demo mr5" ng-click="deleteEnrolee($event, x)">
+                  <i class="fa fa-trash"></i> <span>Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+    </table>
+  </div>
+</div>

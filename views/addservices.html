@@ -1,0 +1,86 @@
+<div class="panel" data-ng-controller="addservicesCtrl">
+  <style>
+    .pool{
+      min-height:300px;
+    }
+    .paginate_button{
+      padding: 6px; background: rgb(30, 113, 168); color: white;
+    }
+  </style>
+  <div class="panel-heading border">
+    <ol class="breadcrumb mb0 no-padding">
+      <li>
+        <a href="javascript:;">Home</a>
+      </li>
+      <li class="active">Hospital Plans</li>
+      <li class="active">Add Services</li>
+    </ol>
+    <div>
+      <h4> Plan Name: {{planDetails.name}} </h4>
+      <h4> Plan Details: {{planDetails.description}} </h4>
+    </div>
+    <div style="padding-top:20px">
+      <label>
+        Choose Category:
+      </label>
+        <select class="form-control" style="width:auto" id="serviceCat">
+          <option disabled>Select A category</option>
+          <option ng-repeat="x in servicecategory" value="{{x.id}}">{{x.name}}</option>
+        </select><span id="waitBar" style="float: right; color:rgb(29, 29, 212); font-size: 18px; display:none"><i class="fa fa-cog fa-spin"></i> Please Wait...</span>
+    </div>
+</div>
+<div class="" style="padding:20px; font-size:16px; color:rgb(11, 124, 11)">
+  Total Services : {{originalServices.length}}
+</div>
+<div class="row">
+    <div align="right" style="padding:20px; padding-bottom:0px"><div class="btn btn-success" ng-click="saveChanges($event)"><i class="fa fa-check-circle"></i> Save Changes</div></div>
+  <div class="col-sm-6" style="padding:25px">
+    <h3>Showing All Service</h3>
+    <div class="panel-body">
+      <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+          <thead>
+            <tr>
+              <th style="width:10%">S/N</th>
+              <th  style="width:60%">Name</th>
+              <th  style="width:30%" align="center">Action</th>
+            </tr>
+          </thead>
+          <tr ng-repeat="x in svs">
+            <td>{{$index + 1}}</td>
+              <td>
+                  {{ x.serviceName || 'empty' }}
+              </td>
+              <td align="center">
+                <button class="btn btn-success" ng-click="moveRight(x)"><i class="fa fa-plus-circle"></i> Add</button>
+              </td>
+            </tr>
+        </table>
+        <div align="right"><div class="btn btn-info" ng-if="isNextAble" ng-click="fetchNext($event)"><i class="fa fa-caret-right"></i> Next Page</div></div>
+      </div>
+  </div>
+  <div class="col-sm-6" style="padding:25px">
+      <h3>Showing Selected Service</h3>
+    <div class="panel-body">
+      <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+          <thead>
+            <tr>
+              <th style="width:10%">S/N</th>
+              <th  style="width:60%">Name</th>
+              <th  style="width:30%" align="center">Action</th>
+            </tr>
+          </thead>
+          <tr ng-repeat="x in usf">
+            <td>{{$index + 1}}</td>
+              <td>
+                  {{ x.serviceName || 'empty' }}
+              </td>
+              <td align="center">
+                  <button class="btn btn-danger" ng-click="moveLeft(x)"><i class="fa fa-minus-circle"></i> Remove</button>
+              </td>
+            </tr>
+        </table>
+      </div>
+  </div>
+</div>
+<div align="right" style="padding:20px"><div class="btn btn-success" ng-click="saveChanges($event)"><i class="fa fa-check-circle"></i> Save Changes</div></div>
+</div>

@@ -1,0 +1,133 @@
+<div class="brand">
+
+  <!-- logo -->
+  <div class="brand-logo">
+    <img data-ng-src="images/logo.png" height="15" alt="">
+  </div>
+  <!-- /logo -->
+
+  <!-- toggle small sidebar menu -->
+  <a href="javascript:;" class="toggle-sidebar hidden-xs hamburger-icon v3" data-ng-click="app.layout.isSmallSidebar = !app.layout.isSmallSidebar">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </a>
+  <!-- /toggle small sidebar menu -->
+
+</div>
+
+<!-- main navigation -->
+<nav role="navigation" side-navigation>
+
+  <ul class="nav">
+
+    <!-- dashboard -->
+    <li ui-sref-active="active">
+      <a href="#/">
+        <i class="fa fa-flask"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    <!-- /dashboard -->
+
+    <!-- hospitals -->
+    <li ui-sref-active="active">
+      <a ui-sref="app.provider">
+        <i class="fa fa-hospital-o"></i>
+        <span>Provider</span>
+      </a>
+    </li>
+    <!-- /hospitals -->
+
+    <!-- Health plans -->
+    <li ui-sref-active="active">
+      <a ui-sref="app.hospital_plans">
+        <i class="fa fa-medkit"></i>
+        <span>Health Plans</span>
+      </a>
+    </li>
+    <!-- /health plans -->
+
+    <!-- Tarrif -->
+    <li ui-sref-active="active">
+      <a ui-sref="app.tariff">
+        <i class="fa fa-money"></i>
+        <span>Tariff</span>
+      </a>
+    </li>
+    <!-- /Tariff -->
+
+    <!-- Enrollees -->
+    <li ui-sref-active="active">
+      <a ui-sref="app.enrollees">
+        <i class="fa fa-users"></i>
+        <span>Enrolees</span>
+      </a>
+    </li>
+    <!-- /Enrollees -->
+
+    <!-- Attendance -->
+    <!--<li ui-sref-active="active">
+      <a ui-sref="app.attendance">
+        <i class="fa fa-list-alt"></i>
+        <span>Attendance</span>
+      </a>
+    </li>-->
+    <!-- /Attendance -->
+
+    <!-- Organization -->
+    <li ui-sref-active="active">
+      <a ui-sref="app.organization">
+        <i class="fa fa-building-o"></i>
+        <span>Organization</span>
+      </a>
+    </li>
+    <!-- /Organization -->
+
+    <!-- Enncounters -->
+    <li ui-sref-active="active">
+      <a ui-sref="app.encounters">
+        <i class="fa fa-stethoscope"></i>
+        <span>Encounters</span>
+      </a>
+    </li>
+    <!-- /Encounters -->
+
+    <li ui-sref-active="active">
+        <a ui-sref="app.payment">
+          <i class="fa fa-money"></i>
+          <span>Payment</span>
+        </a>
+      </li>
+
+    <!-- Cards -->
+    <li ui-sref-active="active">
+        <a ui-sref="app.cards">
+          <i class="fa fa-credit-card"></i>
+          <span>Cards</span>
+        </a>
+      </li>
+      <!-- /Cards -->
+
+      <!-- PA Code -->
+    <li ui-sref-active="active">
+        <a ui-sref="app.pacodes">
+          <i class="fa fa-code"></i>
+          <span>PA Code</span>
+        </a>
+      </li>
+      <!-- /PA Code -->
+
+      <!-- Settings -->
+    <li ui-sref-active="active">
+        <a ui-sref="app.settings">
+          <i class="fa fa-cog"></i>
+          <span>Settings</span>
+        </a>
+      </li>
+      <!-- /Settings -->
+
+  </ul>
+</nav>
+<!-- /main navigation -->

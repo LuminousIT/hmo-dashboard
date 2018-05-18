@@ -1,0 +1,64 @@
+<div class="center-wrapper" data-ng-controller="signupCtrl">
+  <div class="center-content">
+    <div class="row no-margin">
+      <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+        <form role="form" class="form-layout">
+          <div class="text-center mb15">
+            <img data-ng-src="images/logo-dark.png" style="width: 430px;"  />
+          </div>
+          <div id="signCompany">
+          <p class="text-center mb30" style="font-size:16px">Create an HMO account.</p>
+          <div class="form-inputs">
+            <input type="text" class="form-control input-lg" placeholder="Company name" id="name">
+            <input type="number" class="form-control input-lg" placeholder="Phone No" id="phone">
+            <input type="email" class="form-control input-lg" placeholder="Email address" id="email">
+            <select class="form-control input-lg" id="state" style="margin-bottom:10px">
+                <option value="0" disabled selected style="font-size:12px; font-weight:bold; color:brown">Select State</option>
+                <option ng-repeat='x in states' value="{{x.id}}"> {{x.name}} </option>
+            </select>
+            <span id="fetcher"></span>
+            <select class="form-control input-lg" id="LG" style="margin-bottom:10px">
+                <option value="0" disabled selected>Select Local Government Area</option>
+                <option ng-repeat='x in lgs' value="{{x.id}}"> {{x.name}} </option>
+            </select>
+            <textarea type="text" class="form-control input-lg" placeholder="Address" id="address" style="margin-bottom: 10px;"></textarea>
+          </div>
+          <button class="btn btn-success btn-block btn-lg mb15" type="submit" data-ng-click="signup($event)">Create Account</button>
+        </div>
+        <div id="signUser" style="display:none">
+            <p class="text-center mb30" style="font-size:16px; color:rgb(50, 151, 50)">Create Staff account.</p>            
+                      <div class="form-inputs">                        
+                        <input type="text" class="form-control input-lg" placeholder="Full name" id="stafffullname">
+                        <input type="number" class="form-control input-lg" placeholder="Phone No" id="staffphone">
+                        <input type="email" class="form-control input-lg" placeholder="Email address" id="staffemail">                    
+                        <select class="form-control input-lg" id="staffstate" style="margin-bottom:10px">
+                            <option value="0" disabled selected style="font-size:12px; font-weight:bold; color:brown">Select State</option>
+                            <option ng-repeat='x in states' value="{{x.id}}"> {{x.name}} </option>
+                        </select>
+                        <span id="fetcher2"></span>
+                        <select class="form-control input-lg" id="staffLG" style="margin-bottom:10px">
+                            <option value="0" disabled selected>Select Local Government Area</option>
+                            <option ng-repeat='x in lgstaff' value="{{x.id}}"> {{x.name}} </option>
+                        </select>
+                        <select class="form-control input-lg" id="staffgender" style="margin-bottom:10px">
+                            <option value="Female"> Female </option>
+                            <option value="Female"> Male </option>
+                        </select>                       
+                        <input type="text" class="form-control input-lg" placeholder="Username" id="staffusername">
+                        <input type="password" class="form-control input-lg" placeholder="Password" id="staffpassword">
+                        <input type="password" class="form-control input-lg" placeholder="Password Again" id="staffpasswordagain">
+                        <textarea type="text" class="form-control input-lg" placeholder="Address" id="staffaddress" style="margin-bottom: 10px;"></textarea>
+                        <input type="hidden" class="form-control input-lg" value="{{HMOID}}" id="HMOID">
+                        <input type="hidden" class="form-control input-lg" value="{{ftoken}}" id="ftoken">
+                      </div>            
+                      <button class="btn btn-success btn-block btn-lg mb15" type="submit" data-ng-click="staffsignup($event)">Create Account</button>
+        </div>
+
+          <a ui-sref="user.signin" ng-if="isunRegistered"><i class="fa fa-arrow-circle-left"></i> Go back to sign in</a>
+          <p class="text-left">By clicking Create Account, you agree to our <a href="javascript:;">Terms of services &amp; Policies</a>.</p>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

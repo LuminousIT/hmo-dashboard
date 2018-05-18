@@ -1,0 +1,132 @@
+<div class="panel" data-ng-controller="organizationCtrl">
+  <div class="panel-heading border" style="padding: 33px">
+    <div class="col-sm-12 col-xs-12" style="padding-left: 0px">
+    <div class="col-sm-6 col-xs-6" style="padding-left: 0px">
+    <ol class="breadcrumb mb0 no-padding">
+      <li>
+        <a href="javascript:;">Home</a>
+      </li>
+      <li class="active">Organization</li>
+    </ol>
+  </div>
+  <div class="col-sm-6 col-xs-6" style="float: right; text-align: right;">
+          <button type="button" class="btn btn-primary btn-sm btn-icon loading-demo mr5 openBtn">
+          <i class="fa fa-building-o"></i>
+          <span>Create Organization</span>
+        </button>
+  </div>
+  </div>
+</div>
+  <div class="panel-body">
+    <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+      <thead>
+        <tr class="bold">
+          <td>SN</td>
+          <td>Name</td>
+          <td>Address</td>
+          <td>Phone</td>
+          <td>Email</td>
+          <td>Action</td>
+          <td>Other</td>
+        </tr>
+      </thead>
+      <tr ng-repeat="x in organizations">
+        <td>
+          {{$index + 1}}
+        </td>
+          <td style="color:black">
+            
+              {{ x.name || 'empty' }}
+            
+          </td>
+          <td>
+            <!-- editable username (text with validation) -->
+            
+              {{ x.address || 'empty' }}
+            
+          </td>
+           <td>
+              {{ x.phone || 'empty' }}
+            
+          </td>
+          <td>
+              {{ x.email || 'empty' }}
+            
+          </td>
+          <td style="color:brown" >
+            <button class="btn {{(x.status == 1) && 'btn-danger' || 'btn-success'}}" ng-click="setOrg(x, $event)">
+              <i class="fa {{(x.status == 1) && 'fa-toggle-off' || 'fa-toggle-on'}}"></i> {{(x.status == 1) && 'Disable' || 'Enable'}} 
+            </button>
+        </td>
+        <td>
+          <button class="btn btn-primary" ng-click="details(x)">
+            <i class="fa fa-expand"></i> Details
+          </button>
+      </td>
+        </tr>
+    </table>
+  </div>
+
+  <style>
+      .scroll::-webkit-scrollbar {
+          width: 3px;
+      }
+      
+      .scroll::-webkit-scrollbar-track {
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+          border-radius: 10px;
+      }
+      
+      .scroll::-webkit-scrollbar-thumb {
+          border-radius: 10px;
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+      }
+      </style>
+        <div style="width:100%; height:100%; background:black; position:fixed; left:0px; right:0px; top:0px; z-index:2000; opacity:0.6; display:none" class="bcover">
+        </div>
+            <div class="modal-content" style="display:none; background:none; z-index:2005; width:100%; height:100%; position:fixed; left:0px; right:0px; top:0px; padding:20px;" align="center">
+              <div class="scroll" style="max-width:60%; background:white; padding:20px; max-height:100%; overflow:auto; border-radius:6px" align="left">
+              <div class="modal-header">
+                <button type="button" class="close closeBtn" id="closeBtn" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><span class="fa fa-building"> </span> Create Organization</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <p>Organization Name</p>
+                    <input type="text" class="form-control" id="name">
+                </div>
+                <div class="form-group">
+                    <p>Organization Phone</p>
+                    <input type="text" class="form-control" id="phone">
+                </div>
+                <div class="form-group">
+                    <p>Organization email</p>
+                    <input type="text" class="form-control" id="email" value="">
+                </div>
+                <div class="form-group">
+                    <p>Organization Address</p>
+                    <textarea class="form-control" id="address">{{currentEdit.description}}</textarea>
+                </div>
+                <div class="form-group">
+                    <p>State</p>
+                    <select id="stateID" class="form-control">
+                      <option value="0">Select State</option>                  
+                      <option ng-repeat="x in states" value="{{x.id}}">{{x.name}} </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <p>LG <span id="fetcher"></span></p>
+                    <select id="LG" class="form-control">                       
+                        <option value="0">Select LG</option>
+                        <option ng-repeat="x in lgs" value="{{x.id}}">{{x.name}} </option>
+                      </select>
+                </div>       
+              </div>
+              <div class="modal-footer">
+                <span id="work" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span>
+                <button type="button" class="btn btn-danger closeBtn" id="editbtn">Close</button>
+                <button type="button" class="btn btn-success" id="editbtn" ng-click="createOrg($event)">Save</button>              
+              </div>
+            </div>
+            </div>
+</div>

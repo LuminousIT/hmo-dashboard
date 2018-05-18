@@ -1,0 +1,33 @@
+<div class="center-wrapper" data-ng-controller="staffsignupCtrl">
+  <div class="center-content">
+    <div class="row no-margin">
+      <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+        <form role="form" class="form-layout">
+          <div class="text-center mb15">
+            <img data-ng-src="images/logo-dark.png" style="width: 430px;"  />
+          </div>
+
+          <p class="text-center mb30">Create Staff account.</p>
+          <div class="form-inputs">
+            <input type="text" class="form-control input-lg" placeholder="Username" id="username">
+            <input type="password" class="form-control input-lg" placeholder="Password" id="password">
+            <input type="text" class="form-control input-lg" placeholder="Full name" id="name">
+            <input type="number" class="form-control input-lg" placeholder="Phone No" id="phone">
+            <input type="email" class="form-control input-lg" placeholder="Email address" id="email">
+            <input type="text" class="form-control input-lg" placeholder="State" id="state">
+            <input type="text" class="form-control input-lg" placeholder="Local Government" id="LG">
+            <input type="text" class="form-control input-lg" placeholder="gender" id="gender">
+            <textarea type="text" class="form-control input-lg" placeholder="Address" id="address" style="margin-bottom: 10px;"></textarea>
+            <input type="text" class="form-control input-lg" value="{{staff.HMOID}}" id="HMOID" readonly="readonly">
+            <input type="text" class="form-control input-lg" value="{{staff.ftoken}}" id="ftoken" readonly="readonly">
+          </div>
+
+          <button class="btn btn-success btn-block btn-lg mb15" type="submit" data-ng-click="staffsignup()">Create Account</button>
+
+          <p class="text-left">By clicking Create Acount, you agree to our <a href="javascript:;">Terms of services &amp; Policies</a>.</p>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,356 @@
+<div class="page-container" data-ng-controller="settingsCtrl">
+    <headertop></headertop>   
+       
+
+       <!-- PAGE CONTENT -->
+       <div class="page-content">
+               <style type="text/css">
+                   .adminLink{
+                       background: #37474f;
+                       color: #fff;
+                   }
+               </style> 
+            
+           <top></top>
+
+
+           <!-- PAGE CONTENT WRAPPER -->
+           <div class="page-content-wrap">
+               
+               <!-- START WIDGETS -->                    
+               
+               <!-- END WIDGETS -->                    
+               
+               <div class="row">
+                
+                <div class="col-md-12">
+                     <!-- START DATATABLE EXPORT -->
+                        <!-- START DATATABLE EXPORT -->
+                       <div class="panel panel-default">
+                           <div class="panel-heading">
+                               <h3 class="panel-title"><a><img class="icon icons8-Administrative-Tools" width="30" height="30" src="data:image/png;base64,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"></span> <span class="xn-text" style="margin-left: 20px;">Settings </span></a></h3>
+                            <!--   <div class="btn-group pull-left" style="padding-left:20px">     
+                                   <button class="btn btn-danger btn-corner" ng-click="purge($event.currentTarget)"><span class="fa fa-history"></span>Restore Sytem to Default</button>
+                               </div> -->
+                               <div class="btn-group pull-right">
+                                   <!--    <button class="btn btn-primary btn-corner" data-toggle="modal" data-target="#systemPoint" style="color: #ffffff;"><span class="fa fa-user"></span> Update System Point</button> 
+                                       <button class="btn btn-success btn-corner" data-toggle="modal" data-target="#systemPointUpdate" style="color: #ffffff;"><span class="fa fa-plus-circle"></span> Fast Top up</button>       -->                                 
+                                   <button class="btn btn-success btn-corner" data-toggle="modal" data-target="#add-admin" style="color: #ffffff;"><span class="fa fa-user"></span> Add Admin</button>
+                                   <button class="btn btn-success btn-corner dropdown-toggle" data-toggle="dropdown" style="color: #ffffff;"><i class="fa fa-bars"></i> Export Data</button>
+                                   <ul class="dropdown-menu">
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false'});"><img src='img/icons/json.png' width="24"/> JSON</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src='img/icons/json.png' width="24"/> JSON (ignoreColumn)</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'true'});"><img src='img/icons/json.png' width="24"/> JSON (with Escape)</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'xml',escape:'false'});"><img src='img/icons/xml.png' width="24"/> XML</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'sql'});"><img src='img/icons/sql.png' width="24"/> SQL</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'csv',escape:'false'});"><img src='img/icons/csv.png' width="24"/> CSV</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'txt',escape:'false'});"><img src='img/icons/txt.png' width="24"/> TXT</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='img/icons/word.png' width="24"/> Word</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'powerpoint',escape:'false'});"><img src='img/icons/ppt.png' width="24"/> PowerPoint</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'png',escape:'false'});"><img src='img/icons/png.png' width="24"/> PNG</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
+                                   </ul>
+                               </div>                                    
+                               
+                           </div>
+                           <div class="panel-body">
+                               <table id="customers2" class="table datatable">
+                                   <thead>
+                                       <tr>
+                                           <th>s/n</th>
+                                           <th>Full name</th>
+                                           <th>username</th>
+                                           <th>Email</th>
+                                           <th>Phone</th>
+                                           <th>Gender</th>
+                                           <th>Assigned Provider</th>
+                                           <th>Actions</th>
+                                       </tr>
+                                   </thead>
+                                   <tbody>
+                                       <tr ng-repeat="x in obj">
+                                           <td>{{$index + 1}}</td>
+                                           <td>{{x.staffName}}</td>
+                                           <td>{{x.username}}</td>
+                                           <td>{{x.email}}</td>
+                                           <td>{{x.phone}}</td>
+                                           <td>{{x.gender}}</td>
+                                           <td>{{x.provider}}</td>
+                                           <td> 
+                                          
+                                           <!--<a class="btn btn-info btn-sm">Edit</a>-->
+                                           <button class="btn btn-primary btn-corner" data-toggle="modal" data-target="#edit-admin" ng-click="editprofile(x, $event)"><i class="fa fa-edit"></i> Edit Profile</button>
+                                           </td>
+                                       </tr>
+                                   </tbody>
+                               </table>
+                               
+                               <table id="customers3" class="table datatable">
+                                   <thead>
+                                       <tr>
+                                            <th>s/n</th>
+                                            <th>Full name</th>
+                                            <th>username</th>
+                                            <th>Email</th>
+                                            <th>Phone</th>
+                                            <th>Gender</th>
+                                            <th>Assigned Provider</th>
+                                            <th>Actions</th>
+                                           
+                                       </tr>
+                                   </thead>
+                                   <tbody>
+                                        <tr ng-repeat="x in staffs">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{x.staffName}}</td>
+                                            <td>{{x.username}}</td>
+                                            <td>{{x.email}}</td>
+                                            <td>{{x.phone}}</td>
+                                            <td>{{x.gender}}</td>
+                                            <td>{{x.providerID}}</td>
+                                            <td>
+                                             <button class="btn btn-primary btn-corner" data-toggle="modal" data-target="#edit-admin" ng-click="editprofile(x, $event)"><i class="fa fa-edit"></i> Edit Profile</button>
+                                            </td>
+                                        </tr>    
+                                   </tbody>
+                               </table>     
+                               
+                           </div>
+                       </div>
+                       <!-- END DATATABLE EXPORT -->                            
+                       
+
+               </div>
+               <!-- END DATATABLE EXPORT --> 
+           </div>
+           </div>
+           <!-- END PAGE CONTENT WRAPPER -->                                
+       </div>            
+       <!-- END PAGE CONTENT -->
+       <!-- Modal -->
+
+
+
+<div id="add-admin" class="modal" role="dialog">
+<div class="modal-dialog">
+
+<!-- Modal content-->
+<div class="modal-content">
+ <div class="modal-header">
+   <button type="button" class="close" id="closeBtn1" data-dismiss="modal">&times;</button>
+   <h4 class="modal-title"><span class="fa fa-user"> </span> Add Staff</h4>
+ </div>
+ <div class="modal-body">
+    <div class="form-group">
+        <input type="text" class="form-control input-lg" placeholder="Full name" id="stafffullname">
+    </div>
+    <div class="form-group">
+        <input type="number" class="form-control input-lg" placeholder="Phone No" id="staffphone">
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control input-lg" placeholder="Email address" id="staffemail">                    
+    </div>
+    <div class="form-group">
+        <select class="form-control input-lg" id="staffstate" style="margin-bottom:10px">
+            <option value="0" disabled selected style="font-size:12px; font-weight:bold; color:brown">Select State</option>
+            <option ng-repeat='x in states' value="{{x.id}}"> {{x.name}} </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <span id="fetcher2"></span>
+        <select class="form-control input-lg" id="staffLG" style="margin-bottom:10px">
+            <option value="0" disabled selected>Select Local Government Area</option>
+            <option ng-repeat='x in lgstaff' value="{{x.id}}"> {{x.name}} </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <select class="form-control input-lg" id="staffgender" style="margin-bottom:10px">
+            <option value="Female"> Female </option>
+            <option value="Male"> Male </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control input-lg" placeholder="Username" id="staffusername">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control input-lg" placeholder="Password" id="staffpassword">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control input-lg" placeholder="Password Again" id="staffpasswordagain">
+    </div>
+    <div class="form-group">
+        <textarea type="text" class="form-control input-lg" placeholder="Address" id="staffaddress" style="margin-bottom: 10px;"></textarea>
+    </div>    
+   <div class="form-group">
+       <p> Access Level </p>
+       <select id="accessLevel" class="form form-control">
+           <option value="0">Absolute / Super</option>
+           <option ng-repeat="x in providersheet" value="{{x.providerID}}">{{x.name}} </option>
+       </select>
+   </div>  
+ </div>
+ <div class="modal-footer">
+        data-dismiss="modal"
+   <span id="workr" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span> <button type="button" class="btn btn-success" id="Savebtn" ng-click="staffsignup($event)">Save</button>
+ </div>
+</div>
+
+</div>
+</div>
+
+
+<!--Edit Modal-->
+<div id="edit-admin" class="modal" role="dialog">
+        <div class="modal-dialog">        
+        <!-- Modal content-->
+        <div class="modal-content">
+         <div class="modal-header">
+           <button type="button" class="close" id="closeBtn2" data-dismiss="modal">&times;</button>
+           <h4 class="modal-title"><span class="fa fa-edit"> </span> Edit Staff</h4>
+         </div>
+         <div class="modal-body">
+            <div class="form-group">
+                <input type="text" class="form-control input-lg" value="{{editingUser.staffName}}" placeholder="Full name" id="editfullname">
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control input-lg" value="{{editingUser.phone}}" placeholder="Phone No" id="editphone">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" value="{{editingUser.email}}" placeholder="Email address" id="editemail">                    
+            </div>
+       <!--     <div class="form-group">
+                <select class="form-control input-lg" id="editstate" style="margin-bottom:10px">                    
+                    <option value="0" style="font-size:12px; font-weight:bold; color:brown">Select State</option>
+                    <option ng-selected="editingUser.state == x.name" ng-repeat='x in states' value="{{x.id}}"> {{x.name}} </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <span id="fetcher2"></span>
+                <select class="form-control input-lg" id="editLG" style="margin-bottom:10px">
+                    <option  value="0">Select Local Government Area</option>
+                    <option ng-selected="editingUser.lg == x.name" ng-repeat='x in lgstaff' value="{{x.id}}"> {{x.name}} </option>
+                </select>
+            </div> -->
+            <div class="form-group">
+                <select class="form-control input-lg" id="editgender" style="margin-bottom:10px">
+                    <option ng-selected="editingUser.gender == 'Female'" value="Female"> Female </option>
+                    <option ng-selected="editingUser.gender == 'Male'" value="Male"> Male </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control input-lg" value="{{editingUser.username}}" disabled placeholder="Username" id="editusername">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control input-lg" placeholder="Leave Password field to keep old password" id="editpassword">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control input-lg" placeholder="Leave here empty to keep old password" id="editpasswordagain">
+            </div>
+            <div class="form-group">
+                <textarea type="text" class="form-control input-lg" placeholder="Address" id="editaddress" style="margin-bottom: 10px;">{{editingUser.address}}</textarea>
+            </div>    
+           <div class="form-group">
+               <p> Access Level </p>
+               <select id="editLevel" class="form form-control">                    
+                   <option ng-selected="editingUser.providerID == 0" value="0">Absolute / Super</option>
+                   <option ng-selected="editingUser.providerID == x.providerID" ng-repeat="x in providersheet" value="{{x.providerID}}">{{x.name}} </option>
+               </select>
+           </div>  
+         </div>
+         <div class="modal-footer">
+           <span id="workr" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span> <button type="button" class="btn btn-success" id="Savebtn" ng-click="effectChange($event)">Save Changes</button>
+         </div>
+        </div>
+
+
+
+<div id="systemPoint" class="modal" role="dialog">
+   <div class="modal-dialog">
+     <!-- Modal content-->
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" id="closeBtn2" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title"><span class="fa fa-user"> </span> Update System Point</h4>
+       </div>
+       <div class="modal-body">
+           <div class="alert alert-success">
+               <ul class="fa-ul">
+                   <li>
+                       <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
+                           <strong class="sr-only">Note:</strong>
+                           Points created here defines the maximum allowable point the system can use for agent top up / day. Changes made today takes effect tomorrow.
+                   </li>
+               </ul>
+           </div>
+           <div class="form-group" style="font-size:18px;" align="center">
+              Active Limit: <span>₦</span><span>{{pricer(spoints)}}</span>
+           </div>              
+         <div class="form-group">
+             <p> Amount </p>
+             <input type="number" name="amount" class="form-control" id="amount" ng-model="amount"/>
+         </div>
+         <div class="form-group">
+             <p> Your Password </p>
+             <input type="password" name="password" class="form-control" id="key"/>
+         </div>
+         <div class="form-group" style="font-size:18px;" align="right">
+               <span>₦</span><span>{{pricer(amount)}}</span>
+       </div>
+       </div>
+       <div class="modal-footer">
+         <span id="workr2" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span> <button type="button" class="btn btn-success" id="pntBtn" ng-click="updatePoint($event)">Update</button>
+       </div>
+     </div>
+ 
+   </div>
+</div>
+
+<div id="systemPointUpdate" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+     <!-- Modal content-->
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" id="closeB" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title"><span class="fa fa-user"> </span> Fast Top up</h4>
+       </div>
+       <div class="modal-body">
+           <div class="alert alert-success">
+               <ul class="fa-ul">
+                   <li>
+                       <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
+                           <strong class="sr-only">Note:</strong>
+                           Points created here temporarily adds to allowable point the system can use for agent top up today. Changes made today takes effect immediately.
+                   </li>
+               </ul>
+           </div>
+           <div class="form-group" style="font-size:18px;" align="center">
+                   Points Left Today: <span>₦</span><span>{{pricer(todayleft)}}</span>
+                </div>               
+         <div class="form-group">
+             <p> Amount </p>
+             <input type="number" name="amount" class="form-control" id="amount2" ng-model="amount2"/>
+         </div>
+         <div class="form-group">
+             <p> Your Password </p>
+             <input type="password" name="password" class="form-control" id="key2"/>
+         </div>
+         <div class="form-group" style="font-size:18px;" align="right">
+               <span>₦</span><span>{{pricer(amount2)}}</span>
+       </div>
+       </div>
+       <div class="modal-footer">
+         <span id="workr3" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span> <button type="button" class="btn btn-success" id="fpointBtn" ng-click="fastPoint($event)">Update</button>
+       </div>
+     </div>
+ 
+   </div>
+ </div>
+
+
+  
+<footertop></footertop>

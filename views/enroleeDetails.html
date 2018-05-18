@@ -1,0 +1,366 @@
+<div class="page-container" data-ng-controller="enroleeCtrl">
+         <headertop></headertop>            
+
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+                
+                 
+                <top></top>
+
+
+                <!-- PAGE CONTENT WRAPPER -->
+                <div class="page-content-wrap">
+                        <style type="text/css">
+                            .agentLink{
+                                background: #37474f;
+                                color: #fff;
+                            }
+                            .table-responsive {
+                                width: 100%;
+                                margin-bottom: 15px;
+                                overflow-x: auto;
+                                overflow-y: hidden;
+                                -webkit-overflow-scrolling: touch;
+                                -ms-overflow-style: -ms-autohiding-scrollbar;
+                                border: 1px solid #DDD;
+                                padding-bottom: 40px;
+                            }
+                        </style>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <div class="well" style="font-size:23px; padding:12px">
+                                    <div><i class="fa fa-user"></i> Enrolee Profile</div>
+                                    <div class="row" style="background:white; width:100%; height:auto; padding:7px; font-size:16px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">
+                                      <div class="col-md-4">
+                                        <div style="padding-top:12px">Fullname: {{enroleeData.name}}</div>
+                                        <div style="padding-top:12px">Enrolee ID: {{enroleeData.enroleeID}}</div>
+                                        <div style="padding-top:12px">Enrolee Provider: {{enroleeData.providerName}}</div>
+                                        <div style="padding-top:12px">Enrolee Plan: {{enroleeData.planName}}</div>
+                                        <div style="padding-top:12px">Username: {{enroleeData.eID}}</div>
+                                      </div>
+                                      <div class="col-md-4">
+                                        <div style="padding-top:12px">email: {{enroleeData.email}}</div>
+                                        <div style="padding-top:12px">phone: {{enroleeData.phone}}</div>
+                                        <div style="padding-top:12px">address: {{enroleeData.enroleeAddress}}</div>
+                                        <div style="padding-top:12px">gender: {{enroleeData.gender}}</div>
+                                      </div>
+                                      <div class="col-md-4">
+                                        <img ng-src="{{returnImURL(enroleeData.profilePicture)}}" width="200" height="auto" />
+                                      </div>
+                                    </div>
+                                    <div align="center" style="padding-top:9px"><button type="button" class="btn {{(enroleeData.active == 1) && 'btn-success' || 'btn-danger' }} btn-sm btn-icon loading-demo mr5" ng-click="alter($event, enroleeData.cardSerial, enroleeData.active)">
+                                            <i class="fa {{(enroleeData.active == 1) && 'fa-lock' || 'fa-unlock'}}"></i> <span>{{(enroleeData.active == 1) && 'Block' || 'Unblock'}}</span>
+                                        </button>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#edit-agent"><i class="fa fa-edit"></i> Re-assign Enrolee Info</button>
+                                       <!-- <a  class="btn {{(agent.isValid == 0) && 'btn-danger' || 'btn-success'}} btn-sm" ng-click="setProfileTo(agent.isValid, agent, $event)"><i class="fa fa-credit-card"></i> {{(agent.isValid == 0) && "Invalid | Allow Access" || "Valid | Deny Access"}}</a> -->
+                                </div>
+                            </div>
+
+
+                            <div style="background: #ffffff; padding: 12px">
+                              <button ng-click="toggleTabs($event, '#d', 'encounters', 'dependants')" id="e" class="btn btn-primary" style="padding:8px; font-size: 17px"><i class="fa fa-stethoscope"></i> Encounters</button>
+                              <button ng-click="toggleTabs($event, '#e', 'dependants', 'encounters')" id="d" class="btn btn-info" style="padding:8px; font-size: 17px"><i class="fa fa-users"></i> Dependants</button>
+                            </div>
+
+                            <div class="row encounters" >
+                                    <div class="col-md-5">
+                                      <div class="col-md-6">
+                                      <h6>Filter from</h6>
+                                      <p class="input-group ui-datepicker">
+                                        <input type="date" class="form-control" id="fromDate" />
+                                      </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <h6>Filter to</h6>
+                                    <p class="input-group ui-datepicker">
+                                      <input type="date" class="form-control" id="toDate" />    
+                                    </p>
+                                  </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                      <div class="col-md-4">
+                                        <h6>Sort by Organization</h6>
+                                        <select class="form-control pull-right" id="Organization">
+                                          <option value="-"> From All</option>
+                                          <option ng-repeat="x in organizations" value="{{x.id}}"> {{x.name}}</option>    
+                                        </select>
+                                      </div>
+                                      <div class="col-md-4">
+                                        <h6>Sort by provider</h6>
+                                        <select class="form-control pull-right" id="provider">
+                                            <option value="-"> From All</option>
+                                          <option ng-repeat="x in providers" value="{{x.id}}">{{x.name}}</option>
+                                        </select>
+                                      </div>
+                                      <div class="col-md-4">
+                                        <h6>Sort by Status</h6>
+                                        <select class="form-control pull-right" id="type">
+                                            <option value="-"> From All</option>
+                                            <option value="0"> From Pending</option>
+                                            <option value="10"> From Reprocess</option>
+                                            <option value="-1"> From Rejected</option>
+                                            <option value="1"> From Accepted</option>          
+                                        </select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row encounters" style="padding:12px 16px">
+                                    <div class="col-sm-12">
+                                      <button class="btn btn-block btn-large btn-primary" ng-click="filterTransactions($event)">
+                                        <i class="fa fa-filter"></i> Filter Encounter
+                                      </button>
+                                    </div>
+                                  </div>
+                     <div class="col-md-12">
+                          <!-- START DATATABLE EXPORT -->
+                             <!-- START DATATABLE EXPORT -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title"><span class="fa fa-stethoscope"> </span> Encounter</h3>
+                                    <div class="btn-group pull-right">                                        
+                                        <button class="btn btn-mannap btn-corner dropdown-toggle" data-toggle="dropdown" style="color: #ffffff"><i class="fa fa-bars"></i> Export Data</button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false'});"><img src='img/icons/json.png' width="24"/> JSON</a></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src='img/icons/json.png' width="24"/> JSON (ignoreColumn)</a></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'true'});"><img src='img/icons/json.png' width="24"/> JSON (with Escape)</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'xml',escape:'false'});"><img src='img/icons/xml.png' width="24"/> XML</a></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'sql'});"><img src='img/icons/sql.png' width="24"/> SQL</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'csv',escape:'false'});"><img src='img/icons/csv.png' width="24"/> CSV</a></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'txt',escape:'false'});"><img src='img/icons/txt.png' width="24"/> TXT</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='img/icons/word.png' width="24"/> Word</a></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'powerpoint',escape:'false'});"><img src='img/icons/ppt.png' width="24"/> PowerPoint</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'png',escape:'false'});"><img src='img/icons/png.png' width="24"/> PNG</a></li>
+                                            <li><a href="#" onClick ="$('#customers2').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
+                                        </ul>
+                                    </div>                                    
+                                    
+                                </div>
+                                <style>
+                                        .searchParam th .form-control{
+                                          width: 100px !important;
+                                        }
+                                </style>
+                                <div class="panel-body table-responsive encounters" >
+                                        <table class="table table-bordered bordered table-striped table-condensed datatable" id="customers2" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                          <thead>
+                                            <tr style="color: black">
+                                              <th>ID</th>                                              
+                                              <th>Provider</th>
+                                              <th>Med IC</th>
+                                              <th>Service Category</th>
+                                              <th>Health plan</th>
+                                              <th>Complaint</th>
+                                              <th>Claim Amount</th>
+                                              <th>Duration</th>
+                                              <th>Frequency</th>
+                                              <th>Transaction Date</th>          
+                                              <th>Final Amount</th>
+                                              <th>Final Comment</th>
+                                              <th>Status</th>
+                                            </tr>
+                                          </thead>
+                                          <thead>
+                                              <tr class="searchParam">
+                                                      <th>S/N</th>                                                       
+                                                       <th><input type="text" id = "extended3" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Provider" /></th>
+                                                       <th><input type="text" id = "extended4" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Med IC" /></th>
+                                                       <th><input type="text" id = "extended5" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Service Category" /></th>
+                                                       <th><input type="text" id = "extended6" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Health plan" /></th>
+                                                       <th><input type="text" id = "extended8" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Complaint" /></th>
+                                                       <th><input type="text" id = "extended9" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Claim Amount" /></th>               
+                                                       <th><input type="text" id = "extended10" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Duration" /> </th>
+                                                       <th><input type="text" id = "extended11" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Frequency" /></th>
+                                                       <th><input type="text" id = "extended12" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Transaction Date" /></th>
+                                                       <th><input type="text" id = "extended13" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Final Amount" /></th>  
+                                                       <th><input type="text" id = "extended14" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Final Comment" /></th>               
+                                                       <th><input type="text" id = "extended15" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Status" /> </th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr ng-repeat="x in encounters">
+                                                <th>{{$index + 1}}</th>
+                                                <th>{{x.providerName}}</th>
+                                                <th>{{x.serviceName}}</th>
+                                                <th>{{x.serviceCatName}}</th>
+                                                <th>{{x.planName}}</th>
+                                                <th>{{x.summary}}</th>
+                                                <th>{{pricer(x.price)}}</th>
+                                                <th>{{x.duration}}</th>
+                                                <th>{{x.frequency}}</th>
+                                                <th>{{dateFormater(x.transDate)}}</th>          
+                                                <th>{{(x.finalPrice > 0) && pricer(x.finalPrice) || pricer(x.price)}}</th>
+                                                <th>{{x.comments}}</th>
+                                                <th>
+                                                  <span ng-if="x.status == 0" class="btn btn-default btn-xs"><i class="fa fa-archive"></i> Pending</span>
+                                                  <span ng-if="x.status == -1" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Rejected</span>
+                                                  <span ng-if="x.status == 1" class="btn btn-success btn-xs"><i class="fa fa-check"></i> Accepted</span>
+                                                  <span ng-if="x.status == 10" class="btn btn-info btn-xs"><i class="fa fa-refresh"></i> Reprocess</span>
+                                                </th>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                      </div>
+                                      <div class="panel-body dependants" style="display:none">
+                                        <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance" id="dependants">
+                                          <thead>
+                                            <tr>
+                                              <th  style="width:20%">Name</th>
+                                              <th  style="width:15%">Phone</th>
+                                             <!-- <th  style="width:30%">Address</th> -->
+                                              <th  style="width:20%">Email</th>
+                                          <!--    <th  style="width:20%">Provider</th> -->
+                                              <th  style="width:20%">Organization</th>
+                                              <th  style="width:20%">Enrolee ID</th>
+                                              <th  style="width:20%">Username</th>
+                                            <!--  <th  style="width:15%">Action</th> -->
+                                            </tr>
+                                          </thead>
+                                          <tr ng-repeat="x in dependants">
+                                              <td>
+                                                  {{ x.name || 'empty' }}
+                                              </td>
+                                              <td>
+                                                  {{ x.phone || 'empty' }}
+                                              </td>
+                                  <!--            <td>
+                                                {{ x.enroleeAddress || 'empty' }}            
+                                              </td> -->
+                                              <td>  
+                                                {{ x.email || 'empty' }}
+                                              </td>
+                                <!--              <td>
+                                                  {{ x.providerName || 'empty' }}           
+                                                </td> -->
+                                              <td>
+                                                {{ x.orgName || 'empty' }}            
+                                              </td>
+                                              <td>  
+                                                {{ x.enroleeID || 'empty' }}
+                                              </td>
+                                              <td>  
+                                                {{ x.eID || 'error' }}
+                                              </td>
+                                            <!--  <td style="white-space: nowrap">
+                                                <div class="buttons">
+                                                  <button type="button" class="btn btn-edit btn-sm btn-icon loading-demo mr5" ng-click="details(x)">
+                                                    <i class="fa fa-info"></i>  <span>Details</span>
+                                                  </button>
+                                                </div>
+                                              </td> -->
+                                            </tr>
+                                        </table>
+                                      </div>
+                                </div>
+                            <!-- END DATATABLE EXPORT -->                            
+                            
+
+                    </div>
+                    <!-- END DATATABLE EXPORT -->                            
+                    
+
+                    </div>      
+                    
+                   
+                </div>
+                <!-- END PAGE CONTENT WRAPPER -->                                
+            </div>            
+            <!-- END PAGE CONTENT -->
+            <!-- Modal -->
+            <style>
+                    .select2-container{
+                        z-index:5010;                    
+                    }
+                    .select2{
+                        width:400px !important;
+                    }
+            </style>
+
+            <div id="edit-agent" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                  
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" id="closeBtn" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title"><span class="fa fa-user"> </span> Re-assign Enrolee</h4>
+                        </div>
+                        <div class="modal-body">                          
+                          <div class="form-group">
+                              <p>Change Card </p>                              
+                              <select class="select form-control" id="cards2">
+                                  <option value="{{enroleeData.cardSerial}}">Keep Old Card ({{enroleeData.cardSerial}})</option>
+                                  <option value="0">Unlink Card</option>
+                                  <option ng-if="enroleeData.cardSerial != x.cardSerial"  ng-repeat="x in cards" value="{{x.cardSerial}}">{{x.cardSerial}}</option>
+                              </select>
+                          </div>
+                          <div class="form-group">
+                              <p>Change Provider </p>
+                              <select class="select form-control" id="providers2">
+                                    <option value="{{enroleeData.providerID}}">Keep Old Provider ({{enroleeData.providerName}})</option>
+                                    <option value="0">Set Provider to Roaming</option>
+                                    <option ng-if="enroleeData.providerID != x.id" ng-repeat="x in providers" value="{{x.id}}">{{x.name}}</option>
+                                </select>
+                          </div>
+                          <div class="form-group">
+                                  <p>Change Plan </p>
+                                  <select class="select form-control" id="plans2">
+                                        <option value="{{enroleeData.planID}}">Keep Old Plan {{enroleeData.planName}}</option>
+                                        <option ng-if="enroleeData.planID != x.id" ng-repeat="x in plans" value="{{x.id}}">{{x.name}}</option>
+                                </select>
+                          </div>
+                          <div class="form-group">
+                            <p>Enter Your Password Again </p>
+                            <input type="text" class="form form-control" placeholder="Authorize action with password" id="password">
+                        </div>                        
+                        </div>
+                        <div class="modal-footer">
+                          <span id="workr" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span>
+                          <button type="button" class="btn btn-danger" id="closeBtn" data-dismiss="modal">Cancel</button>
+                          <button type="button" class="btn btn-success" id="Savebtn" ng-click="editenrolee($event)">Save update</button>
+                        </div>
+                      </div>
+                  
+                    </div>
+                  </div>
+                  
+
+
+
+
+<div id="add-canteen" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><span class="fa fa-cutlery"> </span> Add Canteen</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <p>Canteen Name</p>
+            <input type="text" class="form-control" name="Canteen_name" >
+        </div>
+        <div class="form-group">
+            <p>Assign a canteen Operator</p>
+            <select class="select" >
+                <option>kemi Ade</option>
+                <option>Tunde Agba</option>
+                <option>Femi badmus</option>
+
+            </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+       
+<footertop></footertop>

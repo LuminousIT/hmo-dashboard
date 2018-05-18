@@ -1,0 +1,89 @@
+<div class="panel" data-ng-controller="healthplanCtrl">
+  <div style="width: 35%; position:fixed; top:-20x; z-index:1000; right:0px; background:rgb(137, 184, 207); border:#0578bb solid thin; color:#0578bb; border-left:#0578bb thick solid; padding:10px; display:none" id="toaster">
+    <h3><i class="fa fa-gear fa-spin"></i> Last changes is saving</h3>
+  </div>
+  <div class="panel-heading border" style="padding: 33px">
+    <div class="col-sm-12 col-xs-12" style="padding-left: 0px">
+    <div class="col-sm-6 col-xs-6" style="padding-left: 0px">
+    <ol class="breadcrumb mb0 no-padding">
+      <li>
+        <a href="javascript:;">Home</a>
+      </li>
+      <li class="active">Healthplan</li>
+    </ol>
+  </div>
+  <div class="col-sm-6 col-xs-6" style="float: right; text-align: right;">
+    <div ng-controller="ModalDemoCtrl">
+          <button type="button" class="btn btn-primary btn-sm btn-icon loading-demo mr5" ng-click="open()">
+          <i class="fa fa-medkit"></i>
+          <span>Create Healthplan</span>
+        </button>
+        </div>
+  </div>
+  </div>
+</div>
+  <div class="panel-body">
+    <table class="table table-bordered bordered table-striped table-condensed datatable" ui-jq="dataTable">
+      <thead>
+        <tr>
+          <td>S/N</td>
+          <th  style="width:35%">Name</th>
+          <th  style="width:35%">Description</th>
+          <th  style="width:30%">Action</th>
+        </tr>
+      </thead>
+      <tr ng-repeat="x in plans">
+        <td>
+          {{$index + 1}}
+        </td>
+          <td>
+            <span editable-text="x.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, x.name)" e-required>
+              {{ x.name || 'empty' }}
+            </span>
+          </td>
+          <td>
+            <span editable-text="x.description" e-name="description" e-form="rowform" onbeforesave="checkName($data, x.description)" e-required>
+              {{ x.description || 'empty' }}
+            </span>
+          </td>
+          <td style="white-space: nowrap">
+            <form editable-form name="rowform" onbeforesave="savePlan($data, x.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+              <button type="submit" ng-disabled="rowform.$waiting" id="savePlan{{x.id}}" class="btn btn-primary btn-xs">
+                save
+              </button>
+              <button type="button" ng-disabled="rowform.$waiting" id="cancelPlan{{x.id}}" ng-click="rowform.$cancel()" class="btn btn-default btn-xs">
+                cancel
+              </button>
+            </form>
+            <div class="buttons" ng-show="!rowform.$visible">
+              <button type="button" class="btn btn-edit btn-sm btn-icon loading-demo mr5"  ng-click="rowform.$show()">
+                <i class="fa fa-edit"></i>
+                <span>Edit Plan</span>
+              </button>
+              <button type="button" class="btn btn-success btn-sm btn-icon loading-demo mr5"  ng-click="addservices(x)">
+                <i class="fa fa-edit"></i>
+                <span>Add Services</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+    </table>
+  </div>
+</div>
+
+
+<script type="text/ng-template" id="tariffModalContent.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Create Healthplan</h3>
+  </div>
+  <div class="modal-body">
+    <form>
+      <input type="text" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" id="planName" required="required" placeholder="Name" style="margin-bottom: 25px; border-top: 1px; border-left: 1px; border-right: 1px;">
+      <textarea type="text " class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" id="planDescription" required="required" placeholder="Description"  style="margin-bottom: 25px; border-top: 1px; border-left: 1px; border-right: 1px;"></textarea>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success btn-sm" ng-click="addPlans($event)">Save</button>
+    <button class="btn btn-warning btn-sm" ng-click="cancel()">Cancel</button>
+  </div>
+</script>

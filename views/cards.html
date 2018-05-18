@@ -1,0 +1,168 @@
+<div class="page-container" data-ng-controller="cardsCtrl">
+        <headertop></headertop>  
+           <!-- PAGE CONTENT -->
+           <div class="page-content">
+               <top></top>
+
+
+               <!-- PAGE CONTENT WRAPPER -->
+               <div class="page-content-wrap">
+                       <style type="text/css">
+                           .cardLink{
+                               background: #37474f;
+                               color: #fff;
+                           }
+                       </style> 
+                   <!-- START WIDGETS -->                    
+                   
+                   <!-- END WIDGETS -->                    
+                   
+                   <div class="row">
+                    
+                    <div class="col-md-12">
+                         <!-- START DATATABLE EXPORT -->
+                            <!-- START DATATABLE EXPORT -->
+                           <div class="panel panel-default">
+                               <div class="panel-heading">
+                                   <h3 class="panel-title"><a><span class="xn-text" style="margin-left: 20px;">Cards </span></a></span></h3>
+                                   <div class="btn-group pull-right">
+                                       
+                                      <!--<button class="btn btn-info" data-toggle="modal" data-target="#add-card"><span class="fa fa-user"></span>Add Card</button>-->
+                                       <button class="btn btn-mannap btn-corner dropdown-toggle" data-toggle="dropdown" style="color: #ffffff;"><i class="fa fa-bars"></i> Export Data</button>
+                                       <ul class="dropdown-menu">
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false'});"><img src='img/icons/json.png' width="24"/> JSON</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src='img/icons/json.png' width="24"/> JSON (ignoreColumn)</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'true'});"><img src='img/icons/json.png' width="24"/> JSON (with Escape)</a></li>
+                                           <li class="divider"></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'xml',escape:'false'});"><img src='img/icons/xml.png' width="24"/> XML</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'sql'});"><img src='img/icons/sql.png' width="24"/> SQL</a></li>
+                                           <li class="divider"></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'csv',escape:'false'});"><img src='img/icons/csv.png' width="24"/> CSV</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'txt',escape:'false'});"><img src='img/icons/txt.png' width="24"/> TXT</a></li>
+                                           <li class="divider"></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='img/icons/word.png' width="24"/> Word</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'powerpoint',escape:'false'});"><img src='img/icons/ppt.png' width="24"/> PowerPoint</a></li>
+                                           <li class="divider"></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'png',escape:'false'});"><img src='img/icons/png.png' width="24"/> PNG</a></li>
+                                           <li><a href="#" onClick ="$('#customers2').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
+                                       </ul>
+                                   </div>                                    
+                                   
+                               </div>
+                               <div class="panel-body">
+                                   <table id="customers2" class="table table-striped datatable" class="table datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                       <thead>
+                                           <tr>
+                                               <th>S/N</th>
+                                               <th>Card serial</th>
+                                               <th>Enrolee Name</th>
+                                               <th>Enrolee ID </th>
+                                               <th>Assigned</th>
+                                               <th>Date Created</th>
+                                               <th>Action</th>
+                                           </tr>
+                                       </thead>
+                                       <thead>
+                                               <tr class="searchParam">
+                                                       <th>S/N</th>
+                                                        <th><input type="text" id = "extended1" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Card Serial" /></th>
+                                                        <th><input type="text" id = "extended2" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Enrolee Name" /></th>
+                                                        <th><input type="text" id = "extended3" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Enrolee ID" /></th>
+                                                        <th><input type="text" id = "extended4" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Assigned" /></th>
+                                                        <th><input type="text" id = "extended5" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Date" /></th>
+                                                        <th><input type="text" id = "extended6" ng-keyup="listenForEvoke($event.currentTarget)" class="form form-control elsKey" placeholder="Search Action" /></th>
+                                                        <!--<th>Action</th>-->
+                                               </tr>
+                                           </thead>
+                                       <tbody>
+                                           <tr ng-repeat="x in cards">
+                                               <td>{{$index + 1}}</td>
+                                               <td>{{x.cardSerial}}</td>
+                                               <td>{{x.name}}</td>
+                                               <td>{{x.enroleeID}}</td>
+                                               <td>{{(x.enroleeID) && "Assigned" || "Unassigned"}}</td>
+                                               <td> {{dateFormater(x.dateCreated)}}</td>
+                                               <td>
+                                                   <a class="btn {{(x.valid == 0) && 'btn-danger' || 'btn-success'}} btn-sm" ng-click="setCardTo(x.valid, x.cardSerial, $event)">{{(x.valid == 0) && "Invalid | Allow Access" || "Valid | Deny Access"}}</a>
+                                                   
+                                                   <!--<a class="btn btn-success btn-sm">Valid | Deny Access</a> -->
+                                               </td>
+                                           </tr>   
+                                       </tbody>                                       
+                                   </table>                                    
+                                   
+                               </div>
+                           </div>
+                           <!-- END DATATABLE EXPORT -->                            
+                           
+
+                   </div>
+                   <!-- END DATATABLE EXPORT -->                            
+                   
+
+                   </div>      
+                   
+                  
+               </div>
+               <!-- END PAGE CONTENT WRAPPER -->                                
+           </div>            
+           <!-- END PAGE CONTENT -->
+           <!-- Modal -->
+<div id="add-canteen" class="modal fade" role="dialog">
+ <div class="modal-dialog">
+
+   <!-- Modal content-->
+   <div class="modal-content">
+     <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+       <h4 class="modal-title"><span class="fa fa-user"> </span> Add Canteen Operator</h4>
+     </div>
+     <div class="modal-body">
+       
+       <div class="form-group">
+           <p>Title</p>
+           <select class="select form-control" >
+               <option>Mr  </option>
+               <option>Ms</option>
+               <option>Miss</option>
+               <option>Mrs</option>
+
+
+           </select>
+       </div>
+       <div class="form-group">
+           <p>Assign Device </p>
+           <select class="select form-control" >
+               <option>35784540454578 </option>
+               <option>35784540454578</option>
+               <option>35784540454578</option>
+               <option>35784540454578</option>
+
+
+           </select>
+       </div>
+       <div class="form-group">
+           <p>Canteen Operator name</p>
+           <input type="text" class="form-control" name="Canteen_name" >
+       </div>
+       
+       <div class="form-group ">
+           <p>Assign a canteen to Operator</p>
+           <select class="select form-control" >
+               <option>Tasty Fried  </option>
+               <option>Bakers End</option>
+               <option>Food For all</option>
+
+           </select>
+       </div>
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-default">Save</button>
+     </div>
+   </div>
+
+ </div>
+</div>
+      
+<footertop></footertop>

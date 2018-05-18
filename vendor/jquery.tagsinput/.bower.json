@@ -1,0 +1,29 @@
+{
+  "name": "jquery.tagsinput",
+  "version": "1.3.3",
+  "main": [
+    "jquery.tagsinput.js",
+    "jquery.tagsinput.css"
+  ],
+  "ignore": [
+    "**/.*",
+    "*.html",
+    "*.md",
+    "*.json",
+    "*.min.js",
+    "test"
+  ],
+  "dependencies": {
+    "jquery": "1.x"
+  },
+  "homepage": "https://github.com/xoxco/jQuery-Tags-Input",
+  "_release": "1.3.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.3.3",
+    "commit": "0801daa0aedbab35b146014bdf8a9c3d631eecf0"
+  },
+  "_source": "git://github.com/xoxco/jQuery-Tags-Input.git",
+  "_target": "~1.3.2",
+  "_originalSource": "jquery.tagsinput"
+}
