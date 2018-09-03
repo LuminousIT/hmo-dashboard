@@ -41,7 +41,7 @@
                                       <div class="col-md-4">
                                         <div style="padding-top:12px">email: {{enroleeData.email}}</div>
                                         <div style="padding-top:12px">phone: {{enroleeData.phone}}</div>
-                                        <div style="padding-top:12px">address: {{enroleeData.enroleeAddress}}</div>
+                                        <div style="padding-top:12px">address: {{enroleeData.address}}</div>
                                         <div style="padding-top:12px">gender: {{enroleeData.gender}}</div>
                                       </div>
                                       <div class="col-md-4">
@@ -51,7 +51,8 @@
                                     <div align="center" style="padding-top:9px"><button type="button" class="btn {{(enroleeData.active == 1) && 'btn-success' || 'btn-danger' }} btn-sm btn-icon loading-demo mr5" ng-click="alter($event, enroleeData.cardSerial, enroleeData.active)">
                                             <i class="fa {{(enroleeData.active == 1) && 'fa-lock' || 'fa-unlock'}}"></i> <span>{{(enroleeData.active == 1) && 'Block' || 'Unblock'}}</span>
                                         </button>
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#edit-agent"><i class="fa fa-edit"></i> Re-assign Enrolee Info</button>
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#edit-agent"><i class="fa fa-edit"></i> Update Enrolee Info</button>
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#add-dep" ng-if="enroleeData.type == 1"><i class="fa fa-users"></i> Add new Dependant</button>
                                        <!-- <a  class="btn {{(agent.isValid == 0) && 'btn-danger' || 'btn-success'}} btn-sm" ng-click="setProfileTo(agent.isValid, agent, $event)"><i class="fa fa-credit-card"></i> {{(agent.isValid == 0) && "Invalid | Allow Access" || "Valid | Deny Access"}}</a> -->
                                 </div>
                             </div>
@@ -59,7 +60,7 @@
 
                             <div style="background: #ffffff; padding: 12px">
                               <button ng-click="toggleTabs($event, '#d', 'encounters', 'dependants')" id="e" class="btn btn-primary" style="padding:8px; font-size: 17px"><i class="fa fa-stethoscope"></i> Encounters</button>
-                              <button ng-click="toggleTabs($event, '#e', 'dependants', 'encounters')" id="d" class="btn btn-info" style="padding:8px; font-size: 17px"><i class="fa fa-users"></i> Dependants</button>
+                              <button ng-click="toggleTabs($event, '#e', 'dependants', 'encounters')" id="d" class="btn btn-info" style="padding:8px; font-size: 17px" ng-if="enroleeData.type == 1"><i class="fa fa-users"></i> Dependants</button>
                             </div>
 
                             <div class="row encounters" >
@@ -149,7 +150,7 @@
                                         <table class="table table-bordered bordered table-striped table-condensed datatable" id="customers2" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
                                           <thead>
                                             <tr style="color: black">
-                                              <th>ID</th>                                              
+                                              <th>ID</th>
                                               <th>Provider</th>
                                               <th>Med IC</th>
                                               <th>Service Category</th>
@@ -192,7 +193,7 @@
                                                 <th>{{pricer(x.price)}}</th>
                                                 <th>{{x.duration}}</th>
                                                 <th>{{x.frequency}}</th>
-                                                <th>{{dateFormater(x.transDate)}}</th>          
+                                                <th>{{dateFormater(x.transDate)}}</th>
                                                 <th>{{(x.finalPrice > 0) && pricer(x.finalPrice) || pricer(x.price)}}</th>
                                                 <th>{{x.comments}}</th>
                                                 <th>
@@ -287,9 +288,43 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <button type="button" class="close" id="closeBtn" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title"><span class="fa fa-user"> </span> Re-assign Enrolee</h4>
+                          <h4 class="modal-title"><span class="fa fa-user"> </span> Change Enrolee Data</h4>
                         </div>
-                        <div class="modal-body">                          
+                        <div class="modal-body">
+                            <h3>Profile Information</h3>
+                            <div class="form-group">
+                                <p>Fullname </p>
+                                <input type="text" class="form-control" id="fullname" value="{{enroleeData.name}}" />
+                            </div>
+                            <div class="form-group">
+                                <p>email </p>
+                                <input type="text" class="form-control" id="email" value="{{enroleeData.email}}"/>
+                            </div>
+                            <div class="form-group">
+                                <p>Phone </p>
+                                <input type="text" class="form-control" id="phone" value="{{enroleeData.phone}}"/>
+                            </div>
+                            <div class="form-group">
+                                <p>Gender </p>
+                                <select id="gender" class="form form-control">
+                                  <option value="Female">Female</option>
+                                  <option value="Male">Male</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <p>Birthday </p>
+                                <input type="date" id="birthday" class="form-control" value="{{unix2Date(enroleeData.birthday)}}" />
+                            </div>
+                            <div class="form-group">
+                                <p>Change profile photo </p>
+                                <input type="file" class="form-control" id="profile" onchange="angular.element(this).scope().uploadFile(this)"/>
+                            </div>
+                            <div class="form-group">
+                                <p>Address </p>
+                                <textarea class="form-control" id="address">{{enroleeData.address}}</textarea>
+                            </div>
+                            <hr/>
+                            <h3>Other Information</h3>
                           <div class="form-group">
                               <p>Change Card </p>                              
                               <select class="select form-control" id="cards2">
@@ -298,7 +333,7 @@
                                   <option ng-if="enroleeData.cardSerial != x.cardSerial"  ng-repeat="x in cards" value="{{x.cardSerial}}">{{x.cardSerial}}</option>
                               </select>
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" ng-if="enroleeData.type == 1">
                               <p>Change Provider </p>
                               <select class="select form-control" id="providers2">
                                     <option value="{{enroleeData.providerID}}">Keep Old Provider ({{enroleeData.providerName}})</option>
@@ -306,16 +341,18 @@
                                     <option ng-if="enroleeData.providerID != x.id" ng-repeat="x in providers" value="{{x.id}}">{{x.name}}</option>
                                 </select>
                           </div>
-                          <div class="form-group">
+                          <div class="form-group" ng-if="enroleeData.type == 1">
                                   <p>Change Plan </p>
                                   <select class="select form-control" id="plans2">
                                         <option value="{{enroleeData.planID}}">Keep Old Plan {{enroleeData.planName}}</option>
                                         <option ng-if="enroleeData.planID != x.id" ng-repeat="x in plans" value="{{x.id}}">{{x.name}}</option>
                                 </select>
                           </div>
+                          <hr/>
+                          <h3>Authorization</h3>
                           <div class="form-group">
                             <p>Enter Your Password Again </p>
-                            <input type="text" class="form form-control" placeholder="Authorize action with password" id="password">
+                            <input type="password" class="form form-control" placeholder="Authorize action with password" id="password">
                         </div>                        
                         </div>
                         <div class="modal-footer">
@@ -327,40 +364,68 @@
                   
                     </div>
                   </div>
-                  
 
-
-
-
-<div id="add-canteen" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><span class="fa fa-cutlery"> </span> Add Canteen</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-            <p>Canteen Name</p>
-            <input type="text" class="form-control" name="Canteen_name" >
-        </div>
-        <div class="form-group">
-            <p>Assign a canteen Operator</p>
-            <select class="select" >
-                <option>kemi Ade</option>
-                <option>Tunde Agba</option>
-                <option>Femi badmus</option>
-
-            </select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default">Save</button>
-      </div>
-    </div>
-
-  </div>
-</div>
-       
+                  <div id="add-dep" class="modal fade" role="dialog">
+                      <div class="modal-dialog">                    
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" id="closeBtn" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"><span class="fa fa-user"> </span> Change Enrolee Data</h4>
+                          </div>
+                          <div class="modal-body">
+                              <h3>Profile Information</h3>
+                              <div class="form-group">
+                                  <p>Fullname </p>
+                                  <input type="text" class="form-control" id="nfullname" value="" />
+                              </div>
+                              <div class="form-group">
+                                  <p>email </p>
+                                  <input type="text" class="form-control" id="nemail" value=""/>
+                              </div>
+                              <div class="form-group">
+                                  <p>Phone </p>
+                                  <input type="text" class="form-control" id="nphone" value=""/>
+                              </div>
+                              <div class="form-group">
+                                  <p>Gender </p>
+                                  <select id="ngender" class="form form-control">
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <p>Birthday </p>
+                                  <input type="date" id="nbirthday" class="form-control" value="" />
+                              </div>
+                              <div class="form-group">
+                                  <p>Change profile photo </p>
+                                  <input type="file" class="form-control" id="nprofile" onchange="angular.element(this).scope().uploadFile(this)"/>
+                              </div>
+                              <div class="form-group">
+                                  <p>Address </p>
+                                  <textarea class="form-control" id="naddress"></textarea>
+                              </div>
+                            <hr/>
+                            <h3>Optional Information</h3>
+                            <div class="form-group">
+                                <p>Old Enrolee ID </p>
+                                <textarea class="form-control" id="enroleeID"></textarea>
+                            </div>
+                            <hr/>
+                            <h3>Authorization</h3>
+                            <div class="form-group">
+                              <p>Enter Your Password Again </p>
+                              <input type="password" class="form form-control" placeholder="Authorize action with password" id="npassword">
+                          </div>                        
+                          </div>
+                          <div class="modal-footer">
+                            <span id="workr" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span>
+                            <button type="button" class="btn btn-danger" id="ncloseBtn" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-success" id="nSavebtn" ng-click="addsenrolee($event)">Add Data</button>
+                          </div>
+                        </div>
+                    
+                      </div>
+                    </div>
 <footertop></footertop>

@@ -1,0 +1,605 @@
+<div class="page-container" data-ng-controller="reportCtrl">
+    <headertop></headertop>   
+       
+
+       <!-- PAGE CONTENT -->
+       <div class="page-content">
+               <style type="text/css">
+                 
+                    body {font-family: "Lato", sans-serif;}
+
+                    /* Style the tab */
+                    .tab {
+                        float: left;
+                        border: 1px solid #ccc;
+                        background-color: #f1f1f1;
+                        width: 20%;
+                        height: auto;
+                    }
+
+                    /* Style the buttons inside the tab */
+                    .tab button {
+                        display: block;
+                        background-color: inherit;
+                        color: black;
+                        padding: 22px 16px;
+                        width: 100%;
+                        border: none;
+                        outline: none;
+                        text-align: left;
+                        cursor: pointer;
+                        transition: 0.3s;
+                        font-size: 12px;
+                    }
+
+                    /* Change background color of buttons on hover */
+                    .tab button:hover {
+                        background-color: #ddd;
+                    }
+
+                    /* Create an active/current "tab button" class */
+                    .tab button.active {
+                        background-color: #ccc;
+                    }
+
+                    /* Style the tab content */
+                    .tabcontent {
+                        float: left;
+                        padding: 0px 12px;
+                        width: 80%;
+                        border-left: none;
+                        height: auto;
+                        min-height: 498px;
+                    }
+                    .hidden{
+                        display: none;
+                    }
+               </style> 
+            
+           <top></top>
+
+
+           <!-- PAGE CONTENT WRAPPER -->
+           <div class="page-content-wrap">
+               
+               <!-- START WIDGETS -->                    
+               
+               <!-- END WIDGETS -->                    
+               
+               <div class="row">
+                
+                <div class="col-md-12">
+                     <!-- START DATATABLE EXPORT -->
+                        <!-- START DATATABLE EXPORT -->
+                       <div class="panel panel-default">
+                           <div class="panel-heading">
+                               <h3 class="panel-title"><a> <i class="fa fa-chart-area"></i> <span class="xn-text" style="margin-left: 20px;">Reports </span></a></h3>
+                            <!--   <div class="btn-group pull-left" style="padding-left:20px">     
+                                   <button class="btn btn-danger btn-corner" ng-click="purge($event.currentTarget)"><span class="fa fa-history"></span>Restore Sytem to Default</button>
+                               </div> -->
+                               <div class="btn-group pull-right">
+                                   <!--    <button class="btn btn-primary btn-corner" data-toggle="modal" data-target="#systemPoint" style="color: #ffffff;"><span class="fa fa-user"></span> Update System Point</button> 
+                                       <button class="btn btn-success btn-corner" data-toggle="modal" data-target="#systemPointUpdate" style="color: #ffffff;"><span class="fa fa-plus-circle"></span> Fast Top up</button>       -->                          
+                                   <button class="btn btn-success btn-corner dropdown-toggle" data-toggle="dropdown" style="color: #ffffff;"><i class="fa fa-bars"></i> Export Data</button>
+                                   <ul class="dropdown-menu">
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false'});"><img src='img/icons/json.png' width="24"/> JSON</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src='img/icons/json.png' width="24"/> JSON (ignoreColumn)</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'true'});"><img src='img/icons/json.png' width="24"/> JSON (with Escape)</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'xml',escape:'false'});"><img src='img/icons/xml.png' width="24"/> XML</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'sql'});"><img src='img/icons/sql.png' width="24"/> SQL</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'csv',escape:'false'});"><img src='img/icons/csv.png' width="24"/> CSV</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'txt',escape:'false'});"><img src='img/icons/txt.png' width="24"/> TXT</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='img/icons/word.png' width="24"/> Word</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'powerpoint',escape:'false'});"><img src='img/icons/ppt.png' width="24"/> PowerPoint</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'png',escape:'false'});"><img src='img/icons/png.png' width="24"/> PNG</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
+                                   </ul>
+                               </div>                                    
+                               
+                           </div>
+                           <div class="panel-body">
+                            <div class="tab">
+                                <button id="defaultOpen" class="tablinks" onclick="openCity(event, 'diagnosis')"><i class="fa fa-diagnoses"></i> Utilization By Diagnosis</button>
+                                <button class="tablinks" onclick="openCity(event, 'procedures')"><i class="fa fa-procedures"></i> Utilization By Procedure</button>
+                                <button class="tablinks" onclick="openCity(event, 'services')"><i class="fa fa-syringe"></i> Utilization By Service</button>
+                                <button class="tablinks" onclick="openCity(event, 'enrolees')"><i class="fa fa-id-card"></i> Utilization By Enrolee</button>
+                                <button class="tablinks" onclick="openCity(event, 'organizations')"><i class="fa fa-university"></i> Utilization By Organization</button>
+                                <button class="tablinks" onclick="openCity(event, 'provider')"><i class="fa fa-hospital-alt"></i> Utilization By Provider</button>
+                                <button class="tablinks" onclick="openCity(event, 'claimsEntry')"><i class="fa fa-book"></i> Claims entry WorkLoad</button>
+                                <button class="tablinks" onclick="openCity(event, 'claimsVet')"><i class="fa fa-stethoscope"></i> Claims Vet WorkLoad</button>
+                              </div>
+                              
+                              <div id="diagnosis" class="tabcontent">
+                                <h3>Utilization By Diagnosis</h3>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Filter from</h6>
+                                        <p class="input-group ui-datepicker">
+                                            <input type="date" class="form-control" id="diagnosisfromDate" />
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Filter to</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="date" class="form-control" id="diagnosistoDate" />    
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Counts before Merge</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="number" class="form-control" id="diagnosisNumber" value="8" min="3", max="15" />    
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Action</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <button class="btn btn-primary" ng-click="getReport(1, $event)"><i class="fa fa-chart-area"></i> Get Report</button>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-if="diagnosisResult" align="center">
+                                            <img ng-src="{{diagnosisChartResult}}" style="max-width: 80%; height: auto" />
+                                            <div><button class="btn btn-primary" data-toggle="modal" data-target="#ed" ng-click="emailFile(diagnosisChartResult, $event)"><i class="fa fa-envelope"></i> Forward to email</button> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              <div id="procedures" class="tabcontent">
+                                <h3>Utilization By Procedures</h3>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Filter from</h6>
+                                        <p class="input-group ui-datepicker">
+                                            <input type="date" class="form-control" id="procedurefromDate" />
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Filter to</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="date" class="form-control" id="proceduretoDate" />    
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Counts before Merge</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="number" class="form-control" id="procedureNumber" value="8" min="3", max="15" />    
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Action</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <button class="btn btn-primary" ng-click="getReport(2, $event)"><i class="fa fa-chart-area"></i> Get Report</button>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-if="procedureResult" align="center">
+                                            <img ng-src="{{procedureChartResult}}" style="max-width: 80%; height: auto" />
+                                            <div><button class="btn btn-primary" data-toggle="modal" data-target="#ed" ng-click="emailFile(procedureChartResult, $event)"><i class="fa fa-envelope"></i> Forward to email</button> </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                              </div>
+                              
+                              <div id="services" class="tabcontent">
+                                <h3>Utilization By Services</h3>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Filter from</h6>
+                                        <p class="input-group ui-datepicker">
+                                            <input type="date" class="form-control" id="servicesfromDate" />
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Filter to</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="date" class="form-control" id="servicestoDate" />    
+                                        </p>
+                                    </div>                                    
+                                    <div class="col-md-3">
+                                        <h6>Action</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <button class="btn btn-primary" ng-click="getReport(3, $event)"><i class="fa fa-chart-area"></i> Get Report</button>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-if="servicesResult" align="center">
+                                            <table id="customers2" class="table datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/N</th>
+                                                        <th>Service Name</th>
+                                                        <th>Total Claims </th>                                               
+                                                        <th>Total Cost</th>
+                                                        <th>Avg. Cost/Claim</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in servicesResult">
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{x.procedureName}}</td>
+                                                        <td>{{x.totalCount}}</td>
+                                                        <td>{{x.tSum}}</td>
+                                                        <td>{{x.tSum/x.totalCount}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr>                                                        
+                                                        <th colspan="2">Total</th>
+                                                        <th>{{pricer(servicesResultCount.totalCount)}}</th>
+                                                        <th>{{pricer(servicesResultCount.tSum)}}</th>
+                                                        <th>{{pricer(servicesResultCount.avrg)}}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table> 
+                                            <div><button class="btn btn-primary" data-toggle="modal" data-target="#ed" ng-click="emailFile(servicesResultFile, $event)"><i class="fa fa-envelope"></i> Forward to email</button> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              <div id="enrolees" class="tabcontent">
+                                <h3>Utilization By Enrolee</h3>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Filter from</h6>
+                                        <p class="input-group ui-datepicker">
+                                            <input type="date" class="form-control" id="enroleefromDate" />
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Filter to</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="date" class="form-control" id="enroleetoDate" />    
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Sort by Organization</h6>
+                                        <select class="form-control pull-right" id="enroleeorganization">
+                                          <option value="-"> From All</option>
+                                          <option ng-repeat="x in organizations" value="{{x.id}}"> {{x.name}}</option>    
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Action</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <button class="btn btn-primary" ng-click="getReport(4, $event)"><i class="fa fa-chart-area"></i> Get Report</button>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-if="enroleeResult" align="center">
+                                            <table id="customers3" class="table datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/N</th>
+                                                        <th>Full Name</th>
+                                                        <th>nEnrolee ID </th>                                               
+                                                        <th>Number of Claims</th>
+                                                        <th>Cost</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in enroleeResult">
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{x.enroleeName}}</td>
+                                                        <td>{{x.enroleeID}}</td>
+                                                        <td>{{x.countUtil}}</td>
+                                                        <td>{{x.totalUtils}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr>                                                        
+                                                        <th colspan="3">Total</th>
+                                                        <th>{{pricer(enroleeResultCount.countUtil)}}</th>
+                                                        <th>{{pricer(enroleeResultCount.totalUtils)}}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <div><button class="btn btn-primary" data-toggle="modal" data-target="#ed" ng-click="emailFile(enroleeFileResult, $event)"><i class="fa fa-envelope"></i> Forward to email</button> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              <div id="organizations" class="tabcontent">
+                                <h3>Utilization By Organization</h3>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Filter from</h6>
+                                        <p class="input-group ui-datepicker">
+                                            <input type="date" class="form-control" id="organizationfromDate" />
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Filter to</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="date" class="form-control" id="organizationtoDate" />    
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Action</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <button class="btn btn-primary" ng-click="getReport(5, $event)"><i class="fa fa-chart-area"></i> Get Report</button>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">                                        
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-if="organizationResult" align="center">
+                                            <table id="customers3" class="table datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/N</th>
+                                                        <th>Company Name</th>                                              
+                                                        <th>Number of Claims</th>
+                                                        <th>Cost</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in organizationResult">
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{x.name}}</td>
+                                                        <td>{{x.countUtil}}</td>
+                                                        <td>{{x.totalUtils}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr>                                                        
+                                                        <th colspan="2">Total</th>
+                                                        <th>{{pricer(organizationResultCount.countUtil)}}</th>
+                                                        <th>{{pricer(organizationResultCount.totalUtils)}}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <div><button class="btn btn-primary" data-toggle="modal" data-target="#ed" ng-click="emailFile(organizationFileResult, $event)"><i class="fa fa-envelope"></i> Forward to email</button> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              <div id="provider" class="tabcontent">
+                                <h3>Utilization By Provider</h3>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Filter from</h6>
+                                        <p class="input-group ui-datepicker">
+                                            <input type="date" class="form-control" id="providerfromDate" />
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Filter to</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="date" class="form-control" id="providertoDate" />    
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Filter By Service Category</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <select class="form-control" id="serviceCat">
+                                              <option value="-">From All</option>
+                                              <option ng-repeat="x in claimscat" value="{{x.id}}">{{x.name}}</option>
+                                          </select>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Action</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <button class="btn btn-primary" ng-click="getReport(6, $event)"><i class="fa fa-chart-area"></i> Get Report</button>
+                                        </p>
+                                    </div>                                                                        
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-if="providerResult" align="center">
+                                            <table id="customers3" class="table datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/N</th>
+                                                        <th>Provider Name</th>                                              
+                                                        <th>Number of Claims</th>
+                                                        <th>Cost</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in providerResult">
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{x.name}}</td>
+                                                        <td>{{x.countUtil}}</td>
+                                                        <td>{{x.totalUtils}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <thead>
+                                                    <tr>                                                        
+                                                        <th colspan="2">Total</th>
+                                                        <th>{{pricer(providerResultCount.countUtil)}}</th>
+                                                        <th>{{pricer(providerResultCount.totalUtils)}}</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <div><button class="btn btn-primary" data-toggle="modal" data-target="#ed" ng-click="emailFile(providerFileResult, $event)"><i class="fa fa-envelope"></i> Forward to email</button> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+
+                              <div id="claimsEntry" class="tabcontent">
+                                <h3>Claims Entry</h3>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Filter from</h6>
+                                        <p class="input-group ui-datepicker">
+                                            <input type="date" class="form-control" id="claimfromDate" />
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Filter to</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="date" class="form-control" id="claimtoDate" />    
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Action</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <button class="btn btn-primary" ng-click="getReport(7, $event)"><i class="fa fa-chart-area"></i> Get Report</button>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">                                        
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-if="claimResult" align="center">
+                                            <table id="customers3" class="table datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/N</th>
+                                                        <th>Staff Name</th>                                              
+                                                        <th>Username</th>
+                                                        <th>Claims Count</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in claimResult">
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{x.fullname}}</td>
+                                                        <td>{{x.creator}}</td>
+                                                        <td>{{x.tcount}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div><button class="btn btn-primary" data-toggle="modal" data-target="#ed" ng-click="emailFile(claimFileResult, $event)"><i class="fa fa-envelope"></i> Forward to email</button> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div id="claimsVet" class="tabcontent">
+                                  <h3>Claims Vet</h3>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h6>Filter from</h6>
+                                        <p class="input-group ui-datepicker">
+                                            <input type="date" class="form-control" id="claimvfromDate" />
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Filter to</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <input type="date" class="form-control" id="claimvtoDate" />    
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <h6>Action</h6>
+                                        <p class="input-group ui-datepicker">
+                                          <button class="btn btn-primary" ng-click="getReport(8, $event)"><i class="fa fa-chart-area"></i> Get Report</button>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">                                        
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div ng-if="claimvResult" align="center">
+                                            <table id="customers3" class="table datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S/N</th>
+                                                        <th>Staff Name</th>                                              
+                                                        <th>Username</th>
+                                                        <th>Claims Count</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in claimvResult">
+                                                        <td>{{$index+1}}</td>
+                                                        <td>{{x.fullname}}</td>
+                                                        <td>{{x.creator}}</td>
+                                                        <td>{{x.tcount}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div><button class="btn btn-primary" data-toggle="modal" data-target="#ed" ng-click="emailFile(claimvFileResult, $event)"><i class="fa fa-envelope"></i> Forward to email</button> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>                                
+                           </div>
+                       </div>
+                       <!-- END DATATABLE EXPORT -->                            
+                       
+
+               </div>
+               <!-- END DATATABLE EXPORT --> 
+           </div>
+           </div>
+           <!-- END PAGE CONTENT WRAPPER -->
+       </div>            
+       <!-- END PAGE CONTENT -->
+       <!-- Modal --> 
+       <div id="ed" class="modal fade" role="dialog">
+            <div class="modal-dialog" style="width:100%">
+              <!-- Modal content-->
+              <div class="modal-content"  style="width:60%; left:20%">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Email Selected Data</h4>
+                </div>
+                <div class="modal-body" style="height:auto">
+                    <div class="form-group">
+                       <p>Input Email (separate multiple email with comma) </p>
+                        <input type="text" id="emails" class="form-control" />
+                   </div>
+                   <div class="form-group">
+                       <p>Input Message Body </p>
+                        <textarea id="message" class="form-control" ></textarea>
+                   </div>
+                   <input type="hidden" id="fileUrl" value="{{fileUrltoBeEmailed}}" />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal" id="c2"><i class="fa fa-close"></i> Close</button>
+                  <button type="button" class="btn btn-primary" data-target="modal" ng-click="sendEmail($event)"><i class="fa fa-shipping-fast"></i> Send Email</button>
+                </div>
+              </div>
+            </div>
+           </div>
+<footertop></footertop>
+<script>
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 1; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    //tablinks[1].className += " active";
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>

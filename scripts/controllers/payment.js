@@ -57,7 +57,7 @@ angular
         return res;
     }
     var custom = new $rootScope.customMessage();
-    var  url= UserService.apiRoot+'hmo/get/transactions/-/1/-/-/0/7799999999';
+    //var  url= UserService.apiRoot+'hmo/get/transactions/-/1/-/-/0/7799999999/1';
     var data= {};
     var config = {
             headers : {
@@ -66,7 +66,7 @@ angular
                 'hmoID': sessionStorage.getItem('HMOID')
        }
     }
-    $http.get(url, config).then(function(response){
+    /*$http.get(url, config).then(function(response){
         if(response.data.error.status == 0){
             var encounters = response.data.content.data;
             var r = prepareData(encounters);
@@ -74,7 +74,7 @@ angular
             $scope.detailedList = r[1];
         }else{}
         }, function(response){
-    });
+    });*/
     var  url= UserService.apiRoot+'hmo/get/providersheet';
     $http.get(url, config).then(function(response){
       if(response.data.error.status == 0){
@@ -127,15 +127,15 @@ angular
       }
       });
   }
-  $scope.filterTransactions = function(obj){
-    var obj = obj.currentTarget;
+  $scope.filterTransactions = function(obj = document.getElementById("fltrBtn")){
+    //var obj = obj.currentTarget;
     obj.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Fetching";
     var organization = $('#Organization').find(":selected").val();
     var provider = $('#provider').find(":selected").val();
     var type = 1;//$('#type').find(":selected").val();
     var fromDate = document.getElementById("fromDate").value == ""? "0" : new Date(document.getElementById("fromDate").value).valueOf()/1000;
     var toDate = document.getElementById("toDate").value == ""? "9999999999999999999" : new Date(document.getElementById("toDate").value).valueOf()/1000;
-    var  url= UserService.apiRoot+'hmo/get/transactions/'+provider+'/'+type+'/'+organization+'/-/'+fromDate+'/'+toDate;
+    var url= UserService.apiRoot+'hmo/get/transactions/'+provider+'/'+type+'/'+organization+'/-/'+fromDate+'/'+toDate+'/1/-';
     $http.get(url, config).then(function(response){
         if(response.data.error.status == 0){
             var encounters = response.data.content.data;
@@ -159,20 +159,22 @@ angular
   }
   $scope.payBtn = function(x, index, ev){
       if(!confirm("Please Confirm the payment by pressing Ok! The process could not be reversed")){ return; }
+      var custom = new $rootScope.customMessage();
       ev = ev.currentTarget;
       ev.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Working";
       $scope.nowUpdate = $scope.detailedList[index];
-      var  url= UserService.apiRoot+'hmo/concludetransaction';
+      var  url= UserService.apiRoot+'hmo/conclude/payment';
       var datum = {
           "data":{
-              'status': status,
-              'transactionID': $("#transID").val(),
-              'providerID': $("#providerID").val(),
-              'comments': $("#comment").val(),
-              'finalPrice': $("#amount2").val(),
+              'dateFrom':new Date(document.getElementById("fromDate").value).valueOf()/1000,
+              'dateTo': new Date(document.getElementById("toDate").value).valueOf()/1000,
+              'transactions': $scope.nowUpdate,
+              'status': 2,
+              'providerID': x.providerID,
+              'finalPrice': x.finalPrice,
               'username': sessionStorage.getItem('username'),
               'publicKey': sessionStorage.getItem('publicKey'),
-              'hmoID': sessionStorage.getItem('HMOID')            
+              'hmoID': sessionStorage.getItem('HMOID')
           }
       };
       var config = {
@@ -181,11 +183,18 @@ angular
                   'Content-Type': 'application/json;'
          }
       }
-      for (var i=0; i < $scope.nowUpdate.length; i++) {
-        doPush($scope.nowUpdate[i], ev);        
-      }
-      ev.innerHTML = "<i class=\"fa fa-money\"> </i> Confirm Payment";
-      $state.reload();
+      $http.post(url, datum, config).then(function(response){
+        if(response.data.error.status == 0){
+            $rootScope.mCra(custom.success(response.data.success.message));
+            $state.reload();
+        }else{
+            $rootScope.mCra(custom.error(response.data.error.message));
+            ev.innerHTML = "Update <i class=\"fa fa-chevron-circle-right\"></i>";
+        }
+        }, function(err){
+            $rootScope.mCra(custom.error(err));
+            ev.innerHTML = "Update <i class=\"fa fa-chevron-circle-right\"></i>";
+        });
   }
   var doPush = function(unit, ev){
     ev.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Working";
@@ -217,4 +226,20 @@ angular
         ev.innerHTML = "Update <i class=\"fa fa-chevron-circle-right\"></i>";
     });
   }
+
+  $(document).ready(function(){
+    var now = new Date();
+    var month = (now.getMonth() + 1);
+    var day = now.getDate();
+    if (month < 10)
+        month = "0" + month;
+    if (day < 10) 
+        day = "0" + day;
+    var monthDay = now.getFullYear() + '-' + month + '-01';
+    var today = now.getFullYear() + '-' + month + '-' + day;
+    $('#fromDate').val(monthDay);
+    $('#toDate').val(today); 
+    //getAccounts();                
+    $scope.filterTransactions();
+}); 
 }

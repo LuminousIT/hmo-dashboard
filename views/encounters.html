@@ -10,16 +10,18 @@
     border: 1px solid #DDD;
     padding-bottom: 40px;
 }
-.dropdown-menu li{
+/*.dropdown-menu li{
   padding-left: 6px;
   cursor: pointer;
 }
 .dropdown-menu li:hover{
   padding-left: 12px;
   cursor: pointer;
-}
+}*/
 
   </style>
+  <div class="lb1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <div class="panel-heading border">
     <ol class="breadcrumb mb0 no-padding">
       <li>
@@ -74,7 +76,7 @@
 </div>
 <div class="row" style="padding:12px 16px">
   <div class="col-sm-12">
-    <button class="btn btn-block btn-large btn-primary" ng-click="filterTransactions($event)">
+    <button class="btn btn-block btn-large btn-primary" id="fltrBtn" ng-click="filterTransactions()">
       <i class="fa fa-filter"></i> Filter Encounter
     </button>
   </div>
@@ -117,6 +119,9 @@
         font-weight: lighter !important
       }
     </style>
+    <div style="padding:16px">
+      <div style="padding: 12px; border-radius: 10px; background: #657694; width: 270px; color: #fff" ng-if="activeFlag" align="center"> {{activeFlagID}} <span class="fa fa-times" style="color: red; cursor: pointer" ng-click="deactivateFlag()"></span></div>
+    </div>
     <table class="table table-bordered bordered table-striped table-condensed datatable" id="customers2" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
       <thead>
         <tr style="color: black">
@@ -126,18 +131,19 @@
           <th>Provider</th>
           <th>Diagnosis</th>
  <!--         <th>Service Category</th> -->
-          <th>Health plan</th>
+          <!--<th>Health plan</th>-->
      <!--     <th>cardSerial</th> 
           <th>Complaint</th>-->
-          <th>Claim Amount</th>
+          <th>Provider Amount</th>
+          <th>Vet Amount</th>
         <!--   <th>Duration</th>
          <th>Frequency</th> 
           <th>Transaction Date</th>          
           <th>Final Amount</th>
           <th>Final Comment</th>-->
-          <th>Details</th>
           <th>Status</th>
-          <th>Actions</th>
+          <th>Details</th>
+          <!--<th>Actions</th>-->
         </tr>
       </thead>
       <thead>
@@ -148,7 +154,7 @@
                    <th><input type="text" id = "extended3" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Provider" /></th>
                    <th><input type="text" id = "extended4" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Diagnosis" /></th>
         <!--           <th><input type="text" id = "extended5" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Service Category" /></th> -->
-                   <th><input type="text" id = "extended6" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Health plan" /></th>
+                   <th></th>
           <!--         <th><input type="text" id = "extended7" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search cardSerial" /></th> 
                    <th><input type="text" id = "extended8" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Complaint" /></th>  -->
                    <th></th>               
@@ -158,53 +164,59 @@
                    <th><input type="text" id = "extended13" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Final Amount" /></th>  
                    <th><input type="text" id = "extended14" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Final Comment" /></th>    -->
                    <th></th>
-                   <th><input type="text" id = "extended15" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Status" /> </th>
-                   <th>Action</th>
+                   <th></th>
+
+                   <!--<th><input type="text" id = "extended15" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Status" /> </th>
+                   <th>Action</th>-->
           </tr>
       </thead>
       <tbody style="font-weight:lighter !important">
         <tr ng-repeat="x in encounters">
-            <th>{{$index + 1}}</th>
+            <th>{{$index + 1}} <i class="fa fa-flag btn" ng-if="x.flag" ng-click="fetchFlagged(x)" title="Flagged as duplicate or fraudulent"></i></th>
        <th>{{x.enroleeName}}</th>
             <th>{{x.enroleeID}}</th>
             <th>{{x.providerName}}</th>
-           <th>{{x.diagnosis}}</th> 
+           <th>{{x.diagnosis}}</th>
        <!--      <th>{{x.serviceCatName}}</th>-->
-            <th>{{x.planName}}</th>
+            <!--<th>{{x.planName}}</th>-->
         <!--    <th>{{x.cardSerial}}</th> 
             <th>{{x.summary}}</th>-->
             <th>{{pricer(x.price)}}</th>
+            <th>{{ pricer(x.finalPrice) }}</th>
       <!--      <th>{{x.duration}}</th>
             <th>{{x.frequency}}</th> 
             <th>{{dateFormater(x.transDate)}}</th>          
             <th>{{(x.finalPrice > 0) && pricer(x.finalPrice) || pricer(x.price)}}</th>
             <th>{{x.comments}}</th>-->
-            <th><button class="btn btn-xs btn-info" data-toggle="modal" data-target="#Details" ng-click="setID(x)"> Details</button></th>
             <th>
-              <span ng-if="x.status == 0" class="btn btn-default btn-xs"><i class="fa fa-archive"></i> Pending</span>
-              <span ng-if="x.status == -1" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Rejected</span>
-              <span ng-if="x.status == 1" class="btn btn-success btn-xs"><i class="fa fa-check"></i> Accepted</span>
-              <span ng-if="x.status == 10" class="btn btn-info btn-xs"><i class="fa fa-refresh"></i> Reprocess</span>
-              <span ng-if="x.status == 2" class="btn btn-primary btn-xs"><i class="fa fa-money"></i> Paid</span>
+              <span ng-if="x.status == 0" class="btn btn-default " style="width:100%"><i class="fa fa-archive"></i> Pending</span>
+              <span ng-if="x.status == -1" class="btn btn-danger " style="width:100%"><i class="fa fa-times"></i> Rejected</span>
+              <span ng-if="x.status == 1" class="btn btn-success " style="width:100%"><i class="fa fa-check"></i> Accepted</span>
+              <span ng-if="x.status == 10" class="btn btn-info " style="width:100%"><i class="fa fa-refresh"></i> Reprocess</span>
+              <span ng-if="x.status == 2" class="btn btn-primary " style="width:100%"><i class="fa fa-money"></i> Paid</span>
             </th>
-            <th>
+            <th><button class="btn btn-edit btn-sm btn-icon loading-demo mr5" type="button" data-toggle="modal" data-target="#Details" ng-click="setID(x, $index); getProcedures(ae.transID); getDrugs(ae.transID)"><i class="fa fa-info"></i> Details</button></th>
+          
+
+
+            <!--<th>
                 <div class="dropdown" style="" ng-if="x.status != 2">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
                     <span class="caret"></span></button>
                     <ul class="dropdown-menu">
-                      <li class="text-danger" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(-1, x, $index)"><span class="fa fa-times"></span> Reject</li>
-                      <li class="text-success" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(1, x, $index)"><span class="fa fa-check"></span> Accept</li>
-                      <li class="text-info" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(10, x, $index)"><span class="fa fa-refresh"></span> Reprocess</li>
+                      <li class="text-danger" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(-1, x, $index)" style="padding:7px"><span class="fa fa-times"></span> Reject</li>
+                      <li class="text-success" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(1, x, $index)" style="padding:7px"><span class="fa fa-check"></span> Accept</li>
+                      <li class="text-info" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(10, x, $index)" style="padding:7px"><span class="fa fa-refresh"></span> Reprocess</li>
                     </ul>
                   </div>
-            </th>
+            </th>-->
         </tr>
         </tbody>
     </table>
   </div>
 
 
-  <div id="concludeTransaction" class="modal fade" role="dialog">
+  <div id="concludeTransaction" class="modal fade" role="dialog" style="z-index:19999">
       <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -228,7 +240,7 @@
               <div ng-if="status == 1">
                   <div class="form-group">
                       <p> Final Amount </p>
-                      <input type="text" name="amount" value="{{finalPrice}}" class="form-control" placeholder="{{finalPrice}}" id="amount2"/>
+                      <input type="text" name="amount" disabled value="{{finalPrice}}" class="form-control" placeholder="{{finalPrice}}" id="amount2"/>
                   </div>
                   <div class="form-group">
                       <p> Optional Comment</p>
@@ -257,8 +269,12 @@
               </div>
               <div ng-if="status == 10">
                   <div class="form-group hidden">
-                      <p> Final Amount </p>
-                      <input type="text" name="amount" value="{{finalPrice}}" class="form-control" id="amount2"/>
+                      <p> Please enter amount</p>
+                      <input type="text" name="text" value="{{finalPrice}}" class="form-control" id="amount2"/>
+                  </div>
+                  <div class="form-group">
+                      <p> Please enter email</p>
+                      <input type="text" name="text" value="" class="form-control" id="email"/>
                   </div>
                   <div class="form-group">
                       <p>Comment/Reason *Required</p>
@@ -280,31 +296,126 @@
     
       </div>
     </div>
+
 <style>
   .table-details tbody tr th{
     font-weight: bolder !important;
   } 
 </style>
-    <div id="Details" class="modal fade" role="dialog">
-        <div class="modal-dialog" id="mdiag" style="/*width:80%*/">
+</div>
+    <div id="Details" class="modal fade" role="dialog" style="overflow:scroll !important">
+        <div class="modal-dialog" id="mdiag" style="width:80%">
           <!-- Modal content-->
-          <div class="modal-content">
+          <div class="modal-content" id="printContent">
             <div class="modal-header">
+              <div class="text-center">
+              <!--<button type="button" id="btnPrint" class="" style="position:absolute">Print</button>-->
+              </div>
               <button type="button" class="close" id="closeB" data-dismiss="modal">&times;</button>
               <h4 class="modal-title">Encounter Details  </h4>
             </div>
             <div class="modal-body">
+              <div class="row text-center">
+                <div ng-if="ae.status == 0">
+                  <strong style="font-size:50px; color:YELLOW">PENDING!</strong>
+              </div>
+
+              <div ng-if="ae.status == -1">
+                  <strong style="font-size:50px; color:RED">REJECTED!</strong>
+              </div>
+
+              <div ng-if="ae.status == 1">
+                  <strong style="font-size:50px; color:GREEN">ACCEPTED!</strong>
+              </div>
+
+              <div ng-if="ae.status == 10">
+                  <strong style="font-size:50px; color:#31708f">REPROCESS!</strong>
+              </div>
+
+              <div ng-if="ae.status == 2">
+                  <strong style="font-size:50px; color:blue">PAID!</strong>
+              </div>
+              </div>
+               <div class="alert alert-warning" ng-if="ae.status == 0">
+                  <ul class="fa-ul">
+                      <li style="font-weight:400">
+                          <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
+                              <strong class="sr-only">Note:</strong>
+                              pending You will not be able to alter this Transaction beyond this point, kindly make sure the information displayed below is correct before you continue.
+                      </li>
+                  </ul>
+              </div>
+
+               <div class="alert alert-danger" ng-if="ae.status == -1">
+                  <ul class="fa-ul">
+                      <li style="font-weight:500">
+                          <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
+                              <strong class="sr-only">Note:</strong>
+                              rejected You will not be able to alter this Transaction beyond this point, kindly make sure the information displayed below is correct before you continue.
+                      </li>
+                  </ul>
+              </div>
+
+               <div class="alert alert-success" ng-if="ae.status == 1">
+                  <ul class="fa-ul">
+                      <li style="font-weight:500">
+                          <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
+                              <strong class="sr-only">Note:</strong>
+                              accepted You will not be able to alter this Transaction beyond this point, kindly make sure the information displayed below is correct before you continue.
+                      </li>
+                  </ul>
+              </div>
+
+               <div class="alert alert-info" ng-if="ae.status == 10">
+                  <ul class="fa-ul">
+                      <li style="font-weight:500">
+                          <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
+                              <strong class="sr-only">Note:</strong>
+                              reprocess You will not be able to alter this Transaction beyond this point, kindly make sure the information displayed below is correct before you continue.
+                      </li>
+                  </ul>
+              </div>
+
+              <div class="alert alert-primary" ng-if="ae.status == 2">
+                  <ul class="fa-ul">
+                      <li style="font-weight:500">
+                          <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
+                              <strong class="sr-only">Note:</strong>
+                              paid You will not be able to alter this Transaction beyond this point, kindly make sure the information displayed below is correct before you continue.
+                      </li>
+                  </ul>
+              </div>
               <div style="padding:7px; cursor:pointer; color:rgb(219, 75, 31); display:none" id="goback" ng-click="goBack()"><h4><i class="fa fa-arrow-left"></i> Go back</h4></div>
                 <div id="detIO">
                     <table class="table table-details">
                         <tbody>
                             <tr>
-                              <th>Transaction Date</th>
+                                <th>Diagnosis</th>
+                                <td>{{ae.diagnosis}}</td>
+                              </tr>
+                            <tr>
+                              <th>Claims Arrival Date</th>
                               <td>{{dateFormater(ae.transDate)}}</td>
                             </tr>
                             <tr>
-                              <th>Feeding Cost</th>
-                                <td>{{pricer(ae.feedingCost, true)}}</td>
+                              <th>Entry Date</th>
+                              <td>{{dateFormater(ae.syncDate)}}</td>
+                            </tr>
+                            <tr>
+                              <th>Date Admitted</th>
+                              <td>{{dateFormater(ae.dateAdmitted)}}</td>
+                            </tr>
+                            <tr>
+                              <th>Date Discharged</th>
+                              <td>{{dateFormater(ae.dateDischarged)}}</td>
+                            </tr>
+                            <tr>
+                              <th>Organization</th>
+                              <td>{{ae.orgName}}</td>
+                            </tr>
+                            <tr>
+                              <th>Admission</th>
+                              <td>{{ae.admission == 1 && 'In-Patient' || 'Out-patient'}}</td>
                             </tr>
                             <tr>
                               <th>No of Days Fed</th>
@@ -315,47 +426,56 @@
                               <td>{{ae.code}}</td>
                             </tr>
                             <tr>
+                              <th>Dr. Name</th>
+                              <td>{{ae.docName}}</td>
+                            </tr>
+                          <!--  <tr>
                                 <th>Other Enrolee ID</th>
                                 <td>{{ae.pEnrolee}}</td>
-                            </tr>
+                            </tr>-->
                             <tr>
-                                <th>Other Enrolee Plan</th>
-                                <td>{{ae.pPlan}}</td>
-                            </tr>
+                                <th>Provider Tota</th>
+                                <td>{{pricer(ae.price)}}</td>
+                            </tr> 
                             <tr>
-                                <th>Drugs</th>
-                                <td><button class="btn btn-primary" ng-click="getDrugs(ae.transID)">Open drugs</button></td>
-                            </tr>
-                            <tr>
-                                <th>Procedures</th>
-                                <td><button class="btn btn-primary" ng-click="getProcedures(ae.transID)">Open Procedures</button></td>
-                            </tr>
-                            <tr>
-                                <th>Final Price</th>
-                                <td>{{(ae.finalPrice > 0) && pricer(ae.finalPrice) || pricer(ae.price)}}</td>
+                                <th>Vet Total</th>
+                                <td>{{pricer(ae.finalPrice)}}</td>
                             </tr>
                             <tr>
                                  <th>Final Comment</th>
                                  <td>{{ae.comments}}</td>
                             </tr>
                             <tr>
+                              <th>Entered By</th>
+                              <td>{{ae.creator}}</td>
+                            </tr>
+                            <tr>
                                  <th>Completed By</th>
                                  <td>{{ae.completedBy}}</td>
                             </tr>
+                            <tr>
+                              <th>Feeding Cost</th>
+                                <td>{{pricer(ae.feedingCost, true)}}</td>
+                            </tr>
+                            <tr>
+                              <th>Final Feeding Cost</th>
+                                <td><input type="number" class="form formcontrol" value="{{ae.finalFeedingCost}}" id="cthis" ng-keyup="updateFeedingCost($event)" /></td>
+                            </tr>
                         </tbody>
                     </table>
-                  </div>
-                    <!--- Drugs -->
-                    <div style="display:none" id="drugs">
-                      <div style="padding:6px;" align="center" id="ldr"><i class="fa fa-cogs fa-spin fa-2x"></i></div>
-                        <table class="table table-bordered bordered table-striped table-condensed datatable"  datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                    <!---drugs-->
+                    <div>
+                      <h4 class="modal-title" style="margin-bottom: 10px">Drugs </h4>
+                    <table class="table table-bordered bordered table-striped table-condensed datatable"  datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
                             <thead>
                               <tr style="color: black">
                                 <th>ID</th>
                                 <th>Drug Name</th>
+                                <th>Tarrif Amount</th>
                                 <th>Duration</th>
                                 <th>Quantity</th>
-                                <th>Amount</th>
+                                <th>Provider Amount</th>
+                                <th>Final Amount</th>
                                 <th>Notes</th>
                                 <th>Dosage</th>
                               </tr>
@@ -364,44 +484,69 @@
                               <tr ng-repeat="x in drugs">
                                   <th>{{$index + 1}}</th>
                                   <th>{{x.drugName}}</th>
+                                  <th>{{getUnitPrice(x.finalCost, x.quantity)}}</th>
                                   <th>{{x.duration}}</th>
                                   <th>{{x.quantity}}</th>
                                   <th>{{x.amount}}</th>
-                                  <th>{{x.notes}}</th>
+                                  <th><input type="number" value="{{x.finalCost}}" class="form form-control" ng-keyup="updateDrug(x, $event, $index, 0)" ></th>
+                                  <th><input type="text" value="{{x.finalComment}}" class="form formcontrol" ng-keyup="updateDrug(x, $event, $index, 1)" /></th>
                                   <th>{{x.dosage}}</th>
                               </tr>
                               </tbody>
                           </table>
-                    </div>                    
-                      <!-- End Of Drugs -->
-                      <!-- Beginning of Procedure -->
-                      <div style="display:none" id="procedures">
-                          <div style="padding:6px;" align="center" id="pdr"><i class="fa fa-cogs fa-spin fa-2x"></i></div>
-                          <table class="table table-bordered bordered table-striped table-condensed datatable"  datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                    </div>
+                    <!---End Drugs-->
+
+                    <!---Procedure-->
+                    <div>
+                      <h4 class="modal-title" style="margin-bottom: 10px">Procedures </h4>
+                    <table class="table table-bordered bordered table-striped table-condensed datatable"  datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
                               <thead>
                                 <tr style="color: black">
                                   <th>ID</th>
                                   <th style="width: 100px">Procedure Name</th>
+                                  <th>Tarrif Amount</th>
                                   <th>Description</th>
-                                  <th>Cost</th>
-                                  <th>Image</th>                              
+                                  <th>Provider Amount</th>
+                                  <th>Tarrif Amount</th>
+                                  <th>Final Amount</th>
+                                  <th>Notes</th>
+                                  <th>Image</th>
                                 </tr>
-                              </thead>                          
+                              </thead>
                               <tbody style="font-weight:lighter !important">
                                 <tr ng-repeat="x in procedures">
                                   <th>{{$index + 1}}</th>
                                   <th>{{x.procedureName}}</th>
+                                  <th>{{x.finalCost}}</th>
                                   <th>{{x.description}}</th>
                                   <th>{{pricer(x.cost)}}</th>
+                                  <th>{{pricer(x.finalCost)}}</th>
+                                  <th><input type="number" value="{{x.finalCost}}" class="form form-control" ng-keyup="updateProcedure(x, $event, $index, 0)" ></th>
+                                  <th><input type="text" value="{{x.comment}}" class="form formcontrol" ng-keyup="updateProcedure(x, $event, $index, 1)" /></th>
                                   <th><img src="{{pointFile(x.file)}}" style="max-width:250px" ng-if="x.file != ''" /></th>
                                 </tr>
                                 </tbody>
                             </table>
-                      </div>
-                        <!-- End Of Procedure -->
+                    </div>
+                    <!---End Procedure-->
+                    
+
+
+                  </div>
             </div>
             <div class="modal-footer">
               <span id="workr3" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span> 
+             <div class="dropup" style="position:absolute" ng-if="ae.status != 2">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Actions
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu pull-right">
+                      <li class="text-danger" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(-1, ae, $index)" style="padding:7px"><span class="fa fa-times"></span> Reject</li>
+                      <li class="text-success" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(1, ae, $index)" style="padding:7px"><span class="fa fa-check"></span> Accept</li>
+                      <li class="text-info" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(10, ae, $index)" style="padding:7px"><span class="fa fa-refresh"></span> Reprocess</li>
+                    </ul>
+                  </div>
+                  <button type="button" id="btnPrint" class="btn btn-info">Print</button>
               <button class="btn btn-danger" id="closeBtn" data-dismiss="modal">Close</button>              
             </div>
           </div>

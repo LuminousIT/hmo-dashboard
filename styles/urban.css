@@ -627,7 +627,7 @@ blockquote p {
   display: block;
 }
 .sidebar-panel > nav > ul > li > a:focus {
-  background-color: transparent;
+  background-color: slategray;
 }
 .sidebar-panel > nav > ul > li a {
   position: relative;
@@ -793,6 +793,7 @@ blockquote p {
 }
 .sidebar-panel > .brand .hamburger-icon:hover span {
   background-color: white;
+  background-color: slategray;
 }
 .sidebar-panel > nav > ul > li > ul {
   background-color: #434d60;
@@ -806,6 +807,7 @@ blockquote p {
 .sidebar-panel > nav li.open > a,
 .sidebar-panel > nav li.active > a {
   color: white;
+  background-color: slategray;
 }
 .sidebar-panel > nav .open > a,
 .sidebar-panel > nav .open > a:hover,
@@ -2516,6 +2518,17 @@ footer.content-footer li a:active {
 }
 .alert-danger .alert-link {
   color: #7b261c;
+}
+.alert-primary {
+  background-color: #355fdc;
+  border-color: #52c0fe;
+  color: #ffffff;
+}
+.alert-primary hr {
+  border-top-color: #52c0fe;
+}
+.alert-primary .alert-link {
+  color: #1c7e9e;
 }
 /* $badge
  ------------------------------------------*/
@@ -12923,3 +12936,33 @@ td.align-middle {
 .location-selector [data-position=bottomRight] div {
   cursor: se-resize;
 }
+
+@media screen {
+  #printSection {
+      display: none;
+  }
+}
+
+@media print {
+  .modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    visibility: visible;
+    /**Remove scrollbar for printing.**/
+    overflow: visible !important;
+  }
+ .lb1 {
+        display: none;
+    }
+  .modal-dialog {
+    visibility: visible !important;
+    /**Remove scrollbar for printing.**/
+    overflow: visible !important;
+  }
+}
+
+
+

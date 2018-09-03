@@ -1,0 +1,222 @@
+<div class="page-container" data-ng-controller="paymentOrderCtrl">
+    <headertop></headertop>
+       <!-- PAGE CONTENT -->
+       <div class="page-content">
+           <top></top>
+           <!-- PAGE CONTENT WRAPPER -->
+           <div class="page-content-wrap">                   
+               <!-- START WIDGETS -->                    
+               
+               <!-- END WIDGETS --> 
+               <div class="row">                    
+                <div class="col-md-12">                          
+                        <!-- START DATATABLE EXPORT -->
+                        <div class="row">
+                                <div class="col-md-5">
+                                  <div class="col-md-6">
+                                  <h6>Filter from</h6>
+                                  <p class="input-group ui-datepicker">
+                                    <input type="date" class="form-control" id="fromDate" />
+                                  </p>
+                                </div>
+                                <div class="col-md-6">
+                                <h6>Filter to</h6>
+                                <p class="input-group ui-datepicker">
+                                  <input type="date" class="form-control" id="toDate" />    
+                                </p>
+                              </div>
+                                </div>
+                                <div class="col-md-7">
+                                  <div class="col-md-4">
+                                    <h6>Sort by Providers</h6>
+                                    <select class="form-control pull-right" id="Organization">
+                                      <option value="-"> From All</option>
+                                      <option ng-repeat="x in providers" value="{{x.id}}"> {{x.name}}</option>    
+                                    </select>
+                                  </div>
+                                  <div class="col-md-4">
+                                    
+                                  </div>
+                                  <div class="col-md-4">
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row" style="padding:12px 16px">
+                                <div class="col-sm-12">
+                                  <button class="btn btn-block btn-large btn-primary" id="fltrBtn" ng-click="filterTransactions()">
+                                    <i class="fa fa-filter"></i> Filter Payment Advice
+                                  </button>
+                                </div>
+                              </div>
+                       <hr />
+                       <div class="col-md-12">
+                         <!--  <h2>&#x20A6;9,000,000</h2> -->
+                       </div>
+                       <hr />
+                       <style>
+                            .searchParam th .form-control{
+                              width: 100px !important;
+                            }
+                            .table-responsive {
+                              width: 100%;
+                              margin-bottom: 15px;
+                              overflow-x: auto;
+                              overflow-y: hidden;
+                              -webkit-overflow-scrolling: touch;
+                              -ms-overflow-style: -ms-autohiding-scrollbar;
+                              border: 1px solid #DDD;
+                              padding-bottom: 40px;
+                          }
+                          </style>
+                       <div class="panel panel-default">
+                           <div class="panel-heading">
+                               <h3 class="panel-title"><span class="fa fa-reciept"> </span> Payment Advice </h3>
+                               <div class="btn-group pull-right">
+                                  
+                                   <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export Data</button>
+                                   <ul class="dropdown-menu">
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false'});"><img src='img/icons/json.png' width="24"/> JSON</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"><img src='img/icons/json.png' width="24"/> JSON (ignoreColumn)</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'json',escape:'true'});"><img src='img/icons/json.png' width="24"/> JSON (with Escape)</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'xml',escape:'false'});"><img src='img/icons/xml.png' width="24"/> XML</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'sql'});"><img src='img/icons/sql.png' width="24"/> SQL</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'csv',escape:'false'});"><img src='img/icons/csv.png' width="24"/> CSV</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'txt',escape:'false'});"><img src='img/icons/txt.png' width="24"/> TXT</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'excel',escape:'false'});"><img src='img/icons/xls.png' width="24"/> XLS</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'doc',escape:'false'});"><img src='img/icons/word.png' width="24"/> Word</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'powerpoint',escape:'false'});"><img src='img/icons/ppt.png' width="24"/> PowerPoint</a></li>
+                                       <li class="divider"></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'png',escape:'false'});"><img src='img/icons/png.png' width="24"/> PNG</a></li>
+                                       <li><a href="#" onClick ="$('#customers2').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
+                                   </ul>
+                               </div>                                    
+                               
+                           </div>
+
+                           <div class="panel-body" id="summary_tbl">
+                                   <div style="padding-left:10px"><h3>Showing Payment Advice</h3></div>
+                                   <hr/>
+                               <table id="customers2" class="table datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                   <thead>
+                                       <tr>
+                                           <th>s/n</th>
+                                           <th>Provider Name</th>
+                                           <th>start Date </th>                                               
+                                           <th>End Date</th>
+                                           <th>Date Generated</th>
+                                           <th>Total Amount</th>
+                                           <th>Status</th>
+                                           <th>Action<input type="hidden" id="total" value="{{canteenData.length}}"></th>
+                                       </tr>
+                                   </thead>
+                                   <tbody>
+                                       <tr ng-repeat="x in invoices">
+                                           <td>{{$index+1}}</td>
+                                           <td>{{x.providerName}}</td>
+                                           <td>{{dateFormater(x.startMonth)}}</td>
+                                           <td>{{dateFormater(x.endMonth)}}</td>
+                                           <td>{{dateFormater(x.transDate)}}</td>
+                                           <td>₦{{pricer(x.amount)}}</td>
+                                           <td><div class="" align="center" ng-if="x.status == 0" title="Payment is awaiting confirmation"><i class="fa fa-check-circle fa-2x" style="color: grey"></i></div>
+                                            <div align="center" ng-if="x.status == 1" title="Payment Confirmed"><i class="fa fa-check-circle fa-2x" style="color: green"></i></div></td>
+                                           <td>
+                                            <div style="padding:5px">
+                                                <button class="btn btn-dark" data-toggle="modal" data-target="#updateAdvice" ng-click="updateAdvice(x)" ng-if="x.status == 0"><i class="fa fa-money-check-alt"> </i> Confirm Payment</button>
+                                                <p></p>
+                                               <button class="btn btn-primary" data-toggle="modal" data-target="#emailInvoice" ng-click="emailFile(x, $index, $event)"><i class="fa fa-envelope"> </i> Email Payment Advice</button>
+                                               <div><a href="{{returnImURL(x.paymentLink)}}" title="Download Summary">Summary <i class="fa fa-download"></i></a>
+                                               <a href="{{returnImURL(x.detailsLink)}}" title="Download Details">Details <i class="fa fa-download"></i></a></div>
+                                               
+                                           </div>
+                                           </td>
+                                       </tr>                                           
+                                   </tbody>
+                                   <thead>
+                                       <tr>
+                                            <th>S/N</th>
+                                            <th>Organization Name</th>
+                                            <th>start Date </th>                                               
+                                            <th>End Date</th>
+                                            <th>Date Generated</th>
+                                            <th>Total Amount</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                       </tr>
+                                   </thead>
+                               </table>                                    
+                               
+                           </div>
+                       </div>
+                       <!-- END DATATABLE EXPORT -->                            
+                       
+
+
+               </div>
+               <!-- END DATATABLE EXPORT -->                            
+               
+
+               </div>      
+               
+              
+           </div>
+           <!-- END PAGE CONTENT WRAPPER -->                                
+       </div>            
+       <!-- END PAGE CONTENT -->
+       <!-- Modal 
+<button class="btn btn-info" id="hmod" data-toggle="modal" data-target="#historyModal"></button> -->
+<div id="updateAdvice" class="modal fade" role="dialog">
+<div class="modal-dialog" style="width:100%">
+<!-- Modal content-->
+<div class="modal-content"  style="width:60%; left:20%">
+ <div class="modal-header">
+   <button type="button" class="close" data-dismiss="modal">&times;</button>
+   <h4 class="modal-title">Confirm Payment</h4>
+ </div>
+ <div class="modal-body" style="height:auto">
+    <div class="form-group">
+        <p>Notes </p>
+        <textarea class="form form-control" id="notes" ></textarea>
+    </div>
+    <div class="form-group">
+        <h3>Amount : {{pricer(actvDt.amount, true)}}</h3>
+    </div>
+ </div>
+ <div class="modal-footer">
+   <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+   <button type="button" class="btn btn-primary" data-target="modal" ng-click="updateStatus($event)"><i class="fa fa-"></i> Confirm Payment</button>
+ </div>
+</div>
+</div>
+</div>
+
+<div id="emailInvoice" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:100%">
+      <!-- Modal content-->
+      <div class="modal-content"  style="width:60%; left:20%">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Email Payment Advice</h4>
+        </div>
+        <div class="modal-body" style="height:auto">
+            <div class="form-group">
+               <p>Input Email (separate multiple email with comma) </p>
+                <input type="text" id="emails" class="form-control" />
+           </div>
+           <div class="form-group">
+               <p>Input Message Body </p>
+                <textarea id="message" class="form-control" ></textarea>
+           </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="c2"><i class="fa fa-close"></i> Close</button>
+          <button type="button" class="btn btn-primary" data-target="modal" ng-click="sendInvoice($event)"><i class="fa fa-shipping-fast"></i> Send Invoice</button>
+        </div>
+      </div>
+    </div>
+   </div>
+  
+<footertop></footertop>

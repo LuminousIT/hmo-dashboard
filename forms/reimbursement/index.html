@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Reimbursement Form</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+<style>
+	.hidden{
+		display: none;
+	}
+	body {
+        padding-top: 14px;
+        background: rgb(236, 236, 236)
+      }
+      @media (min-width: 992px) {
+        body {
+          padding-top: 16px;
+        }
+      }
+      #stow{
+      position:fixed;
+      left:0px;
+      right:0px;
+      width:100%;
+      height:auto;
+      padding-top:0px;
+      z-index:4200;
+    }
+	.btn-primary{
+		background: #0085ad;
+	}
+	.hand{
+		cursor: pointer;
+	}
+</style>
+</head>
+<body>
+<div id="stow" align="center"></div>
+	<div class="container-contact100">
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form" onsubmit="return submitForm()" id="fform">
+				<span class="contact100-form-title">
+					Reimbursement Form
+				</span>
+				<label class="label-input100">Enter Enrolee ID / Username</label>
+				<div class="wrap-input100 validate-input" data-validate="Enrolee ID is required">
+					<input id="enroleeID" required class="input100" type="text" name="reason" placeholder="Enrolee ID">
+					<span class="focus-input100"></span>
+				</div>
+
+				<label class="label-input100" for="reason">REASON FOR APPLYING FOR REIMBURSEMENT*</label>
+				<div class="wrap-input100 validate-input" data-validate="Reason is Required">
+					<textarea id="reason" required class="input100" name="reason" placeholder="input reason here..."></textarea>
+					<span class="focus-input100"></span>
+				</div>
+
+				<label class="label-input100" for="first-name">NAME OF BANK*</label>
+				<div class="wrap-input100 validate-input" data-validate="Bank Name is required">
+					<input id="bank" required class="input100" type="text" name="bank" placeholder="Enter Bank Name Here...">
+					<span class="focus-input100"></span>
+				</div>
+
+				<label class="label-input100" for="email">ACCOUNT NO *</label>
+				<div class="wrap-input100 validate-input" data-validate = "Valid Account Number is required">
+					<input id="account" required class="input100" type="number" name="account" placeholder="Eg. 2042569061">
+					<span class="focus-input100"></span>
+				</div>
+
+				<label class="label-input100" for="phone">AMOUNT FOR REIMBURSEMENT</label>
+				<div class="wrap-input100 validate-input" data-validate = "Amount is required">
+					<input id="amount" required class="input100" type="number" name="amount" placeholder="Eg. 800000000">
+					<span class="focus-input100"></span>
+				</div>
+
+				<label class="label-input100" style="border:none; padding-left:0%; padding-right:0%">NAME OF ATTACHED DOCUMENT(S) IN SUPPORT OF THE REIMBURSEMENT </label>
+				<div style="position:relative; width:100%">
+				<p>Payment Receipt <i class="fa fa-check-circle hidden" id="stat0" style="color: green"> 
+						<i class="fa fa-times hand" title="Click to remove" style="color:red" onclick="remove(0)"></i>
+				</i> </p>
+				<input type="button" value="Select Image" class="contact100-form-btn btn-primary" style="height: 30px; min-width:60px;" onclick="surrogate('reciept')">
+					<input type="file" id="reciept" class="hidden" onchange="readImage(this, 0)">
+				</div>
+
+				<div style="position:relative; width:100%">
+				<p>Medical report <i class="fa fa-check-circle hidden" id="stat1" style="color: green"> 
+						<i class="fa fa-times hand" title="Click to remove" style="color:red" onclick="remove(1)"></i>
+				</i></p>
+				<input type="button" value="Select Image" class="contact100-form-btn btn-primary" style="height: 30px; min-width:60px;" onclick="surrogate('medical')" />
+					<input type="file" id="medical" class="hidden" onchange="readImage(this, 1)">
+				</div>
+
+				<div style="position:relative; width:100%">
+				<p>Cost detail breakdown Analysis  <i class="fa fa-check-circle hidden" id="stat2" style="color: green"> 
+					<i class="fa fa-times hand" title="Click to remove" style="color:red" onclick="remove(2)"></i>
+				</i></p>
+				<input type="button" value="Select Image" class="contact100-form-btn btn-primary" style="height: 30px; min-width:60px;" onclick="surrogate('costBreakdown')" />
+					<input type="file" id="costBreakdown" class="hidden" onchange="readImage(this, 2)">
+				</div>
+
+				<div style="position:relative; width:100%">
+				<p>Prescription <i class="fa fa-check-circle hidden" id="stat3" style="color: green"> 
+						<i class="fa fa-times hand" title="Click to remove" style="color:red" onclick="remove(3)"></i>
+				</i></p>
+				<input type="button" value="Select Image" class="contact100-form-btn btn-primary" style="height: 30px; min-width:60px;" onclick="surrogate('prescription')" />
+					<input type="file" id="prescription" class="hidden" onchange="readImage(this, 3)">
+				</div>
+				<div style="position:relative; width:100%">
+				<p>Result of the investigations or laboratory test  
+					<i class="fa fa-check-circle hidden" id="stat4" style="color: green"> 
+							<i class="fa fa-times hand" title="Click to remove" style="color:red" onclick="remove(4)"></i>
+					</i>: </p>
+				<input type="button" value="Select Image" class="contact100-form-btn btn-primary" style="height: 30px; min-width:60px;" onclick="surrogate('labtest')" />
+				<input type="file" id="labtest" class="hidden" onchange="readImage(this, 4)">
+				</div>
+
+				<div style="position:relative; width:100%">
+					<p>Other Document 
+						<i class="fa fa-check-circle hidden" id="stat5" style="color: green">
+							<i class="fa fa-times hand" title="Click to remove" style="color:red" onclick="remove(5)"></i>
+						</i></p>
+					<input type="button" value="Select Image" class="contact100-form-btn btn-primary" style="height: 30px; min-width:60px;" onclick="surrogate('document')" />
+					<input type="file" id="document" class="hidden" onchange="readImage(this, 5)">
+				</div>
+
+				<label class="label-input100">Have you received any treatment/clinical evaluation in the facility( hospital, clinic or diagnostic centre) in question before?</label>
+				<div class="wrap-input100">
+					<select name="option" class="wrap-input100 form form-control" id="isreceiveTreatment" style="outline: none; border: none;">
+						<option value="-" disabled selected>Choose your option</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+					</select>
+				</div>
+
+				<label class="label-input100" >If yes, when(date)</label>
+				<input type="date" class="form-control" id="treatDate" />
+				<label class="label-input100" >If yes, then why?</label>
+				<div class="wrap-input100">
+					<textarea id="why" class="input100" name="why" placeholder="Brief Description or Diagnosis if known"></textarea>
+					<span class="focus-input100"></span>
+				</div>
+
+				<label class="label-input100">Are you under any other plan or package which covers the requested refund benefit either directly, as a spouse or dependant? </label>
+				<div class="wrap-input100">
+					<select name="option" class="wrap-input100 form form-control" id="ishaveplan" style="outline:none; border: none">
+						<option value="-" disabled selected>Choose your option</option>
+						<option value="Yes">Yes</option>
+						<option value="No">No</option>
+					</select>
+				</div>
+
+				<label class="label-input100" >if yes what is name of the company giving the Cover</label>
+				<div class="wrap-input100">
+					<input id="company" class="input100" name="why" id="hmocompany" placeholder="name of the company giving the Cover..."></input>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn" id="button">
+						<i class="fa fa-gear fa-spin fa-2x hidden" id="gear" style="padding:10px"></i> Send Reimbursement Form 
+					</button>
+				</div>
+			</form>
+			<form class="contact100-form validate-form" style="display:none" id="sform">
+				<div align="center">
+					<h3>Thank You!</h3>
+					<h3>Your Claim has been submitted. You will be contacted</h3>
+				</div>
+			</form>
+
+			<div class="contact100-more flex-col-c-m" style="background-image: url('images/bg-01.jpg'); padding: 56px 30px 63px 30px;">
+				<span class="contact100-form-title" style="color:white; text-decoration: underline white; ">
+					Terms and conditions
+				</span>
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							You may refer to the reimbursement section of our user manual before completing this form
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							Please note that your claim will only be processed, if your claim is approved by the Quality Assurance Team after due diligence and proper investigation.
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							Authenticated claims which comply to the terms and conditions of treatment within the benefit cover of the client would be vetted with our generic (operational) tariff and paid within 30 working days of our receiving the completed application.
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							Your claims may be declined if due process was not followed. 
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							 You may delay or forfeit a reimbursement by either not giving proper information; non compliance with ROHL modus operandi; going beyond the package benefit cover or not informing ROHL within 48 hours for proper and prompt verification by the Quality Assurance department.
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							Please complete the client section of this form in order to be assured of processing within 30 working days. 
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							All the fields under the client section are compulsory. 
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							Submission of duplicate and scanned copies of applicable documents as opposed to original copies may delay payment. 
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							Incomplete forms will not be processed.
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							You may be asked to present more documents apart from the ones submitted in order to verify your request.
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							A medical report must accompany all cases of surgery , admission, procedures and special /advanced investigations
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							We may seek for part reimbursement from other packages or plans you are registered under; which covers same benefits you are requesting payment for after due settlement.
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							It is a crime to request for a reimbursement with the intent to defraud any individual or organization.Any information or material fact concealed or altered with the intent to mislead us may be reported to your Human Resource Department(if applicable) or other appropriate authorities if uncovered.
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							The form must be fully completed and signed. Roding Healthcare will not take responsibility for non payment of claims due to incomplete information and/or documentation.
+						</span>
+					</div>
+				</div>
+
+				<div class="flex-w size1 p-b-47">
+					<div class="txt1 p-r-25">
+						<span class="lnr lnr-star"></span>
+					</div>
+
+					<div class="flex-col size2">
+
+						<span class="txt2">
+							If the applicant is under 18 years of age this declaration must be signed by their parent or legal guardian.
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div id="dropDownSelect1"></div>
+<img src="" id="preview" style="display: none" />
+<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+	<script>
+		$(".selection-2").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+	</script>
+<!--===============================================================================================-->
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+	<script src="js/s.js"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-23581568-13');
+	</script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
   <!-- logo -->
   <div class="brand-logo">
-    <img data-ng-src="images/logo.png" height="15" alt="">
+    <img data-ng-src="images/logo.png" height="30" alt="">
   </div>
   <!-- /logo -->
 
@@ -31,28 +31,39 @@
     </li>
     <!-- /dashboard -->
 
-    <!-- hospitals -->
-    <li ui-sref-active="active">
-      <a ui-sref="app.provider">
-        <i class="fa fa-hospital-o"></i>
-        <span>Provider</span>
-      </a>
-    </li>
-    <!-- /hospitals -->
-
-    <!-- Health plans -->
     <li ui-sref-active="active">
       <a ui-sref="app.hospital_plans">
         <i class="fa fa-medkit"></i>
         <span>Health Plans</span>
       </a>
     </li>
+
+
+    <li ui-sref-active="active">
+      <a ui-sref="app.packages">
+        <i class="fa fa-box"></i>
+        <span>Packages</span>
+      </a>
+    </li>
+
+
+    <!-- hospitals -->
+    <li ui-sref-active="active">
+      <a ui-sref="app.provider">
+        <i class="fa fa-hospital-alt"></i>
+        <span>Provider</span>
+      </a>
+    </li>
+    <!-- /hospitals -->
+
+    <!-- Health plans -->
+
     <!-- /health plans -->
 
     <!-- Tarrif -->
     <li ui-sref-active="active">
       <a ui-sref="app.tariff">
-        <i class="fa fa-money"></i>
+        <i class="fa fa-money-bill-wave-alt"></i>
         <span>Tariff</span>
       </a>
     </li>
@@ -79,7 +90,7 @@
     <!-- Organization -->
     <li ui-sref-active="active">
       <a ui-sref="app.organization">
-        <i class="fa fa-building-o"></i>
+        <i class="fa fa-building"></i>
         <span>Organization</span>
       </a>
     </li>
@@ -94,10 +105,50 @@
     </li>
     <!-- /Encounters -->
 
+
+    <li ui-sref-active="active">
+      <a ui-sref="app.reimbursement">
+        <i class="fa fa-file"></i>
+        <span>Reimbursement</span>
+      </a>
+    </li>
+
+
+    <!-- Claims Category -->
+    <li ui-sref-active="active">
+      <a ui-sref="app.claimscategory">
+        <i class="fa fa-toolbox"></i>
+        <span>Claims Category</span>
+      </a>
+    </li>
+    <!-- /Claims Category -->
+
     <li ui-sref-active="active">
         <a ui-sref="app.payment">
-          <i class="fa fa-money"></i>
+          <i class="fa fa-money-bill"></i>
           <span>Payment</span>
+        </a>
+      </li>
+
+      <li ui-sref-active="active">
+        <a ui-sref="app.paymentOrder">
+          <i class="fa fa-money-bill"></i>
+          <span>Payment Advice</span>
+        </a>
+      </li>
+
+      <li ui-sref-active="active">
+          <a ui-sref="app.paymentHist">
+            <i class="fa fa-history"></i>
+            <span>Payment History</span>
+          </a>
+        </li>
+
+
+      <li ui-sref-active="active">
+        <a ui-sref="app.invoice">
+          <i class="fa fa-receipt"></i>
+          <span>Invoice</span>
         </a>
       </li>
 
@@ -118,6 +169,20 @@
         </a>
       </li>
       <!-- /PA Code -->
+
+      <li ui-sref-active="active">
+        <a ui-sref="app.reports">
+          <i class="fa fa-chart-area"></i>
+          <span>Reports</span>
+        </a>
+      </li>
+
+      <li ui-sref-active="active">
+        <a ui-sref="app.schedule">
+          <i class="fa fa-clock"></i>
+          <span>Schedule</span>
+        </a>
+      </li>
 
       <!-- Settings -->
     <li ui-sref-active="active">

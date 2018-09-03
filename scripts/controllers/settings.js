@@ -147,7 +147,7 @@ angular
         if(data.data.name.length < 5){$rootScope.mCra(custom.error("Fullname cannot be less than 5 Chars.")); return; }        
         if(data.data.email.length < 2){$rootScope.mCra(custom.error("email address is required.")); return; }
         if(data.data.password.length > 0 && data.data.password.length < 6){$rootScope.mCra(custom.error("Expecting at least 6 characters in password field.")); return; }
-        if(data.data.password !== $("#staffpasswordagain").val()){$rootScope.mCra(custom.error("The password do not match.")); return; }
+        if(data.data.password !== $("#editpasswordagain").val()){$rootScope.mCra(custom.error("The password do not match.")); return; }
         obj.currentTarget.innerHTML = "<i class='fa fa-cog fa-spin'></i> working...";
         $http.put(url, data, config).then(function(response){
             if(response.data.error.status == 0){

@@ -12,6 +12,8 @@ angular
     }else{
       sessionStorage.setItem("pageSurfed", 1);
     }
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
     $('.dropdown-toggle').dropdown();
     var x = sessionStorage.getItem('tmp_epfl');
     $scope.enroleeData = JSON.parse(x);
@@ -47,7 +49,18 @@ angular
     }
     }, function(response){
   });
-
+  $scope.getEnrolee = function(eID){
+    url= UserService.apiRoot+'hmo/get/enrolee/'+$scope.enroleeData.type+'/'+eID+'/-/-/-';
+    $http.get(url, config).then(function(response){
+      if(response.data.error.status == 0){
+          sessionStorage.setItem('tmp_epfl', JSON.stringify(response.data.content.data[0]));
+          $scope.enroleeData = response.data.content.data[0];
+      }else{
+        return null
+      }
+      }, function(response){
+    });
+  }
   $scope.dtOptions = DTOptionsBuilder.newOptions()
   .withOption('lengthMenu', [[10, 25, 50, 100, 150, -1], [10, 25, 50, 100, 150, "All"]])
   .withOption('drawCallback', function () {
@@ -118,7 +131,7 @@ function compute() {
       ev.innerHTML = former;
     });
   }
-  var  url= UserService.apiRoot+'hmo/get/transactions/-/-/-/'+$scope.enroleeData.eID+'/0/7799999999/2';
+  var  url= UserService.apiRoot+'hmo/get/transactions/-/-/-/'+$scope.enroleeData.eID+'/0/7799999999/2/-';
   $http.get(url, config).then(function(response){
       if(response.data.error.status == 0){
           $scope.encounters = response.data.content.data; 
@@ -143,7 +156,7 @@ $http.get(url, config).then(function(response){
     }else{}
     }, function(response){
 });
-var url= UserService.apiRoot+'hmo/get/plans/-';
+var url= UserService.apiRoot+'hmo/get/plans/-/-';
 $http.get(url, config).then(function(response){
     if(response.data.error.status == 0){
         $scope.plans = response.data.content.data;
@@ -189,21 +202,69 @@ $http.get(url, config).then(function(response){
         'newCardSerial': $('#cards2').find(":selected").val(),
         'providerID': $('#providers2').find(":selected").val(),
         'planID': $('#plans2').find(":selected").val(),
-        'enroleeID': $scope.enroleeData.enroleeID
+        'enroleeID': $scope.enroleeData.eID,
+        'fullname': $('#fullname').val(),
+        'type': $scope.enroleeData.type,
+        'phone': $('#phone').val(),
+        'email' : $('#email').val(),
+        'address' : $('#address').val(),
+        'gender' : $('#gender').find(':selected').val(),
+        'pop' : $scope.activeImage,
+        'birthday': $('#birthday').val() == ""? "0" : new Date($('#birthday').val()).valueOf()/1000
       }
     };
-
     var url= UserService.apiRoot+'hmo/edit/enrolee';
     $http.put(url, $scope.datum, config).then(function(response){
       if(response.data.error.status == 0){
         $rootScope.mCra(custom.success(response.data.success.message));
-        $scope.enroleeData.cardSerial = $scope.datum.newCardSerial;
+        $scope.activeImage = null;
+        /*$scope.enroleeData.cardSerial = $scope.datum.newCardSerial;
         $scope.enroleeData.planID = $scope.datum.planID;
         $scope.enroleeData.providerID = $scope.datum.providerID;
         $scope.enroleeData.providerName = ($('#providers2').find(":selected").text().substring(0,4) == 'Keep')? $scope.enroleeData.providerName :  $('#providers2').find(":selected").text();
-        $scope.enroleeData.planName = ($('#plans2').find(":selected").text().substring(0,4) == 'Keep')? $scope.enroleeData.planName :  $('#plans2').find(":selected").text();
-        sessionStorage.setItem('tmp_epfl', JSON.stringify($scope.enroleeData));
+        $scope.enroleeData.planName = ($('#plans2').find(":selected").text().substring(0,4) == 'Keep')? $scope.enroleeData.planName :  $('#plans2').find(":selected").text();*/
+        $scope.getEnrolee($scope.enroleeData.eID);        
         $("#closeBtn").click();
+      }else{
+          $rootScope.mCra(custom.error(response.data.error.message));
+          obj.innerHTML = "Save update";
+      }
+    }, function(response){
+      obj.innerHTML = "Save update";
+    });
+  }
+
+  $scope.addsenrolee = function(obj){
+    var obj = obj.currentTarget;
+    obj.innerHTML = "<i class='fa fa-spinner fa-spin'></i> Fetching";
+    var config = {
+      headers : {
+        'Content-Type': 'application/json'
+      }
+    };
+    $scope.datum = {
+      data:{
+        'username': sessionStorage.getItem('username'),
+        'publicKey': sessionStorage.getItem('publicKey'),
+        'hmoID': sessionStorage.getItem('HMOID'),
+        'k': $("#npassword").val(),
+        'parent': $scope.enroleeData.eID,
+        'fullname': $('#nfullname').val(),
+        'phone': $('#nphone').val(),
+        'email' : $('#nemail').val(),
+        'address' : $('#naddress').val(),
+        'gender' : $('#ngender').find(':selected').val(),
+        'pop' : $scope.activeImage,
+        'birthday': $('#nbirthday').val() == ""? "0" : new Date($('#nbirthday').val()).valueOf()/1000,
+        'enrroleeID': $("#enroleeID").val()
+      }
+    };
+    var url= UserService.apiRoot+'hmo/create/senrolee';
+    $http.put(url, $scope.datum, config).then(function(response){
+      if(response.data.error.status == 0){
+        $rootScope.mCra(custom.success(response.data.success.message));
+        $scope.activeImage = null;
+        $state.reload();
       }else{
           $rootScope.mCra(custom.error(response.data.error.message));
           obj.innerHTML = "Save update";
@@ -219,4 +280,26 @@ $http.get(url, config).then(function(response){
     $("."+objClass).show("slow");
     $("."+otherClass).hide("slow");
   }
+  $scope.uploadFile = function (input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.readAsDataURL(input.files[0]);
+        reader.onload = function (e) {
+            //$('#photo-id').attr('src', e.target.result);                    
+            var canvas = document.createElement("canvas");
+            var imageElement = document.createElement("img");
+            imageElement.setAttribute = $('<img>', { src: e.target.result });
+            var context = canvas.getContext("2d");
+            imageElement.setAttribute.load(function(){
+                canvas.width = this.width;
+                canvas.height = this.height;
+                context.drawImage(this, 0, 0);
+                var base64Image = canvas.toDataURL("image/png");
+                var data = base64Image.replace(/^data:image\/\w+;base64,/, "");
+                $scope.activeImage = data;
+                console.log(data);
+            });
+        }
+      }
+    }
 	}

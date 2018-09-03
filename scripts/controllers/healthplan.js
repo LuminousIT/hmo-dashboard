@@ -3,10 +3,10 @@ angular
   .module('urbanApp')
   .controller('ModalDemoCtrl', ['$scope', '$modal', '$log',  ModalDemoCtrl])
   .controller('ModalInstanceCtrl', ['$scope', '$modalInstance', '$http', '$rootScope', '$state', 'UserService', 'items', ModalInstanceCtrl])
-  .controller('healthplanCtrl', ['$scope', '$location', '$http', '$rootScope', 'UserService', '$filter', 'editableOptions', 'editableThemes',  healthplanCtrl]);
+  .controller('healthplanCtrl', ['$scope', '$location', '$http', '$rootScope', 'UserService', '$filter', 'editableOptions', 'editableThemes','DTOptionsBuilder',  healthplanCtrl]);
 
 
-	function healthplanCtrl($scope, $location, $http, $rootScope, UserService, $modalInstance, items, $modal, $log, $filter, editableOptions, editableThemes) {
+	function healthplanCtrl($scope, $location, $http, $rootScope, UserService, $modalInstance, items, $modal, $log, $filter, editableOptions, editableThemes, DTOptionsBuilder) {
 		if (!sessionStorage.getItem("username") || !sessionStorage.getItem("publicKey")) {
         $location.path("/signin");
     }
@@ -28,7 +28,7 @@ angular
         'hmoID': sessionStorage.getItem('HMOID')
       }
     };
-    var  url = UserService.apiRoot+'hmo/get/plans/-';
+    var  url = UserService.apiRoot+'hmo/get/plans/-/-';
     $http.get(url, config).then(function(response){
       if(response.data.error.status == 0){
           $scope.plans = response.data.content.data;
@@ -254,6 +254,22 @@ function ModalDemoCtrl($scope, $modal, $log) {
 // It is not the same as the $modal service used above.
 function ModalInstanceCtrl($scope, $modalInstance, $http, $rootScope, $state, UserService, items) {
   var custom = new $rootScope.customMessage();
+  var config = {
+    headers : {
+      'username': sessionStorage.getItem('username'),
+      'publicKey': sessionStorage.getItem('publicKey'),
+      'hmoID': sessionStorage.getItem('HMOID')
+    }
+  };
+  var  url = UserService.apiRoot+'hmo/get/plans/-/-';
+    $http.get(url, config).then(function(response){
+      if(response.data.error.status == 0){
+          $scope.plans = response.data.content.data;
+          //$state.reload();
+       }else{                         
+      }
+      }, function(response){
+   });
   $scope.items = items;
   $scope.selected = {
     item: $scope.items[0]
@@ -261,6 +277,8 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $rootScope, $state, Us
   $scope.addPlans = function(obj){
     var planName = $("#planName").val();
     var description = $("#planDescription").val();
+    var annualSub = $("#annualSub").val();
+    var settings = document.getElementById("importFrom").options[document.getElementById("importFrom").selectedIndex].value;
     if(planName.length < 3){
       $rootScope.mCra(custom.error("Sorry, the plan Name Can not be less than 4 characters"));
       return;
@@ -280,18 +298,71 @@ function ModalInstanceCtrl($scope, $modalInstance, $http, $rootScope, $state, Us
         'publicKey': sessionStorage.getItem('publicKey'),
         'hmoID': sessionStorage.getItem('HMOID'),
         'planName':planName,
-        'description':description
+        'description':description,
+        'annualSub':annualSub
       }
-    };
+    };    
     var obj = obj.currentTarget;
     obj.innerHTML = "<i class=\"fa fa-spin fa-spinner\"></i> wait...";
     var url = UserService.apiRoot+'hmo/create/plan';
       $http.post(url, datum, config).then(function(response){
         if(response.data.error.status == 0){
-          $rootScope.mCra(custom.success(response.data.success.message));
-          $scope.cancel();
-          $state.reload();
-          obj.innerHTML = "save";
+          //$rootScope.mCra(custom.success(response.data.success.message));
+          $rootScope.mCra(custom.success("The plan was created! Getting Services. Please wait. 2/3"));
+          $scope.planID = response.data.content.planID;
+          var  url = UserService.apiRoot+'hmo/get/planservice/'+settings;
+          config = {
+            headers : {
+              'username': sessionStorage.getItem('username'),
+              'publicKey': sessionStorage.getItem('publicKey'),
+              'hmoID': sessionStorage.getItem('HMOID')
+            }
+          };
+          $http.get(url, config).then(function(response){           
+            if(response.data.error.status == 0){
+               $rootScope.mCra(custom.success("Creating. Please wait. 3/3"));
+                $scope.planservice = response.data.content.data;
+                var services = [];
+                for(var o = 0; o < $scope.planservice.length; o++){
+                  var obj = {
+                    "serviceID":$scope.planservice[o].id,
+                    "category":$scope.planservice[o].serviceType
+                  }
+                  services.push(obj);
+                }
+                datum = {
+                  data : {
+                    'username': sessionStorage.getItem('username'),
+                    'publicKey': sessionStorage.getItem('publicKey'),
+                    'hmoID': sessionStorage.getItem('HMOID'),
+                    'planID':$scope.planID,
+                    'services':services
+                  }
+                };
+                config = {
+                  headers : {
+                      'Content-Type':'application/json'
+                  }
+                };
+                url = UserService.apiRoot+'hmo/create/service';
+                $http.post(url, datum, config).then(function(response){
+                  if(response.data.error.status == 0){
+                    $scope.cancel();
+                    $state.reload();
+                  }else{
+                    $rootScope.mCra(custom.warning("Import Failed. Services could not be imported"));
+                    $scope.cancel();
+                    $state.reload();
+                  }                  
+                });
+                //$state.reload();
+            }else{
+              $rootScope.mCra(custom.warning("Import Failed. Services could not be imported"));
+              $scope.cancel();
+              $state.reload();
+            }
+            }, function(response){
+        });
         }else{
             obj.innerHTML = "save";
             $rootScope.mCra(custom.error(response.data.error.message));

@@ -50,7 +50,10 @@
                                  </div>
                                </div>
                                <div align="center" style="padding-top:9px">
-                                  <button class="btn {{(orgData.status == 1) && 'btn-danger' || 'btn-success'}}" ng-click="setOrg(orgData, $event)">
+                                  <button class="btn btn-info" data-toggle="modal" data-target="#edit-org">
+                                      <i class="fa fa-pencil-alt"></i> Edit Details 
+                                  </button>
+                                  <button class="btn {{(orgData.status == 1) && 'btn-danger' || 'btn-success'}}" ng-click="setOrg(orgData, $event)" >
                                       <i class="fa {{(orgData.status == 1) && 'fa-toggle-off' || 'fa-toggle-on'}}"></i> {{(orgData.status == 1) && 'Disable' || 'Enable'}} 
                                   </button>
                                   <!-- <a  class="btn {{(agent.isValid == 0) && 'btn-danger' || 'btn-success'}} btn-sm" ng-click="setProfileTo(agent.isValid, agent, $event)"><i class="fa fa-credit-card"></i> {{(agent.isValid == 0) && "Invalid | Allow Access" || "Valid | Deny Access"}}</a> -->
@@ -145,114 +148,53 @@
                                    }
                            </style>
                            <div class="panel-body table-responsive encounters" >
-                                   <table class="table table-bordered bordered table-striped table-condensed datatable" id="customers2" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
-                                     <thead>
-                                       <tr style="color: black">
-                                         <th>ID</th>                                              
-                                         <th>Provider</th>
-                                         <th>Med IC</th>
-                                         <th>Service Category</th>
-                                         <th>Health plan</th>
-                                         <th>Complaint</th>
-                                         <th>Claim Amount</th>
-                                         <th>Duration</th>
-                                         <th>Frequency</th>
-                                         <th>Transaction Date</th>          
-                                         <th>Final Amount</th>
-                                         <th>Final Comment</th>
-                                         <th>Status</th>
-                                       </tr>
-                                     </thead>
-                                     <thead>
-                                         <tr class="searchParam">
-                                                 <th>S/N</th>                                                       
-                                                  <th><input type="text" id = "extended3" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Provider" /></th>
-                                                  <th><input type="text" id = "extended4" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Med IC" /></th>
-                                                  <th><input type="text" id = "extended5" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Service Category" /></th>
-                                                  <th><input type="text" id = "extended6" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Health plan" /></th>
-                                                  <th><input type="text" id = "extended8" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Complaint" /></th>
-                                                  <th><input type="text" id = "extended9" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Claim Amount" /></th>               
-                                                  <th><input type="text" id = "extended10" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Duration" /> </th>
-                                                  <th><input type="text" id = "extended11" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Frequency" /></th>
-                                                  <th><input type="text" id = "extended12" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Transaction Date" /></th>
-                                                  <th><input type="text" id = "extended13" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Final Amount" /></th>  
-                                                  <th><input type="text" id = "extended14" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Final Comment" /></th>               
-                                                  <th><input type="text" id = "extended15" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Status" /> </th>
-                                         </tr>
-                                     </thead>
-                                     <tbody>
-                                       <tr ng-repeat="x in encounters">
-                                           <th>{{$index + 1}}</th>
-                                           <th>{{x.providerName}}</th>
-                                           <th>{{x.serviceName}}</th>
-                                           <th>{{x.serviceCatName}}</th>
-                                           <th>{{x.planName}}</th>
-                                           <th>{{x.summary}}</th>
-                                           <th>{{pricer(x.price)}}</th>
-                                           <th>{{x.duration}}</th>
-                                           <th>{{x.frequency}}</th>
-                                           <th>{{dateFormater(x.transDate)}}</th>          
-                                           <th>{{(x.finalPrice > 0) && pricer(x.finalPrice) || pricer(x.price)}}</th>
-                                           <th>{{x.comments}}</th>
-                                           <th>
-                                             <span ng-if="x.status == 0" class="btn btn-default btn-xs"><i class="fa fa-archive"></i> Pending</span>
-                                             <span ng-if="x.status == -1" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Rejected</span>
-                                             <span ng-if="x.status == 1" class="btn btn-success btn-xs"><i class="fa fa-check"></i> Accepted</span>
-                                             <span ng-if="x.status == 10" class="btn btn-info btn-xs"><i class="fa fa-refresh"></i> Reprocess</span>
-                                           </th>
-                                       </tr>
-                                       </tbody>
-                                   </table>
-                                 </div>
-                                 <div class="panel-body dependants" style="display:none">
-                                   <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance" id="dependants">
-                                     <thead>
-                                       <tr>
-                                         <th  style="width:20%">Name</th>
-                                         <th  style="width:15%">Phone</th>
-                                        <!-- <th  style="width:30%">Address</th> -->
-                                         <th  style="width:20%">Email</th>
-                                     <!--    <th  style="width:20%">Provider</th> -->
-                                         <th  style="width:20%">Organization</th>
-                                         <th  style="width:20%">Enrolee ID</th>
-                                         <th  style="width:20%">Username</th>
-                                       <!--  <th  style="width:15%">Action</th> -->
-                                       </tr>
-                                     </thead>
-                                     <tr ng-repeat="x in dependants">
-                                         <td>
-                                             {{ x.name || 'empty' }}
-                                         </td>
-                                         <td>
-                                             {{ x.phone || 'empty' }}
-                                         </td>
-                             <!--            <td>
-                                           {{ x.enroleeAddress || 'empty' }}            
-                                         </td> -->
-                                         <td>  
-                                           {{ x.email || 'empty' }}
-                                         </td>
-                           <!--              <td>
-                                             {{ x.providerName || 'empty' }}           
-                                           </td> -->
-                                         <td>
-                                           {{ x.orgName || 'empty' }}            
-                                         </td>
-                                         <td>  
-                                           {{ x.enroleeID || 'empty' }}
-                                         </td>
-                                         <td>  
-                                           {{ x.eID || 'error' }}
-                                         </td>
-                                       <!--  <td style="white-space: nowrap">
-                                           <div class="buttons">
-                                             <button type="button" class="btn btn-edit btn-sm btn-icon loading-demo mr5" ng-click="details(x)">
-                                               <i class="fa fa-info"></i>  <span>Details</span>
-                                             </button>
-                                           </div>
-                                         </td> -->
-                                       </tr>
-                                   </table>
+                              <table class="table table-bordered bordered table-striped table-condensed datatable" id="customers2" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                  <thead>
+                                    <tr style="color: black">
+                                      <th>ID</th>
+                                      <th style="width: 100px">Enrolee Name</th>
+                                      <th>Enrolee-ID</th>
+                                      <th>Provider</th>
+                                      <th>Diagnosis</th>
+                                      <th>Provider Amount</th>
+                                      <th>Vet Amount</th>
+                                      <th>Status</th>
+                                      
+                                    </tr>
+                                  </thead>
+                                  <thead>
+                                      <tr class="searchParam">
+                                              <th>S/N</th>
+                                               <th><input type="text" id = "extended1" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Enrolee Name" /></th>
+                                          <th><input type="text" id = "extended2" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Enrolee-ID" /></th>
+                                               <th><input type="text" id = "extended3" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Provider" /></th>
+                                               <th><input type="text" id = "extended4" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Diagnosis" /></th>
+                                               <th></th>
+                                               <th></th>      
+                                               <th></th>
+                                              
+                                      </tr>
+                                  </thead>
+                                  <tbody style="font-weight:lighter !important">
+                                    <tr ng-repeat="x in encounters">
+                                        <th>{{$index + 1}} </th>
+                                   <th>{{x.enroleeName}}</th>
+                                        <th>{{x.enroleeID}}</th>
+                                        <th>{{x.providerName}}</th>
+                                       <th>{{x.diagnosis}}</th>
+                                        <th>{{pricer(x.price)}}</th>
+                                        <th>{{ pricer(x.finalPrice) }}</th>
+                                        <th>
+                                          <span ng-if="x.status == 0" class="btn btn-default " style="width:100%"><i class="fa fa-archive"></i> Pending</span>
+                                          <span ng-if="x.status == -1" class="btn btn-danger " style="width:100%"><i class="fa fa-times"></i> Rejected</span>
+                                          <span ng-if="x.status == 1" class="btn btn-success " style="width:100%"><i class="fa fa-check"></i> Accepted</span>
+                                          <span ng-if="x.status == 10" class="btn btn-info " style="width:100%"><i class="fa fa-refresh"></i> Reprocess</span>
+                                          <span ng-if="x.status == 2" class="btn btn-primary " style="width:100%"><i class="fa fa-money"></i> Paid</span>
+                                        </th>
+                                        
+                                    </tr>
+                                    </tbody>
+                                </table>
                                  </div>
                            </div>
                        <!-- END DATATABLE EXPORT -->                            
@@ -266,9 +208,63 @@
                
               
            </div>
-           <!-- END PAGE CONTENT WRAPPER -->                                
+           <!-- END PAGE CONTENT WRAPPER --> 
+
+<div class=" border" style="padding: 33px; background-color: #ffffff;">
+    <div class="col-sm-12 col-xs-12" style="padding-left: 0px">
+    <div class="col-sm-6 col-xs-6" style="padding-left: 0px">
+    <h3>Payment History</h3>
+  </div>
+  <div class="col-sm-6 col-xs-6" style="float: right; text-align: right;">
+  </div>
+  </div>
+</div>
+  <div class="panel-body" style="background-color: #ffffff;">
+    <table class="table table-bordered bordered table-striped table-condensed datatable" dt-options="dtOptions" dt-instance="dtInstance">
+      <thead>
+        <tr class="bold">
+          <td>SN</td>
+          <td>Amount</td>
+          <td>Due Date</td>
+          <td>Created by</td>
+          <td>Transaction Date</td>
+          <td>Action</td>
+        </tr>
+      </thead>
+      <tbody >
+        <td>
+          1
+        </td>
+          <td style="color:black">
+            
+              Ali Baba
+            
+          </td>
+          <td>
+            
+              somolu
+            
+          </td>
+           <td>
+              08034567586
+            
+          </td>
+          <td>
+              yaass@gmail.com
+            
+          </td>
+          <td style="color:brown" >
+            <button class="btn btn-danger" >
+              <i class="fa fa-toggle-off"></i> Delete
+            </button>
+        </td>
+      </tbody>
+    </table>
+  </div>                               
        </div>            
        <!-- END PAGE CONTENT -->
+
+
        <!-- Modal -->
        <style>
                .select2-container{
@@ -279,39 +275,32 @@
                }
        </style>
 
-       <div id="edit-agent" class="modal fade" role="dialog">
+       <div id="edit-org" class="modal fade" role="dialog">
                <div class="modal-dialog">
              
                  <!-- Modal content-->
                  <div class="modal-content">
                    <div class="modal-header">
                      <button type="button" class="close" id="closeBtn" data-dismiss="modal">&times;</button>
-                     <h4 class="modal-title"><span class="fa fa-user"> </span> Re-assign Enrolee</h4>
+                     <h4 class="modal-title"><span class="fa fa-user"> </span> Change Organization Information</h4>
                    </div>
                    <div class="modal-body">                          
-                     <div class="form-group">
-                         <p>Change Card </p>                              
-                         <select class="select form-control" id="cards2">
-                             <option value="{{enroleeData.cardSerial}}">Keep Old Card ({{enroleeData.cardSerial}})</option>
-                             <option value="0">Unlink Card</option>
-                             <option ng-if="enroleeData.cardSerial != x.cardSerial"  ng-repeat="x in cards" value="{{x.cardSerial}}">{{x.cardSerial}}</option>
-                         </select>
-                     </div>
-                     <div class="form-group">
-                         <p>Change Provider </p>
-                         <select class="select form-control" id="providers2">
-                               <option value="{{enroleeData.providerID}}">Keep Old Provider ({{enroleeData.providerName}})</option>
-                               <option value="0">Set Provider to Roaming</option>
-                               <option ng-if="enroleeData.providerID != x.id" ng-repeat="x in providers" value="{{x.id}}">{{x.name}}</option>
-                           </select>
-                     </div>
-                     <div class="form-group">
-                             <p>Change Plan </p>
-                             <select class="select form-control" id="plans2">
-                                   <option value="{{enroleeData.planID}}">Keep Old Plan {{enroleeData.planName}}</option>
-                                   <option ng-if="enroleeData.planID != x.id" ng-repeat="x in plans" value="{{x.id}}">{{x.name}}</option>
-                           </select>
-                     </div>
+                      <div class="form-group">
+                          <p>Organization Name</p>
+                          <input type="text" class="form-control" id="name" value="{{orgData.name}}">
+                      </div>
+                      <div class="form-group">
+                          <p>Organization Phone</p>
+                          <input type="text" class="form-control" id="phone" value="{{orgData.phone}}">
+                      </div>
+                      <div class="form-group">
+                          <p>Organization email</p>
+                          <input type="text" class="form-control" id="email" value="{{orgData.email}}">
+                      </div>
+                      <div class="form-group">
+                          <p>Organization Address</p>
+                          <textarea class="form-control" id="address">{{orgData.address}}</textarea>
+                      </div>
                      <div class="form-group">
                        <p>Enter Your Password Again </p>
                        <input type="text" class="form form-control" placeholder="Authorize action with password" id="password">
@@ -320,46 +309,12 @@
                    <div class="modal-footer">
                      <span id="workr" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span>
                      <button type="button" class="btn btn-danger" id="closeBtn" data-dismiss="modal">Cancel</button>
-                     <button type="button" class="btn btn-success" id="Savebtn" ng-click="editenrolee($event)">Save update</button>
+                     <button type="button" class="btn btn-success" id="Savebtn" ng-click="editOrg($event)">Save update</button>
                    </div>
                  </div>
              
                </div>
              </div>
-             
-
-
-
-
-<div id="add-canteen" class="modal fade" role="dialog">
-<div class="modal-dialog">
-<!-- Modal content-->
-<div class="modal-content">
- <div class="modal-header">
-   <button type="button" class="close" data-dismiss="modal">&times;</button>
-   <h4 class="modal-title"><span class="fa fa-cutlery"> </span> Add Canteen</h4>
- </div>
- <div class="modal-body">
-   <div class="form-group">
-       <p>Canteen Name</p>
-       <input type="text" class="form-control" name="Canteen_name" >
-   </div>
-   <div class="form-group">
-       <p>Assign a canteen Operator</p>
-       <select class="select" >
-           <option>kemi Ade</option>
-           <option>Tunde Agba</option>
-           <option>Femi badmus</option>
-
-       </select>
-   </div>
- </div>
- <div class="modal-footer">
-   <button type="button" class="btn btn-default">Save</button>
- </div>
-</div>
-
-</div>
-</div>
-  
+  </div>
+  </div>
 <footertop></footertop>

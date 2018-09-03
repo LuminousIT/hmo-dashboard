@@ -1,13 +1,9 @@
 <div class="panel" data-ng-controller="providerCtrl">
-  <div class="panel-heading border">
-    <ol class="breadcrumb mb0 no-padding">
-      <li>
-        <a href="javascript:;">Home</a>
-      </li>
-      <li class="active">Provider</li>     
-    </ol>
-  </div>
-  
+    <headertop></headertop>            
+
+    <!-- PAGE CONTENT -->
+    <div class="page-content">        
+    <top></top>  
   <form class="form-inline">
         <div style="padding:5px" class="form-group">
             <label style="font-family:Courier New, Courier, monospace; color:rgb(37, 37, 175); font-weight:bolder; padding-right:10px; vertical-align: middle">Sort by Category:</label>
@@ -43,6 +39,8 @@
               <td>Address</td>
               <td>State</td>         
               <td>Local Goverment</td>
+              <td>Balance</td>
+              <td>Updated by</td>
               <td>Action</td>
             </tr>
           </thead>
@@ -68,13 +66,129 @@
                   <!-- editable username (text with validation) -->
                   {{x.providerLG}}
               </td>
+              <td>
+                {{pricer(x.amount)}} <button data-toggle="modal" data-target="#edit-account" ng-if="x.providerStatus > 0" ng-click="setProviderID(x)"><i class="fa fa-pencil-alt"></i></button>
+              </td>
+              <td>
+                {{x.updater}}
+              </td>
               <td style="white-space: nowrap">            
                 <div class="buttons">
                   <button class="btn {{(x.providerStatus > 0) && 'btn-danger' || 'btn-success' }} btn-sm btn-icon loading-demo mr5" ng-if="x.providerStatus" ng-click="updateProvider($event, x.providerStatus, x.providerID)"><i class="fa fa-undo"></i> {{(x.providerStatus > 0) && 'Deactivate' || 'Reactivate'}}</button>
                   <button class="btn btn-primary btn-sm btn-icon loading-demo mr5" ng-if="!x.sheetID" ng-click="updateProvider($event, x.sheetID, x.providerID)"><i class="fa fa-user-plus"></i>sign up</button>
+                  <button class="btn btn-success btn-xs btn-icon loading-demo mr5" ng-if="x.providerStatus > 0" ng-click="showPlans(x)" style="height: 25px"><i class="fa fa-info"></i>View/ Edit Plan</button>
                 </div>
               </td>
             </tr>
         </table>
   </div>
+
+
+  <style>
+      .scroll::-webkit-scrollbar {
+          width: 3px;
+      }
+      
+      .scroll::-webkit-scrollbar-track {
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+          border-radius: 10px;
+      }
+      
+      .scroll::-webkit-scrollbar-thumb {
+          border-radius: 10px;
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+      }
+      </style>
+        <div style="width:100%; height:100%; background:black; position:fixed; left:0px; right:0px; top:0px; z-index:2000; opacity:0.6; display:none" class="bcover">
+        </div>
+            <div class="modal-content" style="display:none; background:none; z-index:2005; width:100%; height:100%; position:fixed; left:0px; right:0px; top:0px; padding:20px;" align="center">
+              <div class="scroll" style="max-width:60%; background:white; padding:20px; max-height:100%; overflow:auto; border-radius:6px" align="left">
+              <div class="modal-header">
+                <button type="button" class="close closeBtn" id="closeBtn" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><span class="fa fa-box"> </span> {{modalAction}}</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <p>Provider Name</p>
+                    <input type="text" class="form-control" id="tariffName" value="{{currentEdit.providersName}}">
+                </div>
+                <div id="planTab" style="border: solid thin #c5b4b4; max-height: 300px; overflow: scroll; width: 100%; display: none; padding: 12px">
+                    <div id="waiter" style="font-size: 16px; font-weight: bold"><i class="fa fa-spinner fa-spin"></i> Please wait...</div>
+                        <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                <thead>
+                                  <tr>
+                                    <td>S/N</td>
+                                    <th  style="width:35%">Plan Name</th>
+                                    <th  style="width:35%">Status</th>
+                                  </tr>
+                                </thead>
+                                <tr ng-repeat="x in editedPlans">
+                                  <td>
+                                    {{$index + 1}}
+                                  </td>
+                                    <td>
+                                      <span editable-text="x.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, x.name)" e-required>
+                                        {{ x.name || 'empty' }}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <input type="checkbox" ng-click="updatePlan(x, $event)" ng-checked="x.found" >
+                                    </td>                                    
+                                  </tr>
+                              </table>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <span id="work" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span>
+                <button type="button" class="btn btn-danger closeBtn" id="editbtn">Close</button>
+                <button type="button" ng-if="currentEdit" class="btn btn-success" id="editbtn" ng-click="updatePackage($event)">Update</button>
+              </div>
+            </div>
+            </div>
+
+            <div id="edit-account" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" id="closeBtn" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><span class="fa fa-user"> </span> Update Balance with {{pdata.providersName}}</h4>
+                  </div>
+                  <div class="modal-body">
+                      <div class="form-group">
+                          <p>Former Balance {{pricer(pdata.amount)}} </p>
+                      </div>
+                     <div class="form-group">
+                         <p>Enter Amount to Add (- allowed to show debt)</p>
+                         <input type="number" class="form-control" id="balance" ng-model="balAmount" value="{{pdata.amount}}">
+                     </div>
+                     <div class="form-group">
+                        <p>Enter Reference (Bank, Account, Provider etc)</p>
+                        <input type="text" class="form-control" id="reference">
+                    </div>
+                    <div class="form-group">
+                        <p>Enter Notes</p>
+                        <textarea type="text" class="form-control" id="notes"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <p>Enter Your Password Again </p>
+                      <input type="password" class="form form-control" placeholder="Authorize action with password" id="password">
+                  </div>                        
+                  </div>
+                  <div class="modal-footer">
+                    <div align="left"><h4>Amount to add: {{pricer(balAmount)}}</h4></div>
+                    <hr/>
+                    <div align="left"><h4>New total Balance:  {{pricer(getBal(balAmount, pdata.amount))}}</h4></div>
+                    <hr/>
+                    <span id="workr" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span>
+                    <button type="button" class="btn btn-danger" id="closeBtn" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" id="Savebtn" ng-click="createBalance($event)">Save update</button>
+                  </div>
+                </div>
+            
+              </div>
+            </div>
 </div>
+</div>
+

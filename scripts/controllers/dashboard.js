@@ -36,8 +36,8 @@ function dashboardCtrl($scope, $interval, $http, $window, $localStorage, $rootSc
     $http.get(url, config).then(function(response){
       if(response.data.error.status == 0){
           $scope.enroleeCount = response.data.content.enrolees;
+          $scope.senroleeCount = response.data.content.senrolees;
           $scope.OrganizationCount = response.data.content.orgCount;
-          console.log($scope.OrganizationCount);
           $scope.providerCount = response.data.content.providers;
           $scope.resolvedInvoice = response.data.content.resolvedInvoice;
           $scope.rejectedInvoice = response.data.content.rejectedInvoice;
@@ -50,6 +50,20 @@ function dashboardCtrl($scope, $interval, $http, $window, $localStorage, $rootSc
       }, function(response){
         $rootScope.mCra(custom.error("Something happened! Please check network and try again."));
    });
+
+   config = {
+    headers : {
+        'username': sessionStorage.getItem('username'),
+        'publicKey': sessionStorage.getItem('publicKey'),
+        'userID': sessionStorage.getItem('HMOID')
+    }
+  };
+  var  url = 'http://www.sisibox.com/a/public/api/customer/get/self';
+  $http.get(url, config).then(function(response){
+    console.log(response);
+    }, function(response){
+      $rootScope.mCra(custom.error("Something happened! Please check network and try again."));
+ });
      
     $scope.user = {
       name: sessionStorage.getItem("staffName"),

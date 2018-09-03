@@ -218,6 +218,10 @@ angular
 			var serviceObj = {};
 			serviceObj.serviceID = $scope.originalServices[counter].id;
 			serviceObj.category = $scope.originalServices[counter].serviceType;
+			serviceObj.price = $scope.originalServices[counter].price;
+			serviceObj.frequency = $scope.originalServices[counter].frequency;
+			serviceObj.duration = $scope.originalServices[counter].duration;
+			serviceObj.comment = $scope.originalServices[counter].comment;
 			service.push(serviceObj);
 			counter++;
 		}
@@ -252,6 +256,18 @@ angular
 		}else{
 			obj.innerHTML = "<i class=\"fa fa-check-circle\"></i> Save Changes";
 			$rootScope.mCra(custom.warning("The service is empty. Please select service and try again"));
+		}
+	}
+	$scope.updateData = function(type, index, obj){
+		obj = obj.currentTarget;
+		if(type == 0){
+			$scope.originalServices[index].price = obj.value
+		}else if(type == 1){
+			$scope.originalServices[index].frequency = obj.value
+		}else if(type == 2){
+			$scope.originalServices[index].duration = obj.value
+		}else if(type == 3){
+			$scope.originalServices[index].comment = obj.value
 		}
 	}
 }

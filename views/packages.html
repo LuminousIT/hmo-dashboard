@@ -1,0 +1,129 @@
+<div class="panel" data-ng-controller="packageCtrl">
+
+        <div class="panel">
+          <div class="panel-heading">
+            <ol class="breadcrumb mb0 no-padding">
+            <li>
+              <a href="javascript:;">Home</a>
+            </li>
+            <li class="active">Packages</li>
+            <button class="btn btn-primary btn-icon loading-demo mr5 pull-right openBtn">
+            <i class="fa fa-box"></i>
+            <span>Add New Package</span></button>
+          </ol>
+          </div>
+          <div class="panel-body">
+            <table class="table table-bordered table-hover table-condensed align-middle">
+              <tr class="bold">
+                <td style="width:10%">S/N</td>
+                <td style="width:20%">Name</td>
+                <td>Description</td>
+                <td style="width:20%">Assigned Organization</td>
+                <td>Action</td>
+              </tr>
+              <tr ng-repeat="x in tariffs">
+                <td>{{$index + 1}}</td>
+                <td>
+                  <!-- editable username (text with validation) -->            
+                    {{ x.name}}
+                </td>
+                <td>
+                  <!-- editable status (select-local) -->
+                  {{x.description}}
+                  </span>
+                </td>
+                <td>
+                  <!-- editable group (select-remote) -->
+                  {{x.orgName}}
+                </td>
+                <td style="white-space: nowrap">            
+                  <div class="buttons">
+                    <!--<button class="btn btn-primary btn-xs btn-icon loading-demo mr5" ng-click="changeTariff(x)"><i class="fa fa-edit"></i>edit</button>
+                    <button class="btn btn-danger btn-xs btn-icon loading-demo mr5" ng-click="removeUser($index)"><i class="fa fa-trash"></i>delete</button> -->
+                    <button class="btn btn-success btn-xs btn-icon loading-demo mr5" ng-click="showPlans(x)" style="height: 25px"><i class="fa fa-info"></i>View/ Edit Plan</button>
+                  </div>
+                </td>
+              </tr>
+            </table>
+      
+      
+      
+          </div>
+        </div>
+      <style>
+      .scroll::-webkit-scrollbar {
+          width: 3px;
+      }
+      
+      .scroll::-webkit-scrollbar-track {
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+          border-radius: 10px;
+      }
+      
+      .scroll::-webkit-scrollbar-thumb {
+          border-radius: 10px;
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+      }
+      </style>
+        <div style="width:100%; height:100%; background:black; position:fixed; left:0px; right:0px; top:0px; z-index:2000; opacity:0.6; display:none" class="bcover">
+        </div>
+            <div class="modal-content" style="display:none; background:none; z-index:2005; width:100%; height:100%; position:fixed; left:0px; right:0px; top:0px; padding:20px;" align="center">
+              <div class="scroll" style="max-width:60%; background:white; padding:20px; max-height:100%; overflow:auto; border-radius:6px" align="left">
+              <div class="modal-header">
+                <button type="button" class="close closeBtn" id="closeBtn" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><span class="fa fa-box"> </span> {{modalAction}}</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <p>Package name</p>
+                    <input type="text" class="form-control" id="tariffName" value="{{currentEdit.name}}">
+                </div>
+                <div class="form-group" id="descTab">
+                    <p>Package Description</p>
+                    <textarea class="form-control" id="tariffDescription">{{currentEdit.description}}</textarea>
+                </div>
+                <div class="form-group" id="orgTab">
+                    <p>Assigned Organization</p>
+                    <select id="organization" class="form-control">                  
+                        <option value="0" ng-if="currentEdit" disabled>Selected Provider</option>
+                        <option ng-if="currentEdit" value="{{currentEdit.providerID}}" selected >{{currentEdit.providername}}</option>
+                        <option value="0">Select a Organization</option>
+                        <option ng-repeat="x in organization" value="{{x.id}}">{{x.name}}</option>
+                      </select>
+                </div>
+
+                <div id="planTab" style="border: solid thin #c5b4b4; max-height: 300px; overflow: scroll; width: 100%; display: none; padding: 12px">
+                    <div id="waiter" style="font-size: 16px; font-weight: bold"><i class="fa fa-spinner fa-spin"></i> Please wait...</div>
+                        <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                <thead>
+                                  <tr>
+                                    <td>S/N</td>
+                                    <th  style="width:35%">Plan Name</th>
+                                    <th  style="width:35%">Status</th>
+                                  </tr>
+                                </thead>
+                                <tr ng-repeat="x in editedPlans">
+                                  <td>
+                                    {{$index + 1}}
+                                  </td>
+                                    <td>
+                                      <span editable-text="x.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, x.name)" e-required>
+                                        {{ x.name || 'empty' }}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <input type="checkbox" ng-click="updatePlan(x, $event)" ng-checked="x.found" >
+                                    </td>                                    
+                                  </tr>
+                              </table>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <span id="work" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span>
+                <button type="button" class="btn btn-danger closeBtn" id="editbtn">Close</button>
+                <button type="button" ng-if="!currentEdit" class="btn btn-success" id="editbtn" ng-click="createPackage($event)">Save</button>
+                <button type="button" ng-if="currentEdit" class="btn btn-success" id="editbtn" ng-click="updatePackage($event)">Update</button>
+              </div>
+            </div>
+            </div>
+      

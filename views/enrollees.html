@@ -14,35 +14,35 @@
 </div>
 <form class="form-inline">
   <div class="row" style="padding:12px">
-    <div class="col-md-3">
+    <div class="col-md-4">
         Sort by Organization:
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         Sort by Provider:
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         Sort by Enrolee Type:
     </div>
-    <div class="col-md-3">Action</div>
-    <div class="col-md-3">
-          <select id="orgs" class="form-control">
+    <div class="col-md-2">Action</div>
+    <div class="col-md-4">
+          <select id="orgs" class="form-control" style="width:100%">
               <option value="-">All</option>
-              <option ng-repeat="x in organization" ng-selected="$index ==0" value="{{x.id}}">{{x.name}} </option>
+              <option ng-repeat="x in organization" ng-selected="$index == 0" value="{{x.id}}">{{x.name}} </option>
             </select>
       </div>
-      <div class="col-md-3">
-            <select class="form-control" id="provider">
+      <div class="col-md-4">
+            <select class="form-control" id="provider" style="width:100%">
                 <option value="-">All</option>
                 <option ng-repeat="x in providersheet" value="{{x.providerID}}">{{x.name}} </option>
               </select>
         </div>
-        <div class="col-md-3">
-            <select class="form-control" id="type">
+        <div class="col-md-2">
+            <select class="form-control" id="type" style="width:100%">
                 <option value="1">Primary</option>
                 <option value="2">Dependants</option>
             </select>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <button type="button" class="btn btn-primary" id="btnn" ng-click="filterEnrolees()"><i class="fa fa-filter"></i> Filter</button>
         </div>
   </div>

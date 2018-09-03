@@ -9,6 +9,8 @@ angular
 		if (!sessionStorage.getItem("username") || !sessionStorage.getItem("publicKey")) {
         $location.path("/signin");
     }
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
     if(sessionStorage.getItem("pageSurfed")){
       sessionStorage.setItem("pageSurfed", parseInt(sessionStorage.getItem("pageSurfed")) + 1);
     }else{
@@ -125,6 +127,161 @@ $scope.updateProvider = function(obj, nstatus, providerID){
     });
   }
 };
+
+$(".closeBtn").click(function(){
+  $(".modal-content").hide("slow");
+  $(".bcover").hide("slow");
+});
+
+var  url = UserService.apiRoot+'hmo/get/plans/-/-';
+ $http.get(url, config).then(function(response){
+   if(response.data.error.status == 0){
+       $scope.plans = response.data.content.data;
+    }else{                         
+   }
+   }, function(response){
+  });
+
+$scope.showPlans = function(x) {
+  $("#waiter").show();
+  $scope.editedPlans = [];
+  $scope.currentEdit = x;
+  $scope.modalAction = "Edit / View Package Plans";
+  $("#descTab").hide();
+  $("#orgTab").hide();
+  $("#planTab").show();
+  $(".modal-content").show("slow");
+  $(".bcover").show("slow");
+  var config = {
+      headers : {
+        'username': sessionStorage.getItem('username'),
+        'publicKey': sessionStorage.getItem('publicKey'),
+        'hmoID': sessionStorage.getItem('HMOID')
+      }
+    };
+  var  url = UserService.apiRoot+'hmo/get/'+x.providerID+'/plans';
+  $http.get(url, config).then(function(response){
+      if(response.data.error.status == 0){
+          $scope.providerPlan = response.data.content.data;
+          $scope.editedPlans = [];                
+          for(var i = 0; i < $scope.plans.length; i++){
+              var found = false;
+              var obj = $scope.plans[i];
+              for(var ij = 0; ij < $scope.providerPlan.length; ij++){
+                  if($scope.providerPlan[ij].planID == obj.id){
+                      found = true
+                      break;
+                  }else{
+                      found = false;
+                  }
+              }
+              if(found){ obj.found = true; }else{ obj.found = false; } $scope.editedPlans.push(obj);
+          }
+          $("#waiter").hide();
+          //$state.reload();
+      }else{
+          $rootScope.mCra(custom.error(response.data.error.message));
+      }
+      }, function(response){
+  });
+};
+$scope.updatePlan = function(obj, ev){
+  ev = ev.currentTarget;
+  if(ev.checked){
+      $scope.providerPlan.push(obj);
+  }else{
+    for(var i = 0; i < $scope.providerPlan.length; i++){
+        if($scope.providerPlan[i].planID == obj.id){
+            $scope.providerPlan.splice(i, 1);
+            break;
+        }
+    }
+  }
+}
+$scope.updatePackage = function(obj){
+  obj = obj.currentTarget;
+  obj.innerHTML = "<i class=\"fa fa-spin fa-spinner\"></i> working...";
+  var config = {
+    headers : {
+      'Content-Type':'application/json'
+    }
+  };
+  var datum = {
+    data:{
+      'username': sessionStorage.getItem('username'),
+      'publicKey': sessionStorage.getItem('publicKey'),
+      'hmoID': sessionStorage.getItem('HMOID'),
+      'providerID':$scope.currentEdit.providerID,
+      'planID':$scope.providerPlan
+    }
+  }
+  var url = UserService.apiRoot+'hmo/add/plan/provider';
+  $http.post(url, JSON.stringify(datum), config).then(function(response){
+    if(response.data.error.status == 0){
+      $rootScope.mCra(custom.success(response.data.success.message));
+      $state.reload();
+    }else{
+        $rootScope.mCra(custom.error(response.data.error.message));
+        obj.innerHTML = "Save";
+    }
+  }, function(response){
+    obj.innerHTML = "Save";
+  });
+}
+$scope.setProviderID = function(x){
+  $scope.pdata = x;
+}
+
+$scope.createBalance = function(obj){
+  var balance = $("#balance").val();
+  var key = $("#password").val();
+  var note = $("#notes").val();
+  var refrnce = $("#reference").val();
+  obj = obj.currentTarget;
+  former = obj.innerHTML;
+  obj.innerHTML = "<i class=\"fa fa-spin fa-spinner\"></i> working...";
+  var custom = new $rootScope.customMessage();
+  if(parseInt(balance)){
+    if(key.length >= 3){
+      var datum = {
+        data:{
+          'username': sessionStorage.getItem('username'),
+          'publicKey': sessionStorage.getItem('publicKey'),
+          'hmoID': sessionStorage.getItem('HMOID'),
+          'k': key,
+          'providerID':$scope.pdata.providerID,
+          'amount':balance,
+          'note': note,
+          'reference' :refrnce
+        }
+      }
+      var url = UserService.apiRoot+'hmo/update/provider-balance';
+      $http.put(url, JSON.stringify(datum), config).then(function(response){
+        if(response.data.error.status == 0){
+          $rootScope.mCra(custom.success(response.data.success.message));
+          $state.reload();
+        }else{
+            $rootScope.mCra(custom.error(response.data.error.message));
+            ////obj.innerHTML = ;
+            obj.innerHTML = former;
+        }
+      }, function(response){
+        obj.innerHTML = former;
+      });
+    }else{
+      $rootScope.mCra(custom.error("Invalid password"));
+      obj.innerHTML = former;
+    }
+  }else{
+    $rootScope.mCra(custom.error("Invalid Amount in field"));
+    obj.innerHTML = former;
+  }
+}
+
+$scope.getBal = function(a, b){
+  return parseFloat(a) + parseFloat(b);
+}
+
    /* $scope.users = [{
       id: 1,
       name: 'awesome user1',

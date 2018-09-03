@@ -17,7 +17,7 @@ angular
       sessionStorage.setItem("pageSurfed", 1);
     }
     $scope.tariffDetails = JSON.parse(sessionStorage.getItem("tmp_tram"));
-    $scope.tariffID = $scope.tariffDetails.tariffID;
+    $scope.tariffID = $scope.tariffDetails.id;
     var config = {
       headers : {
         'username': sessionStorage.getItem('username'),
@@ -26,12 +26,12 @@ angular
       }
     };
     var custom = new $rootScope.customMessage();
-    var  url = UserService.apiRoot+'hmo/get/tariffservice/'+$scope.tariffDetails.planID+'/'+$scope.tariffID;
+    var  url = UserService.apiRoot+'hmo/get/tariffservice/'+$scope.tariffID;
     $http.get(url, config).then(function(response){
       if(response.data.error.status == 0){
           $scope.tariffServices = response.data.content.data;          
           //$state.reload();
-       }else{                         
+       }else{ 
       }
       }, function(response){
    });

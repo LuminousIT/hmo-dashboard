@@ -18,7 +18,7 @@ angular
     $(".closeBtn").click(function(){
       $(".modal-content").hide("slow");
       $(".bcover").hide("slow");
-    });
+    }); 
 
     $(".openBtn").click(function(){
       $(".modal-content").show("slow");
@@ -110,10 +110,11 @@ angular
     }, function(response){
       ev.innerHTML = "save";
     });
-    $scope.getURI = function(id){
+    
+  }
+  $scope.getURI = function(id){
       return "http://www.org.healthtouch.me/hr/i.html#?"+id;
     }
-  }
   $scope.details = function(x){
     x = JSON.stringify(x);
     sessionStorage.setItem("tmp_ogpfl", x);

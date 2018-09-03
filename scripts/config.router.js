@@ -1138,13 +1138,21 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/jquery.dataTables.min.js',
-                                'scripts/js2/angular.dataTables.js'                                
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css',                              
                             ]
                         }]).then(function () {
                 return $ocLazyLoad.load('scripts/controllers/provider.js');
@@ -1155,8 +1163,41 @@ angular
             title: 'provider',
           }
         })
-
-
+        .state('app.reports', {
+          url: '/reports',
+          templateUrl: 'views/reports.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css',
+                    'scripts/plugins/dateJS/date.js'                           
+                            ]
+                        }]).then(function () {
+                return $ocLazyLoad.load('scripts/controllers/reports.js');
+              });
+                    }]
+          },
+          data: {
+            title: 'Reports',
+          }
+        })
         .state('app.hospital_plans', {
           url: '/hospital_plans',
           templateUrl: 'views/hospital_plans.html',
@@ -1171,7 +1212,9 @@ angular
                                 'scripts/extentions/bootstrap-datatables.js',
                                 'vendor/chosen_v1.4.0/chosen.min.css',
                                 'vendor/datatables/media/css/jquery.dataTables.css',
-                                'vendor/angular-xeditable/dist/css/xeditable.css'
+                                'vendor/angular-xeditable/dist/css/xeditable.css',
+                                'vendor/datatables/media/css/jquery.dataTables.css',
+                                'scripts/js2/angular-datatable.js'
                             ]
                           },
                   {
@@ -1188,7 +1231,39 @@ angular
             title: 'Hospital Plans',
           }
         })
-
+        .state('app.packages', {
+          url: '/packages',
+          templateUrl: 'views/packages.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                                'vendor/datatables/media/js/jquery.dataTables.js',
+                                'scripts/extentions/bootstrap-datatables.js',
+                                'vendor/chosen_v1.4.0/chosen.min.css',
+                                'vendor/datatables/media/css/jquery.dataTables.css',
+                                'vendor/angular-xeditable/dist/css/xeditable.css',
+                                'vendor/datatables/media/css/jquery.dataTables.css',
+                                'scripts/js2/angular-datatable.js'
+                            ]
+                          },
+                  {
+                    name: 'xeditable',
+                    files: [
+                                  'vendor/angular-xeditable/dist/js/xeditable.js'
+                              ]
+                          }]).then(function () {
+                return $ocLazyLoad.load('scripts/controllers/packages.js');
+              });
+                    }]
+          },
+          data: {
+            title: 'Hospital Plans',
+          }
+        })
         .state('app.addservices', {
           url: '/addservices',
           templateUrl: 'views/addservices.html',
@@ -1231,6 +1306,8 @@ angular
                   name: 'xeditable',
                   files: [
                                 'vendor/angular-xeditable/dist/js/xeditable.js',
+                                'scripts/plugins/readXl/jszip.js',
+                                'scripts/plugins/readXl/xlsx.js'
                                /* 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js' */
                             ]
                         }]).then(function () {
@@ -1534,7 +1611,148 @@ angular
           }
         })
 
+        .state('app.invoice', {
+          url: '/invoice',
+          templateUrl: 'views/invoice.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                                'vendor/datatables/media/js/jquery.dataTables.js',
+                                'scripts/extentions/bootstrap-datatables.js',
+                                'vendor/chosen_v1.4.0/chosen.min.css',
+                                'vendor/datatables/media/css/jquery.dataTables.css',
+                                'scripts/js2/angular-datatable.js',
+                                'scripts/plugins/bootstrap/bootstrap.js',
+                                'scripts/plugins/tableexport/tableExport.js',
+                                'scripts/plugins/tableexport/jquery.base64.js',
+                                'scripts/plugins/tableexport/html2canvas.js',
+                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                                'scripts/plugins/tableexport/jspdf/jspdf.js',
+                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                                'scripts/plugins/select2/select2.js',
+                                'scripts/plugins/select2/select2.css',
+                                'scripts/plugins/dateJS/date.js'
+                            ]
+                        }]).then(function () {
+                return $ocLazyLoad.load('scripts/controllers/invoice.js');
+              });
+                    }]
+          },
+          data: {
+            title: 'Invoice',
+          }
+        })
+        .state('app.paymentOrder', {
+          url: '/payment-order',
+          templateUrl: 'views/payment-order.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                                'vendor/datatables/media/js/jquery.dataTables.js',
+                                'scripts/extentions/bootstrap-datatables.js',
+                                'vendor/chosen_v1.4.0/chosen.min.css',
+                                'vendor/datatables/media/css/jquery.dataTables.css',
+                                'scripts/js2/angular-datatable.js',
+                                'scripts/plugins/bootstrap/bootstrap.js',
+                                'scripts/plugins/tableexport/tableExport.js',
+                                'scripts/plugins/tableexport/jquery.base64.js',
+                                'scripts/plugins/tableexport/html2canvas.js',
+                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                                'scripts/plugins/tableexport/jspdf/jspdf.js',
+                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                                'scripts/plugins/select2/select2.js',
+                                'scripts/plugins/select2/select2.css',
+                                'scripts/plugins/dateJS/date.js'
+                            ]
+                        }]).then(function () {
+                return $ocLazyLoad.load('scripts/controllers/payment-order.js');
+              });
+                    }]
+          },
+          data: {
+            title: 'Payment Order',
+          }
+        })
 
+        .state('app.paymentHist', {
+          url: '/payment-history',
+          templateUrl: 'views/paymentHistory.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                                'vendor/datatables/media/js/jquery.dataTables.js',
+                                'scripts/extentions/bootstrap-datatables.js',
+                                'vendor/chosen_v1.4.0/chosen.min.css',
+                                'vendor/datatables/media/css/jquery.dataTables.css',
+                                'scripts/js2/angular-datatable.js',
+                                'scripts/plugins/bootstrap/bootstrap.js',
+                                'scripts/plugins/tableexport/tableExport.js',
+                                'scripts/plugins/tableexport/jquery.base64.js',
+                                'scripts/plugins/tableexport/html2canvas.js',
+                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                                'scripts/plugins/tableexport/jspdf/jspdf.js',
+                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                                'scripts/plugins/select2/select2.js',
+                                'scripts/plugins/select2/select2.css',
+                                'scripts/plugins/dateJS/date.js'
+                            ]
+                        }]).then(function () {
+                return $ocLazyLoad.load('scripts/controllers/paymentHistory.js');
+              });
+                    }]
+          },
+          data: {
+            title: 'Payment History',
+          }
+        })
+
+        .state('app.schedule', {
+          url: '/schedules',
+          templateUrl: 'views/schedule.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                                'vendor/datatables/media/js/jquery.dataTables.js',
+                                'scripts/extentions/bootstrap-datatables.js',
+                                'vendor/chosen_v1.4.0/chosen.min.css',
+                                'vendor/datatables/media/css/jquery.dataTables.css',
+                                'scripts/js2/angular-datatable.js',
+                                'scripts/plugins/bootstrap/bootstrap.js',
+                                'scripts/plugins/tableexport/tableExport.js',
+                                'scripts/plugins/tableexport/jquery.base64.js',
+                                'scripts/plugins/tableexport/html2canvas.js',
+                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                                'scripts/plugins/tableexport/jspdf/jspdf.js',
+                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                                'scripts/plugins/select2/select2.js',
+                                'scripts/plugins/select2/select2.css',
+                                'scripts/plugins/dateJS/date.js'
+                            ]
+                        }]).then(function () {
+                return $ocLazyLoad.load('scripts/controllers/schedule.js');
+              });
+                    }]
+          },
+          data: {
+            title: 'Schedule',
+          }
+        })
         .state('app.settings', {
           url: '/settings',
           templateUrl: 'views/settings.html',
@@ -1600,6 +1818,76 @@ angular
           },
           data: {
             title: 'Encounters',
+          }
+        })
+
+        .state('app.reimbursement', {
+          url: '/reimbursement',
+          templateUrl: 'views/reimbursement.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                                'vendor/datatables/media/js/jquery.dataTables.js',
+                                'scripts/extentions/bootstrap-datatables.js',
+                                'vendor/chosen_v1.4.0/chosen.min.css',
+                                'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
+                                'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
+                                'vendor/datatables/media/css/jquery.dataTables.css',
+                                'scripts/js2/angular-datatable.js',
+                                'scripts/plugins/bootstrap/bootstrap.js',
+                                'scripts/plugins/tableexport/tableExport.js',
+                                'scripts/plugins/tableexport/jquery.base64.js',
+                                'scripts/plugins/tableexport/html2canvas.js',
+                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                                'scripts/plugins/tableexport/jspdf/jspdf.js',
+                                'scripts/plugins/tableexport/jspdf/libs/base64.js'
+                            ]
+                        }]).then(function () {
+                return $ocLazyLoad.load('scripts/controllers/reimbursement.js');
+              });
+                    }]
+          },
+          data: {
+            title: 'Reimbursement',
+          }
+        })
+
+        .state('app.claimscategory', {
+          url: '/claimscategory',
+          templateUrl: 'views/claimscategory.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                                'vendor/datatables/media/js/jquery.dataTables.js',
+                                'scripts/extentions/bootstrap-datatables.js',
+                                'vendor/chosen_v1.4.0/chosen.min.css',
+                                'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
+                                'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
+                                'vendor/datatables/media/css/jquery.dataTables.css',
+                                'scripts/js2/angular-datatable.js',
+                                'scripts/plugins/bootstrap/bootstrap.js',
+                                'scripts/plugins/tableexport/tableExport.js',
+                                'scripts/plugins/tableexport/jquery.base64.js',
+                                'scripts/plugins/tableexport/html2canvas.js',
+                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                                'scripts/plugins/tableexport/jspdf/jspdf.js',
+                                'scripts/plugins/tableexport/jspdf/libs/base64.js'
+                            ]
+                        }]).then(function () {
+                return $ocLazyLoad.load('scripts/controllers/claimscategory.js');
+              });
+                    }]
+          },
+          data: {
+            title: 'Claims Category',
           }
         })
 

@@ -8,8 +8,8 @@ var App = angular
       $scope.mobileView = 767;
 
       $scope.app = {
-        name: 'Healthtouch',
-        author: 'Healthtouch',
+        name: 'Roding',
+        author: 'Roding',
         version: '1.0.0',
         year: (new Date()).getFullYear(),
         layout: {

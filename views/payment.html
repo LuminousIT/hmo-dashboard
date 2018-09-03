@@ -51,8 +51,8 @@
                                   </div>
                                   <div class="row" style="padding:12px 16px">
                                     <div class="col-sm-12">
-                                      <button class="btn btn-block btn-large btn-primary" ng-click="filterTransactions($event)">
-                                        <i class="fa fa-filter"></i> Filter Encounter
+                                      <button class="btn btn-block btn-large btn-primary" id="fltrBtn" ng-click="filterTransactions()">
+                                        <i class="fa fa-filter"></i> Filter Data
                                       </button>
                                     </div>
                                   </div>
@@ -125,8 +125,8 @@
                                                <td>{{x.totalCount}}</td>
                                                <td>₦{{pricer(x.finalPrice)}}</td>
                                                <td>
-                                                <div style="padding:5px">        
-                                                   <button class="btn btn-success" ng-click="payBtn(x, $index, $event)"><i class="fa fa-money"> </i> Confirm Payment</button>
+                                                <div style="padding:5px">
+                                                   <button class="btn btn-success" ng-click="payBtn(x, $index, $event)"><i class="fa fa-money"> </i> Approve Payment</button>
                                                </div>
                                                <div style="padding:5px">
                                                    <button class="btn btn-default" ng-click="toggleView($index)"><i class="fa fa-history"> </i> View Unpaid Summary</button>
@@ -152,61 +152,50 @@
                                
                                <div class="panel-body" id="details_tbl" style="display: none">
                                     <div style="padding-left:10px"><h3>Showing Details <span class="btn-link" style="cursor: pointer" ng-click="toggleView()"><i class="fa fa-retweet"></i> Click to toggle View</h3></span></div>
-                                    <table class="table table-bordered bordered table-striped table-condensed datatable" id="customers21" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                                    <table class="table table-bordered bordered table-striped table-condensed datatable" id="customers2" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
                                             <thead>
                                               <tr style="color: black">
-                                                <th>ID</th>                                              
+                                                <th>ID</th>
+                                                <th style="width: 100px">Enrolee Name</th>
+                                                <th>Enrolee-ID</th>
                                                 <th>Provider</th>
-                                                <th>Med IC</th>
-                                                <th>Service Category</th>
-                                                <th>Health plan</th>
-                                                <th>Complaint</th>
-                                                <th>Claim Amount</th>
-                                                <th>Duration</th>
-                                                <th>Frequency</th>
-                                                <th>Transaction Date</th>          
-                                                <th>Final Amount</th>
-                                                <th>Final Comment</th>
+                                                <th>Diagnosis</th>
+                                                <th>Provider Amount</th>
+                                                <th>Vet Amount</th>
                                                 <th>Status</th>
+                                                
                                               </tr>
                                             </thead>
                                             <thead>
                                                 <tr class="searchParam">
-                                                        <th>S/N</th>                                                       
+                                                        <th>S/N</th>
+                                                         <th><input type="text" id = "extended1" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Enrolee Name" /></th>
+                                                    <th><input type="text" id = "extended2" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Enrolee-ID" /></th>
                                                          <th><input type="text" id = "extended3" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Provider" /></th>
-                                                         <th><input type="text" id = "extended4" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Med IC" /></th>
-                                                         <th><input type="text" id = "extended5" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Service Category" /></th>
-                                                         <th><input type="text" id = "extended6" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Health plan" /></th>
-                                                         <th><input type="text" id = "extended8" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Complaint" /></th>  
-                                                         <th><input type="text" id = "extended9" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Claim Amount" /></th>               
-                                                         <th><input type="text" id = "extended10" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Duration" /> </th>
-                                                         <th><input type="text" id = "extended11" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Frequency" /></th>
-                                                         <th><input type="text" id = "extended12" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Transaction Date" /></th>
-                                                         <th><input type="text" id = "extended13" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Final Amount" /></th>  
-                                                         <th><input type="text" id = "extended14" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Final Comment" /></th>               
-                                                         <th><input type="text" id = "extended15" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Status" /> </th>
+                                                         <th><input type="text" id = "extended4" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Diagnosis" /></th>
+                                                         <th></th>
+                                                         <th></th>      
+                                                         <th></th>
+                                                        
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody style="font-weight:lighter !important">
                                               <tr ng-repeat="x in encounters">
-                                                  <th>{{$index + 1}}</th>
+                                                  <th>{{$index + 1}} </th>
+                                             <th>{{x.enroleeName}}</th>
+                                                  <th>{{x.enroleeID}}</th>
                                                   <th>{{x.providerName}}</th>
-                                                  <th>{{x.serviceName}}</th>
-                                                  <th>{{x.serviceCatName}}</th>
-                                                  <th>{{x.planName}}</th>
-                                                  <th>{{x.summary}}</th>
+                                                 <th>{{x.diagnosis}}</th>
                                                   <th>{{pricer(x.price)}}</th>
-                                                  <th>{{x.duration}}</th>
-                                                  <th>{{x.frequency}}</th>
-                                                  <th>{{dateFormater(x.transDate)}}</th>          
-                                                  <th>{{(x.finalPrice > 0) && pricer(x.finalPrice) || pricer(x.price)}}</th>
-                                                  <th>{{x.comments}}</th>
+                                                  <th>{{ pricer(x.finalPrice) }}</th>
                                                   <th>
-                                                    <span ng-if="x.status == 0" class="btn btn-default btn-xs"><i class="fa fa-archive"></i> Pending</span>
-                                                    <span ng-if="x.status == -1" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> Rejected</span>
-                                                    <span ng-if="x.status == 1" class="btn btn-success btn-xs"><i class="fa fa-check"></i> Accepted</span>
-                                                    <span ng-if="x.status == 10" class="btn btn-info btn-xs"><i class="fa fa-refresh"></i> Reprocess</span>
+                                                    <span ng-if="x.status == 0" class="btn btn-default " style="width:100%"><i class="fa fa-archive"></i> Pending</span>
+                                                    <span ng-if="x.status == -1" class="btn btn-danger " style="width:100%"><i class="fa fa-times"></i> Rejected</span>
+                                                    <span ng-if="x.status == 1" class="btn btn-success " style="width:100%"><i class="fa fa-check"></i> Accepted</span>
+                                                    <span ng-if="x.status == 10" class="btn btn-info " style="width:100%"><i class="fa fa-refresh"></i> Reprocess</span>
+                                                    <span ng-if="x.status == 2" class="btn btn-primary " style="width:100%"><i class="fa fa-money"></i> Paid</span>
                                                   </th>
+                                                  
                                               </tr>
                                               </tbody>
                                           </table>

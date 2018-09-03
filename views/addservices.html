@@ -60,13 +60,21 @@
   </div>
   <div class="col-sm-6" style="padding:25px">
       <h3>Showing Selected Service</h3>
-    <div class="panel-body">
-      <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+    <div class="panel-body" style="width:100%; overflow-x: scroll">
+      <style>
+        .op th, .op td { min-width: 200px; }
+        .op .sn{ min-width:80px !important; }
+      </style>
+      <table class="table table-bordered bordered table-striped table-condensed datatable table-responsive op" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance" style="width: auto">
           <thead>
             <tr>
-              <th style="width:10%">S/N</th>
-              <th  style="width:60%">Name</th>
-              <th  style="width:30%" align="center">Action</th>
+              <th class="sn" >S/N</th>
+              <th >Name</th>              
+              <th >Amount Range</th>
+              <th >Frequency Range</th>
+              <th >Duration Range</th>
+              <th >Comment</th>
+              <th align="center">Action</th>
             </tr>
           </thead>
           <tr ng-repeat="x in usf">
@@ -74,6 +82,18 @@
               <td>
                   {{ x.serviceName || 'empty' }}
               </td>
+              <td>
+                  <input type="text" class="form-control" ng-keyup="updateData(0, $index, $event)" required="required" value="{{x.price}}" placeholder="{{x.price}}" style="border-top: 1px; border-left: 1px; border-right: 1px;">
+                </td>
+                <td>
+                    <input type="text" class="form-control" ng-keyup="updateData(1, $index, $event)" required="required" value="{{x.frequency}}" placeholder="{{x.frequency}}" style="border-top: 1px; border-left: 1px; border-right: 1px;">
+                  </td>
+                  <td>
+                      <input type="text" class="form-control" ng-keyup="updateData(2, $index, $event)" required="required" value="{{x.duration}}" placeholder="{{x.duration}}" style="border-top: 1px; border-left: 1px; border-right: 1px;">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" ng-keyup="updateData(3, $index, $event)" required="required" value="{{x.comment}}" placeholder="{{x.comment}}" style="border-top: 1px; border-left: 1px; border-right: 1px;">
+                      </td>
               <td align="center">
                   <button class="btn btn-danger" ng-click="moveLeft(x)"><i class="fa fa-minus-circle"></i> Remove</button>
               </td>

@@ -35,8 +35,8 @@ var App = angular
 
   
   angular.module('urbanApp')
-        .constant('ApiBaseUrl', 'http://192.168.4.237/healthTouch/public/api/')
-        .constant('ApiBaseUrlLogin', 'http://192.168.4.237/healthTouch/public/api/')
+        .constant('ApiBaseUrl', 'http://localhost/healthTouch/public/api/')//'http://apis-s.touchandpay.me/hmo/public/api/')
+        .constant('ApiBaseUrlLogin', 'http://apis-s.touchandpay.me/hmo/public/api/')
         //.constant('UrlEncoded', 'application/x`-www-form-urlencoded')
         .filter('momentFilter', MomentFilter)
         .run(function () {
@@ -113,6 +113,10 @@ var App = angular
                       }
                   }
                   return [found, index];
+              }
+              $rootScope.getUnitPrice = function(t, q){
+                  if(t == 0 || q == 0 || q == null || t == null) return 0;
+                  return parseFloat(t)/parseFloat(q);
               }
               $rootScope.adminCanteenID = (sessionStorage.getItem('canteenID'))? true : false;
               $rootScope.notAdminCanteenID = !($rootScope.adminCanteenID);
@@ -193,6 +197,19 @@ var App = angular
                 }
                 return style;
               }
+              $rootScope.unix2Date = function(UNIX_timestamp){
+                var a = new Date(UNIX_timestamp * 1000);
+                //var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                var year = a.getFullYear();
+                var month = a.getMonth();
+                var day = a.getDate();
+                if (month < 10) 
+                    month = "0" + month;
+                if (day < 10) 
+                    day = "0" + day;
+                var date = year + '-' + month + '-' + day;
+                return date;
+              }
               $rootScope.version = 105180831;
               $rootScope.sleep = function(milliseconds) {
                 var start = new Date().getTime();
@@ -207,9 +224,9 @@ var App = angular
 
   App.factory('UserService', function() {
   return {
-    apiRoot : 'http://localhost/healthTouch/public/api/',
+    //apiRoot : 'http://apis-s.healthtouch.me/hmo/public/api/',
     //apiRoot : 'http://172.16.1.22:6500/royalty/H/public/api/',
-    //apiRoot : 'http://localhost/royalty/H/public/api/',
+    apiRoot : 'http://localhost/healthTouch/public/api/',
     //webroot: 'http://localhost/fpanda/fpanda/'
     webroot: 'http://localhost/healthTouch/public/',
     //webroot: 'http://172.16.1.22:6500/fpanda/'

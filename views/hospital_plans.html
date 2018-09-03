@@ -18,17 +18,18 @@
           <i class="fa fa-medkit"></i>
           <span>Create Healthplan</span>
         </button>
-        </div>
+      </div>
   </div>
   </div>
 </div>
   <div class="panel-body">
-    <table class="table table-bordered bordered table-striped table-condensed datatable" ui-jq="dataTable">
+    <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
       <thead>
         <tr>
           <td>S/N</td>
           <th  style="width:35%">Name</th>
           <th  style="width:35%">Description</th>
+          <th  style="width:35%">Annual </th>
           <th  style="width:30%">Action</th>
         </tr>
       </thead>
@@ -46,6 +47,11 @@
               {{ x.description || 'empty' }}
             </span>
           </td>
+          <td>
+              <span editable-text="x.annualSub" e-name="annualSub" e-form="rowform" onbeforesave="checkName($data, x.annualSub)" e-required>
+                {{ pricer(x.annualSub, true) || 'empty' }}
+              </span>
+            </td>
           <td style="white-space: nowrap">
             <form editable-form name="rowform" onbeforesave="savePlan($data, x.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
               <button type="submit" ng-disabled="rowform.$waiting" id="savePlan{{x.id}}" class="btn btn-primary btn-xs">
@@ -69,10 +75,7 @@
         </tr>
     </table>
   </div>
-</div>
-
-
-<script type="text/ng-template" id="tariffModalContent.html">
+  <script type="text/ng-template" id="tariffModalContent.html">
   <div class="modal-header">
     <h3 class="modal-title">Create Healthplan</h3>
   </div>
@@ -80,6 +83,13 @@
     <form>
       <input type="text" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" id="planName" required="required" placeholder="Name" style="margin-bottom: 25px; border-top: 1px; border-left: 1px; border-right: 1px;">
       <textarea type="text " class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" id="planDescription" required="required" placeholder="Description"  style="margin-bottom: 25px; border-top: 1px; border-left: 1px; border-right: 1px;"></textarea>
+      <input id="annualSub" type="number" class="form-control ng-pristine ng-empty ng-invalid ng-invalid-required ng-touched" id="planName" required="required" placeholder="Annual Cost" style="margin-bottom: 25px; border-top: 1px; border-left: 1px; border-right: 1px;" />
+      <div>Import Services</div>
+      <select class="form-control" id="importFrom">
+        <option ng-repeat="x in plans" value="{{x.id}}">Import Services From {{x.name}}</option>
+        <option value="0">Use _blank</option>
+      </select>
+      <i class
     </form>
   </div>
   <div class="modal-footer">
@@ -87,3 +97,7 @@
     <button class="btn btn-warning btn-sm" ng-click="cancel()">Cancel</button>
   </div>
 </script>
+</div>
+
+
+
