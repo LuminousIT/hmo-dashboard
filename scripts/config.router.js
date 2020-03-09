@@ -3,19 +3,19 @@
 angular
   .module('urbanApp')
   .run(['$rootScope', '$state', '$stateParams',
-        function ($rootScope, $state, $stateParams) {
+    function ($rootScope, $state, $stateParams) {
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
       $rootScope.$on('$stateChangeSuccess', function () {
         window.scrollTo(0, 0);
       });
       FastClick.attach(document.body);
-        },
-    ])
+    },
+  ])
   .config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
 
-      
+
       // For unmatched routes
       $urlRouterProvider.otherwise('/signin');
 
@@ -28,48 +28,48 @@ angular
         })
 
 
-      .state('app.dashboard', {
-        url: '/',
-        templateUrl: 'views/dashboard.html',
-        resolve: {
-          deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([
-              {
-                insertBefore: '#load_styles_before',
-                files: [
-                                'styles/climacons-font.css',
-                                'vendor/rickshaw/rickshaw.min.css'
-                            ]
-                        },
-              {
-                serie: true,
-                files: [
-                                'vendor/d3/d3.min.js',
-                                'vendor/rickshaw/rickshaw.min.js',
-                                'vendor/flot/jquery.flot.js',
-                                'vendor/flot/jquery.flot.resize.js',
-                                'vendor/flot/jquery.flot.pie.js',
-                                'vendor/flot/jquery.flot.categories.js',
-                            ]
-                        },
-              {
+        .state('app.dashboard', {
+          url: '/',
+          templateUrl: 'views/dashboard.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  insertBefore: '#load_styles_before',
+                  files: [
+                    'styles/climacons-font.css',
+                    'vendor/rickshaw/rickshaw.min.css'
+                  ]
+                },
+                {
+                  serie: true,
+                  files: [
+                    'vendor/d3/d3.min.js',
+                    'vendor/rickshaw/rickshaw.min.js',
+                    'vendor/flot/jquery.flot.js',
+                    'vendor/flot/jquery.flot.resize.js',
+                    'vendor/flot/jquery.flot.pie.js',
+                    'vendor/flot/jquery.flot.categories.js',
+                  ]
+                },
+                {
                   name: 'angular-flot',
                   files: [
-                                'vendor/angular-flot/angular-flot.js'
-                            ]
-                        }]).then(function () {
-              return $ocLazyLoad.load('scripts/controllers/dashboard.js');
-            });
-                    }]
-        },
-        data: {
-          title: 'Dashboard',
-        }
-      })
+                    'vendor/angular-flot/angular-flot.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/dashboard.js');
+                });
+            }]
+          },
+          data: {
+            title: 'Dashboard',
+          }
+        })
 
 
-      // UI Routes
-      .state('app.ui', {
+        // UI Routes
+        .state('app.ui', {
           template: '<div ui-view></div>',
           abstract: true,
           url: '/ui',
@@ -90,19 +90,19 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
-                                'vendor/chosen_v1.4.0/chosen.min.css'
-                            ]
-                        },
+                    'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
+                    'vendor/chosen_v1.4.0/chosen.min.css'
+                  ]
+                },
                 {
                   files: [
-                                'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/bootstrap.ui.js');
-              });
-                    }]
+                    'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/bootstrap.ui.js');
+                });
+            }]
           },
           data: {
             title: 'Bootstrap Directives',
@@ -124,16 +124,16 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
-                                'vendor/jquery.ui/ui/core.js',
-                                'vendor/jquery.ui/ui/widget.js',
-                                'vendor/jquery.ui/ui/mouse.js',
-                                'vendor/jquery.ui/ui/sortable.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/draggable.js');
-              });
-                    }]
+                    'vendor/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
+                    'vendor/jquery.ui/ui/core.js',
+                    'vendor/jquery.ui/ui/widget.js',
+                    'vendor/jquery.ui/ui/mouse.js',
+                    'vendor/jquery.ui/ui/sortable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/draggable.js');
+                });
+            }]
           },
           data: {
             title: 'Portlets',
@@ -152,7 +152,7 @@ angular
           resolve: {
             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
               return $ocLazyLoad.load('styles/feather.css');
-                    }]
+            }]
           },
           data: {
             title: 'Feather Icons',
@@ -164,7 +164,7 @@ angular
           resolve: {
             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
               return $ocLazyLoad.load('styles/climacons-font.css');
-                    }]
+            }]
           },
           data: {
             title: 'Climacon Icons',
@@ -186,15 +186,15 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/jquery.ui/ui/core.js',
-                                'vendor/jquery.ui/ui/widget.js',
-                                'vendor/jquery.ui/ui/mouse.js',
-                                'vendor/jquery.ui/ui/slider.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/slider.js');
-              });
-                    }]
+                    'vendor/jquery.ui/ui/core.js',
+                    'vendor/jquery.ui/ui/widget.js',
+                    'vendor/jquery.ui/ui/mouse.js',
+                    'vendor/jquery.ui/ui/slider.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/slider.js');
+                });
+            }]
           },
           data: {
             title: 'Sliders',
@@ -206,7 +206,7 @@ angular
           resolve: {
             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
               return $ocLazyLoad.load('scripts/controllers/bootstrap.ui.js');
-                    }]
+            }]
           },
           data: {
             title: 'Pagination',
@@ -221,18 +221,18 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: ['vendor/chosen_v1.4.0/chosen.min.css']
-                        },
+                },
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/noty/js/noty/packaged/jquery.noty.packaged.min.js',
-                                'scripts/extentions/noty-defaults.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/notifications.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/noty/js/noty/packaged/jquery.noty.packaged.min.js',
+                    'scripts/extentions/noty-defaults.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/notifications.js');
+                });
+            }]
           },
           data: {
             title: 'Notifications',
@@ -247,17 +247,17 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: ['vendor/sweetalert/dist/sweetalert.css']
-                        },
+                },
                 {
                   name: 'oitozero.ngSweetAlert',
                   files: [
-                                'vendor/sweetalert/dist/sweetalert.min.js',
-                                'vendor/angular-sweetalert/SweetAlert.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/alert.js');
-              });
-                    }]
+                    'vendor/sweetalert/dist/sweetalert.min.js',
+                    'vendor/angular-sweetalert/SweetAlert.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/alert.js');
+                });
+            }]
           },
           data: {
             title: 'Alerts',
@@ -265,8 +265,8 @@ angular
         })
 
 
-      // Forms routes
-      .state('app.forms', {
+        // Forms routes
+        .state('app.forms', {
           template: '<div ui-view></div>',
           abstract: true,
           url: '/forms',
@@ -287,37 +287,37 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/jquery.tagsinput/src/jquery.tagsinput.css',
-                                'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
-                                'vendor/intl-tel-input/build/css/intlTelInput.css',
-                                'vendor/bootstrap-daterangepicker/daterangepicker-bs3.css',
-                                'vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
-                                'vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
-                                'vendor/clockpicker/dist/bootstrap-clockpicker.min.css',
-                                'vendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css'
-                            ]
-                        },
+                    'vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/jquery.tagsinput/src/jquery.tagsinput.css',
+                    'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
+                    'vendor/intl-tel-input/build/css/intlTelInput.css',
+                    'vendor/bootstrap-daterangepicker/daterangepicker-bs3.css',
+                    'vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
+                    'vendor/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
+                    'vendor/clockpicker/dist/bootstrap-clockpicker.min.css',
+                    'vendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css'
+                  ]
+                },
                 {
                   serie: true,
                   files: [
-                                'vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js',
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/jquery.tagsinput/src/jquery.tagsinput.js',
-                                'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
-                                'vendor/intl-tel-input//build/js/intlTelInput.min.js',
-                                'vendor/moment/min/moment.min.js',
-                                'vendor/bootstrap-daterangepicker/daterangepicker.js',
-                                'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
-                                'vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
-                                'vendor/clockpicker/dist/jquery-clockpicker.min.js',
-                                'vendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/form.js');
-              });
-                    }]
+                    'vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js',
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/jquery.tagsinput/src/jquery.tagsinput.js',
+                    'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
+                    'vendor/intl-tel-input//build/js/intlTelInput.min.js',
+                    'vendor/moment/min/moment.min.js',
+                    'vendor/bootstrap-daterangepicker/daterangepicker.js',
+                    'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
+                    'vendor/bootstrap-timepicker/js/bootstrap-timepicker.min.js',
+                    'vendor/clockpicker/dist/jquery-clockpicker.min.js',
+                    'vendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/form.js');
+                });
+            }]
           },
           data: {
             title: 'Advanced Form Plugins',
@@ -331,7 +331,7 @@ angular
               return $ocLazyLoad.load('vendor/jquery-validation/dist/jquery.validate.min.js').then(function () {
                 return $ocLazyLoad.load('scripts/controllers/validation.js');
               });
-                    }]
+            }]
           },
           data: {
             title: 'Form Validation',
@@ -346,23 +346,23 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
-                                'vendor/chosen_v1.4.0/chosen.min.css'
-                            ]
-                        },
+                    'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
+                    'vendor/chosen_v1.4.0/chosen.min.css'
+                  ]
+                },
                 {
                   files: [
-                                'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/card/lib/js/jquery.card.js',
-                                'vendor/bootstrap/js/tab.js',
-                                'vendor/jquery-validation/dist/jquery.validate.min.js',
-                                'vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/wizard.js');
-              });
-                    }]
+                    'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/card/lib/js/jquery.card.js',
+                    'vendor/bootstrap/js/tab.js',
+                    'vendor/jquery-validation/dist/jquery.validate.min.js',
+                    'vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/wizard.js');
+                });
+            }]
           },
           data: {
             title: 'Form Wizards',
@@ -377,28 +377,28 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/summernote/dist/summernote.css',
-                                'vendor/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.min.css'
-                            ]
-                        },
+                    'vendor/summernote/dist/summernote.css',
+                    'vendor/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.min.css'
+                  ]
+                },
                 {
                   files: [
-                                'vendor/bootstrap/js/tooltip.js',
-                                'vendor/bootstrap/js/dropdown.js',
-                                'vendor/bootstrap/js/modal.js',
-                                'vendor/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js',
-                                'vendor/summernote/dist/summernote.min.js'
-                            ]
-                        },
+                    'vendor/bootstrap/js/tooltip.js',
+                    'vendor/bootstrap/js/dropdown.js',
+                    'vendor/bootstrap/js/modal.js',
+                    'vendor/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js',
+                    'vendor/summernote/dist/summernote.min.js'
+                  ]
+                },
                 {
                   name: 'summernote',
                   files: [
-                                'vendor/angular-summernote/dist/angular-summernote.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/editor.js');
-              });
-                    }]
+                    'vendor/angular-summernote/dist/angular-summernote.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/editor.js');
+                });
+            }]
           },
           data: {
             title: 'Form Editors',
@@ -412,7 +412,7 @@ angular
               return $ocLazyLoad.load('vendor/jquery.maskedinput/dist/jquery.maskedinput.min.js').then(function () {
                 return $ocLazyLoad.load('scripts/controllers/mask.js');
               });
-                    }]
+            }]
           },
           data: {
             title: 'Input Masks',
@@ -427,12 +427,12 @@ angular
                 {
                   name: 'angularFileUpload',
                   files: [
-                                'vendor/angular-file-upload/angular-file-upload.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/upload.js');
-              });
-                    }]
+                    'vendor/angular-file-upload/angular-file-upload.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/upload.js');
+                });
+            }]
           },
           data: {
             title: 'Form Upload',
@@ -440,8 +440,8 @@ angular
         })
 
 
-      // Tables routes
-      .state('app.tables', {
+        // Tables routes
+        .state('app.tables', {
           template: '<div ui-view></div>',
           abstract: true,
           url: '/tables',
@@ -455,17 +455,17 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/sortable/css/sortable-theme-bootstrap.css'
-                            ]
-                        },
+                    'vendor/sortable/css/sortable-theme-bootstrap.css'
+                  ]
+                },
                 {
                   files: [
-                                'vendor/sortable/js/sortable.min.js'
-                            ]
-                        }]).then(function () {
-                Sortable.init();
-              });
-                    }]
+                    'vendor/sortable/js/sortable.min.js'
+                  ]
+                }]).then(function () {
+                  Sortable.init();
+                });
+            }]
           },
           data: {
             title: 'Basic Table',
@@ -487,21 +487,21 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css'
-                            ]
-                        },
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css'
+                  ]
+                },
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/table.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/table.js');
+                });
+            }]
           },
           data: {
             title: 'Datatable',
@@ -516,18 +516,18 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/angular-xeditable/dist/css/xeditable.css'
-                            ]
-                        },
+                    'vendor/angular-xeditable/dist/css/xeditable.css'
+                  ]
+                },
                 {
                   name: 'xeditable',
                   files: [
-                                'vendor/angular-xeditable/dist/js/xeditable.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/editable.js');
-              });
-                    }]
+                    'vendor/angular-xeditable/dist/js/xeditable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/editable.js');
+                });
+            }]
           },
           data: {
             title: 'Editable Table',
@@ -535,8 +535,8 @@ angular
         })
 
 
-      // Chart routes
-      .state('app.charts', {
+        // Chart routes
+        .state('app.charts', {
           template: '<div ui-view></div>',
           abstract: true,
           url: '/charts',
@@ -550,25 +550,25 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/flot/jquery.flot.js',
-                                'vendor/flot/jquery.flot.resize.js',
-                                'vendor/flot/jquery.flot.categories.js',
-                                'vendor/flot/jquery.flot.stack.js',
-                                'vendor/flot/jquery.flot.time.js',
-                                'vendor/flot/jquery.flot.pie.js',
-                                'vendor/flot-spline/js/jquery.flot.spline.js',
-                                'vendor/flot.orderbars/js/jquery.flot.orderBars.js'
-                            ]
-                        },
+                    'vendor/flot/jquery.flot.js',
+                    'vendor/flot/jquery.flot.resize.js',
+                    'vendor/flot/jquery.flot.categories.js',
+                    'vendor/flot/jquery.flot.stack.js',
+                    'vendor/flot/jquery.flot.time.js',
+                    'vendor/flot/jquery.flot.pie.js',
+                    'vendor/flot-spline/js/jquery.flot.spline.js',
+                    'vendor/flot.orderbars/js/jquery.flot.orderBars.js'
+                  ]
+                },
                 {
                   name: 'angular-flot',
                   files: [
-                                'vendor/angular-flot/angular-flot.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/flot.js');
-              });
-                    }]
+                    'vendor/angular-flot/angular-flot.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/flot.js');
+                });
+            }]
           },
           data: {
             title: 'Flot Charts',
@@ -583,12 +583,12 @@ angular
                 {
                   name: 'easypiechart',
                   files: [
-                                'vendor/jquery.easy-pie-chart/dist/angular.easypiechart.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/easychart.js');
-              });
-                    }]
+                    'vendor/jquery.easy-pie-chart/dist/angular.easypiechart.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/easychart.js');
+                });
+            }]
           },
           data: {
             title: 'Easypie Charts',
@@ -600,21 +600,21 @@ angular
           resolve: {
             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
               return $ocLazyLoad.load([
-                 {
+                {
                   files: [
-                                'vendor/chartjs/Chart.js',
-                            ]
-                        },
+                    'vendor/chartjs/Chart.js',
+                  ]
+                },
                 {
                   name: 'angles',
                   serie: true,
                   files: [
-                                'vendor/angles/angles.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/chartjs.js');
-              });
-                    }]
+                    'vendor/angles/angles.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/chartjs.js');
+                });
+            }]
           },
           data: {
             title: 'Chartjs',
@@ -629,19 +629,19 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/rickshaw/rickshaw.min.css'
-                            ]
-                        },
+                    'vendor/rickshaw/rickshaw.min.css'
+                  ]
+                },
                 {
                   serie: true,
                   files: [
-                                'vendor/d3/d3.min.js',
-                                'vendor/rickshaw/rickshaw.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/rickshaw.js');
-              });
-                    }]
+                    'vendor/d3/d3.min.js',
+                    'vendor/rickshaw/rickshaw.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/rickshaw.js');
+                });
+            }]
           },
           data: {
             title: 'Rickshaw Charts',
@@ -656,21 +656,21 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/nvd3/nv.d3.min.css'
-                            ]
-                        },
+                    'vendor/nvd3/nv.d3.min.css'
+                  ]
+                },
                 {
                   name: 'nvd3',
                   serie: true,
                   files: [
-                                'vendor/d3/d3.min.js',
-                                'vendor/nvd3/nv.d3.min.js',
-                                'vendor/angular-nvd3/dist/angular-nvd3.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/nvd3.js');
-              });
-                    }]
+                    'vendor/d3/d3.min.js',
+                    'vendor/nvd3/nv.d3.min.js',
+                    'vendor/angular-nvd3/dist/angular-nvd3.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/nvd3.js');
+                });
+            }]
           },
           data: {
             title: 'Nvd3 Charts',
@@ -685,19 +685,19 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/c3/c3.min.css'
-                            ]
-                        },
+                    'vendor/c3/c3.min.css'
+                  ]
+                },
                 {
                   serie: true,
                   files: [
-                                'vendor/d3/d3.min.js',
-                                'vendor/c3/c3.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/c3.js');
-              });
-                    }]
+                    'vendor/d3/d3.min.js',
+                    'vendor/c3/c3.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/c3.js');
+                });
+            }]
           },
           data: {
             title: 'C3',
@@ -705,8 +705,8 @@ angular
         })
 
 
-      // Maps routes
-      .state('app.maps', {
+        // Maps routes
+        .state('app.maps', {
           template: '<div ui-view></div>',
           abstract: true,
           url: '/maps',
@@ -720,12 +720,12 @@ angular
                 {
                   name: 'ui.map',
                   files: [
-                                'vendor/angular-ui-map/ui-map.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/google.js');
-              });
-                    }]
+                    'vendor/angular-ui-map/ui-map.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/google.js');
+                });
+            }]
           },
           data: {
             title: 'Google Maps',
@@ -741,19 +741,19 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/bower-jvectormap/jquery-jvectormap-1.2.2.css'
-                            ]
-                        },
+                    'vendor/bower-jvectormap/jquery-jvectormap-1.2.2.css'
+                  ]
+                },
                 {
                   serie: true,
                   files: [
-                                'vendor/bower-jvectormap/jquery-jvectormap-1.2.2.min.js',
-                                'data/maps/jquery-jvectormap-world-mill-en.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/vector.js');
-              });
-                    }]
+                    'vendor/bower-jvectormap/jquery-jvectormap-1.2.2.min.js',
+                    'data/maps/jquery-jvectormap-world-mill-en.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/vector.js');
+                });
+            }]
           },
           data: {
             title: 'Vector Maps',
@@ -762,8 +762,8 @@ angular
         })
 
 
-      // Apps routes
-      .state('app.apps', {
+        // Apps routes
+        .state('app.apps', {
           template: '<div ui-view></div>',
           abstract: true,
           url: '/apps',
@@ -777,30 +777,30 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/fullcalendar/dist/fullcalendar.min.css'
-                            ]
-                        },
+                    'vendor/fullcalendar/dist/fullcalendar.min.css'
+                  ]
+                },
                 {
                   serie: true,
                   files: [
-                                'vendor/jquery.ui/ui/core.js',
-                                'vendor/jquery.ui/ui/widget.js',
-                                'vendor/jquery.ui/ui/mouse.js',
-                                'vendor/jquery.ui/ui/draggable.js',
-                                'vendor/moment/moment.js',
-                                'vendor/fullcalendar/dist/fullcalendar.min.js',
-                                'vendor/fullcalendar/dist/gcal.js'
-                            ]
-                        },
+                    'vendor/jquery.ui/ui/core.js',
+                    'vendor/jquery.ui/ui/widget.js',
+                    'vendor/jquery.ui/ui/mouse.js',
+                    'vendor/jquery.ui/ui/draggable.js',
+                    'vendor/moment/moment.js',
+                    'vendor/fullcalendar/dist/fullcalendar.min.js',
+                    'vendor/fullcalendar/dist/gcal.js'
+                  ]
+                },
                 {
                   name: 'ui.calendar',
                   files: [
-                                'vendor/angular-ui-calendar/src/calendar.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/calendar.js');
-              });
-                    }]
+                    'vendor/angular-ui-calendar/src/calendar.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/calendar.js');
+                });
+            }]
           },
           data: {
             title: 'Calendar',
@@ -816,20 +816,20 @@ angular
                   serie: true,
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/blueimp-gallery/css/blueimp-gallery.min.css',
-                                'vendor/blueimp-bootstrap-image-gallery/css/bootstrap-image-gallery.min.css'
-                            ]
-                        },
+                    'vendor/blueimp-gallery/css/blueimp-gallery.min.css',
+                    'vendor/blueimp-bootstrap-image-gallery/css/bootstrap-image-gallery.min.css'
+                  ]
+                },
                 {
                   serie: true,
                   files: [
-                                'vendor/blueimp-gallery/js/jquery.blueimp-gallery.min.js',
-                                'vendor/blueimp-bootstrap-image-gallery/js/bootstrap-image-gallery.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/gallery.js');
-              });
-                    }]
+                    'vendor/blueimp-gallery/js/jquery.blueimp-gallery.min.js',
+                    'vendor/blueimp-bootstrap-image-gallery/js/bootstrap-image-gallery.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/gallery.js');
+                });
+            }]
           },
           data: {
             title: 'Gallery',
@@ -843,7 +843,7 @@ angular
               return $ocLazyLoad.load('scripts/controllers/messages.js').then(function () {
                 return $ocLazyLoad.load('scripts/services/messages.js');
               });
-                    }]
+            }]
           },
           data: {
             title: 'Messages',
@@ -860,8 +860,8 @@ angular
         })
 
 
-      // Apps routes
-      .state('app.extras', {
+        // Apps routes
+        .state('app.extras', {
           template: '<div ui-view></div>',
           abstract: true,
           url: '/extras',
@@ -896,15 +896,15 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/jquery.ui/ui/core.js',
-                                'vendor/jquery.ui/ui/widget.js',
-                                'vendor/jquery.ui/ui/mouse.js',
-                                'vendor/jquery.ui/ui/sortable.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/sortable.js');
-              });
-                    }]
+                    'vendor/jquery.ui/ui/core.js',
+                    'vendor/jquery.ui/ui/widget.js',
+                    'vendor/jquery.ui/ui/mouse.js',
+                    'vendor/jquery.ui/ui/sortable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/sortable.js');
+                });
+            }]
           },
           data: {
             title: 'Sortable',
@@ -916,7 +916,7 @@ angular
           resolve: {
             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
               return $ocLazyLoad.load('vendor/nestable/jquery.nestable.js');
-                    }]
+            }]
           },
           data: {
             title: 'Nestable',
@@ -945,33 +945,33 @@ angular
         })
 
 
-      .state('app.widgets', {
-        url: '/widgets',
-        templateUrl: 'views/widgets.html',
-        resolve: {
-          deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([
-              {
-                insertBefore: '#load_styles_before',
-                files: [
-                                'styles/climacons-font.css',
-                                'vendor/checkbo/src/0.1.4/css/checkBo.min.css'
-                            ]
-                        },
-              {
-                files: [
-                                'vendor/checkbo/src/0.1.4/js/checkBo.min.js'
-                            ]
-                        }]);
-                    }]
-        },
-        data: {
-          title: 'Widgets',
-        }
-      })
+        .state('app.widgets', {
+          url: '/widgets',
+          templateUrl: 'views/widgets.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  insertBefore: '#load_styles_before',
+                  files: [
+                    'styles/climacons-font.css',
+                    'vendor/checkbo/src/0.1.4/css/checkBo.min.css'
+                  ]
+                },
+                {
+                  files: [
+                    'vendor/checkbo/src/0.1.4/js/checkBo.min.js'
+                  ]
+                }]);
+            }]
+          },
+          data: {
+            title: 'Widgets',
+          }
+        })
 
 
-      .state('user', {
+        .state('user', {
           templateUrl: 'views/common/session.html',
         })
         .state('user.signin', {
@@ -984,19 +984,19 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: ['vendor/sweetalert/dist/sweetalert.css']
-                        },
+                },
                 {
                   name: 'oitozero.ngSweetAlert',
                   serie: true,
                   abstract: true,
                   files: [
-                                'vendor/sweetalert/dist/sweetalert.min.js',
-                                'vendor/angular-sweetalert/SweetAlert.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/session.js');
-              });
-                    }]
+                    'vendor/sweetalert/dist/sweetalert.min.js',
+                    'vendor/angular-sweetalert/SweetAlert.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/session.js');
+                });
+            }]
           },
           data: {
             appClasses: 'bg-white usersession',
@@ -1013,19 +1013,19 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: ['vendor/sweetalert/dist/sweetalert.css']
-                        },
+                },
                 {
                   name: 'oitozero.ngSweetAlert',
                   serie: true,
                   abstract: true,
                   files: [
-                                'vendor/sweetalert/dist/sweetalert.min.js',
-                                'vendor/angular-sweetalert/SweetAlert.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/session.js');
-              });
-                    }]
+                    'vendor/sweetalert/dist/sweetalert.min.js',
+                    'vendor/angular-sweetalert/SweetAlert.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/session.js');
+                });
+            }]
           },
           data: {
             appClasses: 'bg-white usersession',
@@ -1041,18 +1041,18 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: ['vendor/sweetalert/dist/sweetalert.css']
-                        },
+                },
                 {
                   name: 'oitozero.ngSweetAlert',
                   abstract: true,
                   files: [
-                                'vendor/sweetalert/dist/sweetalert.min.js',
-                                'vendor/angular-sweetalert/SweetAlert.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/session.js');
-              });
-                    }]
+                    'vendor/sweetalert/dist/sweetalert.min.js',
+                    'vendor/angular-sweetalert/SweetAlert.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/session.js');
+                });
+            }]
           },
           data: {
             appClasses: 'bg-white usersession',
@@ -1068,18 +1068,18 @@ angular
                 {
                   insertBefore: '#load_styles_before',
                   files: ['vendor/sweetalert/dist/sweetalert.css']
-                        },
+                },
                 {
                   name: 'oitozero.ngSweetAlert',
                   abstract: true,
                   files: [
-                                'vendor/sweetalert/dist/sweetalert.min.js',
-                                'vendor/angular-sweetalert/SweetAlert.min.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/session.js');
-              });
-                    }]
+                    'vendor/sweetalert/dist/sweetalert.min.js',
+                    'vendor/angular-sweetalert/SweetAlert.min.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/session.js');
+                });
+            }]
           },
           data: {
             appClasses: 'bg-white usersession',
@@ -1092,7 +1092,7 @@ angular
           resolve: {
             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
               return $ocLazyLoad.load('scripts/controllers/session.js');
-                    }]
+            }]
           },
           data: {
             appClasses: 'bg-white usersession',
@@ -1100,7 +1100,7 @@ angular
           }
         })
 
-      .state('app.404', {
+        .state('app.404', {
           url: '/404',
           templateUrl: 'views/extras-404.html',
           data: {
@@ -1122,7 +1122,7 @@ angular
           resolve: {
             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
               return $ocLazyLoad.load('scripts/controllers/session.js');
-                    }]
+            }]
           },
           data: {
             appClasses: 'usersession',
@@ -1152,12 +1152,12 @@ angular
                     'scripts/plugins/tableexport/jspdf/jspdf.js',
                     'scripts/plugins/tableexport/jspdf/libs/base64.js',
                     'scripts/plugins/select2/select2.js',
-                    'scripts/plugins/select2/select2.css',                              
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/provider.js');
-              });
-                    }]
+                    'scripts/plugins/select2/select2.css',
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/provider.js');
+                });
+            }]
           },
           data: {
             title: 'provider',
@@ -1187,12 +1187,12 @@ angular
                     'scripts/plugins/tableexport/jspdf/libs/base64.js',
                     'scripts/plugins/select2/select2.js',
                     'scripts/plugins/select2/select2.css',
-                    'scripts/plugins/dateJS/date.js'                           
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/reports.js');
-              });
-                    }]
+                    'scripts/plugins/dateJS/date.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/reports.js');
+                });
+            }]
           },
           data: {
             title: 'Reports',
@@ -1207,30 +1207,70 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'vendor/angular-xeditable/dist/css/xeditable.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js'
-                            ]
-                          },
-                  {
-                    name: 'xeditable',
-                    files: [
-                                  'vendor/angular-xeditable/dist/js/xeditable.js'
-                              ]
-                          }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/healthplan.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'vendor/angular-xeditable/dist/css/xeditable.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js'
+                  ]
+                },
+                {
+                  name: 'xeditable',
+                  files: [
+                    'vendor/angular-xeditable/dist/js/xeditable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/healthplan.js');
+                });
+            }]
           },
           data: {
             title: 'Hospital Plans',
           }
         })
+
+        .state('app.customproviders', {
+          url: '/custom-providers',
+          templateUrl: 'views/custom_providers.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                    'scripts/plugins/readXl/jszip.js',
+                    'scripts/plugins/readXl/xlsx.js',
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'vendor/angular-xeditable/dist/css/xeditable.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js'
+                  ]
+                },
+                {
+                  name: 'xeditable',
+                  files: [
+                    'vendor/angular-xeditable/dist/js/xeditable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/custom_providers.js');
+                });
+            }]
+          },
+          data: {
+            title: 'Custom Hospitals',
+          }
+        })
+
+
+
+
         .state('app.packages', {
           url: '/packages',
           templateUrl: 'views/packages.html',
@@ -1240,25 +1280,25 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'vendor/angular-xeditable/dist/css/xeditable.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js'
-                            ]
-                          },
-                  {
-                    name: 'xeditable',
-                    files: [
-                                  'vendor/angular-xeditable/dist/js/xeditable.js'
-                              ]
-                          }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/packages.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'vendor/angular-xeditable/dist/css/xeditable.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js'
+                  ]
+                },
+                {
+                  name: 'xeditable',
+                  files: [
+                    'vendor/angular-xeditable/dist/js/xeditable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/packages.js');
+                });
+            }]
           },
           data: {
             title: 'Hospital Plans',
@@ -1273,14 +1313,14 @@ angular
                 {
                   serie: true,
                   files: [
-                                'styles/dualmultiselect.css',
-                                'scripts/dualmultiselect.js',
-                                'scripts/js2/angular-datatable.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/addservices.js');
-              });
-                    }]
+                    'styles/dualmultiselect.css',
+                    'scripts/dualmultiselect.js',
+                    'scripts/js2/angular-datatable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/addservices.js');
+                });
+            }]
           },
           data: {
             title: 'Add Services',
@@ -1290,30 +1330,37 @@ angular
 
         .state('app.tariff', {
           url: '/tariff',
-          templateUrl: 'views/tariff.html',
+          templateUrl: 'views/tariff.html?v=1.2',
           resolve: {
             deps: ['$ocLazyLoad', function ($ocLazyLoad) {
               return $ocLazyLoad.load([
                 {
                   insertBefore: '#load_styles_before',
                   files: [
-                                'vendor/angular-xeditable/dist/css/xeditable.css',
-                                /*'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css'*/
+                    'vendor/angular-xeditable/dist/css/xeditable.css',
 
-                            ]
-                        },
+                    /*'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css'*/
+
+                  ]
+                },
                 {
                   name: 'xeditable',
                   files: [
-                                'vendor/angular-xeditable/dist/js/xeditable.js',
-                                'scripts/plugins/readXl/jszip.js',
-                                'scripts/plugins/readXl/xlsx.js'
-                               /* 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js' */
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/tariff.js');
-              });
-                    }]
+                    'vendor/angular-xeditable/dist/js/xeditable.js',
+                    'scripts/plugins/readXl/jszip.js',
+                    'scripts/plugins/readXl/xlsx.js',
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js'
+                    /* 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js' */
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/tariff.js?v=1.2');
+                });
+            }]
           },
           data: {
             title: 'Tariff',
@@ -1330,17 +1377,17 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/tariffamount.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/tariffamount.js');
+                });
+            }]
           },
           data: {
             title: 'Tariff Amount',
@@ -1357,24 +1404,24 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'vendor/angular-xeditable/dist/css/xeditable.css',
-                                'scripts/js2/angular-datatable.js'
-                            ]
-                          },
-                  {
-                    name: 'xeditable',
-                    files: [
-                                  'vendor/angular-xeditable/dist/js/xeditable.js'
-                              ]
-                          }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/enrollees.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'vendor/angular-xeditable/dist/css/xeditable.css',
+                    'scripts/js2/angular-datatable.js'
+                  ]
+                },
+                {
+                  name: 'xeditable',
+                  files: [
+                    'vendor/angular-xeditable/dist/js/xeditable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/enrollees.js');
+                });
+            }]
           },
           data: {
             title: 'Enrollees',
@@ -1389,16 +1436,16 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/table.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/table.js');
+                });
+            }]
           },
           data: {
             title: 'Attendance',
@@ -1415,17 +1462,17 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/organization.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/organization.js');
+                });
+            }]
           },
           data: {
             title: 'Organization',
@@ -1444,26 +1491,26 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
-                                'scripts/plugins/select2/select2.js',
-                                'scripts/plugins/select2/select2.css'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/enroleedetails.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/enroleedetails.js');
+                });
+            }]
           },
           data: {
             title: 'Enrolee Details',
@@ -1481,24 +1528,24 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/cards.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/cards.js');
+                });
+            }]
           },
           data: {
             title: 'Cards',
@@ -1516,26 +1563,26 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
-                                'scripts/plugins/select2/select2.js',
-                                'scripts/plugins/select2/select2.css',
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/pacodes.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css',
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/pacodes.js');
+                });
+            }]
           },
           data: {
             title: 'PA Codes',
@@ -1551,26 +1598,26 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
-                                'scripts/plugins/select2/select2.js',
-                                'scripts/plugins/select2/select2.css',
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/orgDetails.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css',
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/orgDetails.js');
+                });
+            }]
           },
           data: {
             title: 'Organization Details',
@@ -1585,26 +1632,26 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
-                                'scripts/plugins/select2/select2.js',
-                                'scripts/plugins/select2/select2.css',
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/payment.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css',
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/payment.js');
+                });
+            }]
           },
           data: {
             title: 'Payment',
@@ -1620,27 +1667,27 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
-                                'scripts/plugins/select2/select2.js',
-                                'scripts/plugins/select2/select2.css',
-                                'scripts/plugins/dateJS/date.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/invoice.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css',
+                    'scripts/plugins/dateJS/date.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/invoice.js');
+                });
+            }]
           },
           data: {
             title: 'Invoice',
@@ -1655,27 +1702,27 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
-                                'scripts/plugins/select2/select2.js',
-                                'scripts/plugins/select2/select2.css',
-                                'scripts/plugins/dateJS/date.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/payment-order.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css',
+                    'scripts/plugins/dateJS/date.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/payment-order.js');
+                });
+            }]
           },
           data: {
             title: 'Payment Order',
@@ -1691,27 +1738,27 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
-                                'scripts/plugins/select2/select2.js',
-                                'scripts/plugins/select2/select2.css',
-                                'scripts/plugins/dateJS/date.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/paymentHistory.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css',
+                    'scripts/plugins/dateJS/date.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/paymentHistory.js');
+                });
+            }]
           },
           data: {
             title: 'Payment History',
@@ -1727,27 +1774,27 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js',
-                                'scripts/plugins/select2/select2.js',
-                                'scripts/plugins/select2/select2.css',
-                                'scripts/plugins/dateJS/date.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/schedule.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js',
+                    'scripts/plugins/select2/select2.js',
+                    'scripts/plugins/select2/select2.css',
+                    'scripts/plugins/dateJS/date.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/schedule.js');
+                });
+            }]
           },
           data: {
             title: 'Schedule',
@@ -1762,24 +1809,24 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/settings.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/settings.js');
+                });
+            }]
           },
           data: {
             title: 'Settings',
@@ -1795,26 +1842,26 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
-                                'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/encounters.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
+                    'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/encounters.js');
+                });
+            }]
           },
           data: {
             title: 'Encounters',
@@ -1830,26 +1877,26 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
-                                'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/reimbursement.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
+                    'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/reimbursement.js');
+                });
+            }]
           },
           data: {
             title: 'Reimbursement',
@@ -1865,26 +1912,26 @@ angular
                 {
                   serie: true,
                   files: [
-                                'vendor/chosen_v1.4.0/chosen.jquery.min.js',
-                                'vendor/datatables/media/js/jquery.dataTables.js',
-                                'scripts/extentions/bootstrap-datatables.js',
-                                'vendor/chosen_v1.4.0/chosen.min.css',
-                                'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
-                                'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
-                                'vendor/datatables/media/css/jquery.dataTables.css',
-                                'scripts/js2/angular-datatable.js',
-                                'scripts/plugins/bootstrap/bootstrap.js',
-                                'scripts/plugins/tableexport/tableExport.js',
-                                'scripts/plugins/tableexport/jquery.base64.js',
-                                'scripts/plugins/tableexport/html2canvas.js',
-                                'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
-                                'scripts/plugins/tableexport/jspdf/jspdf.js',
-                                'scripts/plugins/tableexport/jspdf/libs/base64.js'
-                            ]
-                        }]).then(function () {
-                return $ocLazyLoad.load('scripts/controllers/claimscategory.js');
-              });
-                    }]
+                    'vendor/chosen_v1.4.0/chosen.jquery.min.js',
+                    'vendor/datatables/media/js/jquery.dataTables.js',
+                    'scripts/extentions/bootstrap-datatables.js',
+                    'vendor/chosen_v1.4.0/chosen.min.css',
+                    'vendor/checkbo/src/0.1.4/css/checkBo.min.css',
+                    'vendor/checkbo/src/0.1.4/js/checkBo.min.js',
+                    'vendor/datatables/media/css/jquery.dataTables.css',
+                    'scripts/js2/angular-datatable.js',
+                    'scripts/plugins/bootstrap/bootstrap.js',
+                    'scripts/plugins/tableexport/tableExport.js',
+                    'scripts/plugins/tableexport/jquery.base64.js',
+                    'scripts/plugins/tableexport/html2canvas.js',
+                    'scripts/plugins/tableexport/jspdf/libs/sprintf.js',
+                    'scripts/plugins/tableexport/jspdf/jspdf.js',
+                    'scripts/plugins/tableexport/jspdf/libs/base64.js'
+                  ]
+                }]).then(function () {
+                  return $ocLazyLoad.load('scripts/controllers/claimscategory.js');
+                });
+            }]
           },
           data: {
             title: 'Claims Category',
@@ -1892,34 +1939,34 @@ angular
         })
 
 
-      .state('app.documentation', {
-        url: '/documentation',
-        templateUrl: 'views/docs.html',
-        resolve: {
-          deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-            return $ocLazyLoad.load([
-              {
-                serie: true,
-                files: [
-                                'vendor/prism/themes/prism.css',
-                                'vendor/prism/prism.js',
-                            ]
-                        }]);
-                    }]
-        },
-        data: {
-          title: 'Documentation',
-          contentClasses: 'no-padding'
-        }
-      });
+        .state('app.documentation', {
+          url: '/documentation',
+          templateUrl: 'views/docs.html',
+          resolve: {
+            deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+              return $ocLazyLoad.load([
+                {
+                  serie: true,
+                  files: [
+                    'vendor/prism/themes/prism.css',
+                    'vendor/prism/prism.js',
+                  ]
+                }]);
+            }]
+          },
+          data: {
+            title: 'Documentation',
+            contentClasses: 'no-padding'
+          }
+        });
 
 
 
-        }
-    ])
+    }
+  ])
   .config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
       debug: false,
       events: false
     });
-    }]);
+  }]);

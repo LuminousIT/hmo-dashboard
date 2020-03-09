@@ -67,6 +67,7 @@ function compute() {
   $http.get(url, config).then(function(response){
   if(response.data.error.status == 0){
       $scope.otherData = response.data.content;
+      $scope.orgData = response.data.content.data[0];
       $('#providers2').select2();
       //$state.reload();
   }else{                         
@@ -140,6 +141,7 @@ function compute() {
     var phone = $("#phone").val();
     var email = $("#email").val();
     var address = $("#address").val();
+    var code = $('#code').val();
     if(name.length < 2){ $rootScope.mCra(custom.error("The name is invalid")); return; }
     if(phone.length < 2){ $rootScope.mCra(custom.error("The phone Number is invalid")); return; }
     if(email.length < 5){ $rootScope.mCra(custom.error("The email is invalid")); return; }
@@ -160,7 +162,8 @@ function compute() {
         'address':address,
         'phone':phone,
         'email':email,
-        'orgID':$scope.orgData.id
+        'orgID':$scope.orgData.id,
+        'code':code
       }
     };
     var url = UserService.apiRoot+'hmo/update/organization';

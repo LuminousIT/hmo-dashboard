@@ -19719,6 +19719,9 @@ function sheet_to_json(sheet, opts) {
 			case 3: hdr[C] = o.header[C - r.s.c]; break;
 			default:
 				if(val == null) val = {w: "__EMPTY", t: "s"};
+				val.h = val.h.trim();
+				val.v = val.v.trim();
+				val.w = val.w.trim();
 				vv = v = format_cell(val, null, o);
 				counter = 0;
 				for(CC = 0; CC < hdr.length; ++CC) if(hdr[CC] == vv) vv = v + "_" + (++counter);

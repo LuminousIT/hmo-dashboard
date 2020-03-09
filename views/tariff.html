@@ -21,13 +21,17 @@
       <span id="fetcher"></span>
     </div>
     <div class="panel-body">
-      <table class="table table-bordered table-hover table-condensed align-middle">
+      <table class="table table-bordered bordered table-striped table-condensed datatable" id="tariff2" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+        <thead>
         <tr class="bold">
-          <td style="width:10%">S/N</td>
-          <td style="width:20%">Name</td>
-          <td>Description</td>
-          <td>Action</td>
+          <th style="width:10%">S/N</th>
+          <th style="width:20%">Name</th>
+          <th>Description</th>
+          <th>Total Services</th>
+          <th>Action</th>
         </tr>
+      </thead>
+      <tbody>
         <tr ng-repeat="x in tariffs">
           <td>{{$index + 1}}</td>
           <td>
@@ -37,16 +41,21 @@
           <td>
             <!-- editable status (select-local) -->
             {{x.description}}
-            </span>
+          </td>
+          <td>
+            <!-- editable status (select-local) -->
+            {{x.tservice}}
           </td>
           <td style="white-space: nowrap">            
             <div class="buttons">
               <button class="btn btn-primary btn-xs btn-icon loading-demo mr5" ng-click="manageTariff(x)"><i class="fa fa-edit"></i>Manage Assigned providers</button>
               <!--<button class="btn btn-danger btn-xs btn-icon loading-demo mr5" ng-click="removeUser($index)"><i class="fa fa-trash"></i>delete</button> -->
               <button class="btn btn-success btn-xs btn-icon loading-demo mr5" ng-click="tariffAmount(x)"><i class="fa fa-info"></i>details</button>
+              <button class="btn btn-danger btn-xs btn-icon loading-demo mr5" ng-click="deleteTariff($event, x)"><i class="fa fa-trash"></i>Delete</button>
             </div>
           </td>
         </tr>
+      </tbody>
       </table>
 
 
@@ -133,6 +142,7 @@
                               <th  style="width:35%">Status</th>
                             </tr>
                           </thead>
+                          <tbody>
                           <tr ng-repeat="x in editedProvider" ng-if="x.status > 0">
                             <td>
                               {{$index + 1}}
@@ -143,7 +153,7 @@
                               <td>
                                 <input type="checkbox" ng-click="updateProvider(x, $event)" ng-checked="x.found" >
                               </td>                                    
-                            </tr>
+                            </tr></tbody>
                         </table>
           </div>
         </div>

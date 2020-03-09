@@ -33,7 +33,7 @@ angular
       if(response.data.error.status == 0){
           $scope.organization = response.data.content.data;
           $scope.Init = true;
-          $scope.filterEnrolees();
+          //$scope.filterEnrolees();
        }else{
       }
       }, function(response){
@@ -88,10 +88,12 @@ angular
     var org = $('#orgs').find(":selected").val();
     var provider = $('#provider').find(":selected").val();
     var type = $('#type').find(":selected").val();
-    //ev = ev.currentTarget;
+    var eID = $('#eID').val();
+    eID = (eID.length > 1)? eID : '-';
+    eID = btoa(eID);
     if($scope.Init){org = $scope.organization[0].id; $scope.Init = false;}
     ev.innerHTML = "<i class='fa fa-spinner fa-spinner'></i> please wait...";
-    var  url= UserService.apiRoot+'hmo/get/enrolee/'+type+'/-/'+org+'/'+provider+'/-';
+    var  url= UserService.apiRoot+'hmo/get/enrolee/v3/'+type+'/-/'+org+'/'+provider+'/-/'+eID;
     $http.get(url, config).then(function(response){
       if(response.data.error.status == 0){
           $scope.enrolees = response.data.content.data;

@@ -43,6 +43,8 @@ angular
       $scope.tariffServices[index].frequency = (ev.currentTarget.value.length < 1)? ev.currentTarget.placeholder : ev.currentTarget.value;
      }else if(t == 2){
       $scope.tariffServices[index].duration = (ev.currentTarget.value.length < 1)? ev.currentTarget.placeholder : ev.currentTarget.value;
+     }else{
+      $scope.tariffServices[index].serviceName = (ev.currentTarget.value.length < 1)? ev.currentTarget.placeholder : ev.currentTarget.value;
      }
    };
    $scope.savePrices = function(ev){
@@ -89,4 +91,83 @@ angular
       ev.innerHTML = "<i class=\"fa fa-check\"></i>save";
     });
    }
-	}
+
+   $scope.deleteService = function(x, ev){
+    var obj = ev.currentTarget;
+    if(confirm("Are you sure? You will delete the Service")){
+      var url = UserService.apiRoot+'hmo/delete-service';
+      var data = {};
+      data.publicKey = sessionStorage.getItem('publicKey');
+      data.username = sessionStorage.getItem('username');
+      data.hmoID = sessionStorage.getItem('HMOID');
+      data.tariffID = x.tariffID;
+      data.serviceID = x.id;
+      var former = obj.innerHTML;
+      obj.innerHTML = "W...";
+      obj.disabled = "disabled";
+      var config = {
+        headers : {
+            'Content-Type':'application/json'
+        }
+      };
+      var datum = {
+        "data":data
+      }
+      $http.post(url, datum, config).then(function(response){
+        if(response.data.error.status == 0){
+          $rootScope.mCra(custom.success(response.data.success.message));
+          $state.reload();
+        }else{
+          obj.innerHTML = former;
+            $rootScope.mCra(custom.error(response.data.error.message));
+        }
+    }, function(response){
+      obj.innerHTML = former;
+      $rootScope.mCra(custom.error(response.data.error.message));
+    });
+    }
+  }
+
+  $scope.initService = function(){
+    $scope.tariffServices = [{"editing":1}].concat($scope.tariffServices);
+  }
+  $scope.saveService = function(x, ev){
+    console.log( $scope.tariffServices[0]);
+    var obj = ev.currentTarget;
+    if(confirm("Are you sure? You will delete the Service")){
+      var url = UserService.apiRoot+'hmo/add-service';
+      var data = {};
+      data.publicKey = sessionStorage.getItem('publicKey');
+      data.username = sessionStorage.getItem('username');
+      data.hmoID = sessionStorage.getItem('HMOID');
+      data.tariffID = $scope.tariffID;
+      data.name = x.serviceName;
+      data.price = x.price;
+      data.frequency = x.frequency;
+      data.duration = x.duration;
+      var former = obj.innerHTML;
+      obj.innerHTML = "W...";
+      obj.disabled = "disabled";
+      var config = {
+        headers : {
+            'Content-Type':'application/json'
+        }
+      };
+      var datum = {
+        "data":data
+      }
+      $http.post(url, datum, config).then(function(response){
+        if(response.data.error.status == 0){
+          $rootScope.mCra(custom.success(response.data.success.message));
+          $state.reload();
+        }else{
+          obj.innerHTML = former;
+            $rootScope.mCra(custom.error(response.data.error.message));
+        }
+    }, function(response){
+      obj.innerHTML = former;
+      $rootScope.mCra(custom.error(response.data.error.message));
+    });
+  }
+}
+}

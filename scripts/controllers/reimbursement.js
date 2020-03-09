@@ -3,9 +3,9 @@
 
 angular
   .module('urbanApp')
-  .controller('paymentOrderCtrl', ['$scope', '$location', '$http', '$state', 'UserService', 'DTOptionsBuilder', '$rootScope', '$timeout', paymentOrderCtrl]);
+  .controller('reimbursementCtrl', ['$scope', '$location', '$http', '$state', 'UserService', 'DTOptionsBuilder', '$rootScope', '$timeout', reimbursementCtrl]);
 
-	function paymentOrderCtrl($scope, $location, $http, $state, UserService, DTOptionsBuilder, $rootScope, $timeout) {
+	function reimbursementCtrl($scope, $location, $http, $state, UserService, DTOptionsBuilder, $rootScope, $timeout) {
 		if (!sessionStorage.getItem("username") || !sessionStorage.getItem("publicKey")) {
         $location.path("/signin");
     }

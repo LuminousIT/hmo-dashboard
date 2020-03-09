@@ -3,10 +3,10 @@
 
 angular
   .module('urbanApp')
-  .controller('tariffCtrl', ['$scope', '$location', '$filter', '$http', 'editableOptions', 'editableThemes', 'UserService', '$rootScope', '$state', tariffCtrl]);
+  .controller('tariffCtrl', ['$scope', '$location', '$filter', '$http', 'editableOptions', 'editableThemes', 'UserService', '$rootScope', '$state', 'DTOptionsBuilder', tariffCtrl]);
 
 
-	function tariffCtrl($scope, $location, $filter, $http, editableOptions, editableThemes, UserService, $rootScope, $state) {
+	function tariffCtrl($scope, $location, $filter, $http, editableOptions, editableThemes, UserService, $rootScope, $state, DTOptionsBuilder) {
 		if (!sessionStorage.getItem("username") || !sessionStorage.getItem("publicKey")) {
         $location.path("/signin");
     }
@@ -95,6 +95,7 @@ angular
     //var provider = $('#provider').find(":selected").val();
     if(tariffName.length < 4){ $rootScope.mCra(custom.error("Tariff Name is invalid. At least 5 characters expected")); return; }
     if(tariffDescription.length < 4){ $rootScope.mCra(custom.error("Tariff Description is invalid. At least 5 characters expected")); return; }
+    if($scope.oJSON == null || $scope.oJSON == undefined || $scope.oJSON.length < 1){ $rootScope.mCra(custom.error("Expecting tariff services to be at least 1. Please check the upload and try again")); return; }
     //if(tariffPlan < 1){ $rootScope.mCra(custom.error("You have not selected a valid Plan")); return; }
     //if(provider < 1){ $rootScope.mCra(custom.error("You have not selected a valid provider")); return; }
     obj = obj.currentTarget;
@@ -128,6 +129,42 @@ angular
     });
   }
 
+  
+
+  $scope.deleteTariff = function(ev, ob){
+    var obj = ev.currentTarget;
+    if(confirm("Are you sure? You will delete the Tariff")){
+      var url = UserService.apiRoot+'hmo/delete/tariff';
+      var data = {};
+      data.publicKey = sessionStorage.getItem('publicKey');
+      data.username = sessionStorage.getItem('username');
+      data.hmoID = sessionStorage.getItem('HMOID');
+      data.tariffID = ob.id;
+      var former = obj.innerHTML;
+      obj.innerHTML = "W...";
+      obj.disabled = "disabled";
+      var config = {
+        headers : {
+            'Content-Type':'application/json'
+        }
+      };
+      var datum = {
+        "data":data
+      }
+      $http.put(url, datum, config).then(function(response){
+        if(response.data.error.status == 0){
+          $rootScope.mCra(custom.success(response.data.success.message));
+          $state.reload();
+        }else{
+          obj.innerHTML = former;
+            $rootScope.mCra(custom.error(response.data.error.message));
+        }
+    }, function(response){
+      obj.innerHTML = former;
+      $rootScope.mCra(custom.error(response.data.error.message));
+    });
+    }
+  }
   $scope.changeTariff = function(data){
     $scope.currentEdit = data;
     $(".modal-content").show("slow");

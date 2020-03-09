@@ -25,6 +25,9 @@ angular
         'hmoID': sessionStorage.getItem('HMOID')
       }
     };
+    $scope.set = function(x){
+      $scope.depProfile = x;
+    }
     var  url= UserService.apiRoot+'hmo/get/organization';
     $http.get(url, config).then(function(response){
       if(response.data.error.status == 0){

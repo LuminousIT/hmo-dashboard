@@ -1,13 +1,8 @@
 <div class="page-container" data-ng-controller="orgDetailsCtrl">
-    <headertop></headertop>            
-
+    <headertop></headertop>
        <!-- PAGE CONTENT -->
        <div class="page-content">
-           
-            
            <top></top>
-
-
            <!-- PAGE CONTENT WRAPPER -->
            <div class="page-content-wrap">
                    <style type="text/css">
@@ -35,7 +30,7 @@
                                    <div style="padding-top:12px">Fullname: {{orgData.name}}</div>
                                    <div style="padding-top:12px">email: {{orgData.email}}</div>
                                    <div style="padding-top:12px">phone: {{orgData.phone}}</div>
-                                   <div style="padding-top:12px">link: http://www.org.healthtouch.me/hr/i.html#?{{orgData.linkID}}</div>
+                                   <div style="padding-top:12px">link: https://org.rodingtouch.com/completeform/i.html#?{{orgData.linkID}}</div>
                                    <div style="padding-top:12px">Code: {{orgData.passkey}}</div>
                                  </div>
                                  <div class="col-md-4">
@@ -46,7 +41,7 @@
                                    <div style="padding-top:12px">Total Consumption: {{pricer(otherData.claims[0].totalUsed)}}</div>
                                  </div>
                                  <div class="col-md-4">
-                                   
+                                  <div style="padding-top:12px">Organization Code: {{orgData.code}}</div>
                                  </div>
                                </div>
                                <div align="center" style="padding-top:9px">
@@ -139,8 +134,7 @@
                                        <li><a href="#" onClick ="$('#customers2').tableExport({type:'png',escape:'false'});"><img src='img/icons/png.png' width="24"/> PNG</a></li>
                                        <li><a href="#" onClick ="$('#customers2').tableExport({type:'pdf',escape:'false'});"><img src='img/icons/pdf.png' width="24"/> PDF</a></li>
                                    </ul>
-                               </div>                                    
-                               
+                               </div>
                            </div>
                            <style>
                                    .searchParam th .form-control{
@@ -297,6 +291,10 @@
                           <p>Organization email</p>
                           <input type="text" class="form-control" id="email" value="{{orgData.email}}">
                       </div>
+                      <div class="form-group">
+                        <p>Organization Code</p>
+                        <input type="text" class="form-control" id="code" value="{{orgData.code}}">
+                    </div>
                       <div class="form-group">
                           <p>Organization Address</p>
                           <textarea class="form-control" id="address">{{orgData.address}}</textarea>

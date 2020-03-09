@@ -65,7 +65,9 @@ angular
             $("#fetcher").html("<i class='fa fa-exclamation-circle'></i> Fetch Failed");
     });
   });
-
+  $scope.autofill = function($ev){
+    $scope.automail = $ev.currentTarget.value.replace(" ", "_") +"@healthtouch.me"
+  }
   $scope.createOrg = function(ev){
     var name = $("#name").val();
     var phone = $("#phone").val();
@@ -73,6 +75,7 @@ angular
     var address = $("#address").val();
     var state = $('#stateID').find(":selected").val();
     var LG = $('#LG').find(":selected").val();
+    var code = $('#code').val();
     if(state < 1 || LG < 1){ $rootScope.mCra(custom.error("You have not selected a valid location!")); return; }
     if(name.length < 2){ $rootScope.mCra(custom.error("The name is invalid")); return; }
     if(phone.length < 2){ $rootScope.mCra(custom.error("The phone Number is invalid")); return; }
@@ -95,7 +98,8 @@ angular
         'phone':phone,
         'email':email,
         'state':state,
-        'LG':LG
+        'LG':LG,
+        'code':code
       }
     };
     var url = UserService.apiRoot+'hmo/create/organization';
@@ -113,7 +117,7 @@ angular
     
   }
   $scope.getURI = function(id){
-      return "http://www.org.healthtouch.me/hr/i.html#?"+id;
+      return "http://org.rodingtouch.com/hr/i.html#?"+id;
     }
   $scope.details = function(x){
     x = JSON.stringify(x);

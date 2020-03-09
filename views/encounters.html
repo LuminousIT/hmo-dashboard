@@ -51,6 +51,7 @@
       <h6>Sort by Organization</h6>
       <select class="form-control pull-right" id="Organization">
         <option value="-"> From All</option>
+        <option class="lastOption" ng-if="_fltr_org" selected value="{{_fltr_org[0]}}">{{_fltr_org[1]}}</option>
         <option ng-repeat="x in organizations" value="{{x.id}}"> {{x.name}}</option>    
       </select>
     </div>
@@ -58,13 +59,15 @@
       <h6>Sort by provider</h6>
       <select class="form-control pull-right" id="provider">
           <option value="-"> From All</option>
+          <option class="lastOption" ng-if="_fltr_org" selected value="{{_fltr_prov[0]}}">{{_fltr_prov[1]}}</option>
         <option ng-repeat="x in providers" value="{{x.id}}">{{x.name}}</option>
       </select>
     </div>
     <div class="col-md-4">
       <h6>Sort by Status</h6>
       <select class="form-control pull-right" id="type">
-          <option value="-"> From All</option>
+          <option class="lastOption" ng-if="_fltr_stat" selected value="{{_fltr_stat[0]}}">{{_fltr_stat[1]}}</option>
+          <option value="-" > From All</option>
           <option value="0"> From Pending</option>
           <option value="10"> From Reprocess</option>
           <option value="-1"> From Rejected</option>
@@ -83,11 +86,12 @@
 </div>
 <style>
   .searchParam th .form-control{
-    width: 100px !important;
+    width: 100px !important !important;
   }
 </style>
 <div class="panel-heading">
     <h3 class="panel-title"><span class="fa fa-stethoscope"> </span> Encounters </h3>
+    <h4>Provider Amount : {{pricer(priceDatun[0].price)}}, Veted Amount : {{pricer(priceDatun[0].finalPrice)}}</h4>
     <div class="btn-group pull-right">        
        <!--<button class="btn btn-info" data-toggle="modal" data-target="" ng-click="payAll()" id="payAll"><span class="fa fa-money"></span>Pay All </button> -->
         <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export Data</button>
@@ -125,8 +129,9 @@
     <table class="table table-bordered bordered table-striped table-condensed datatable" id="customers2" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
       <thead>
         <tr style="color: black">
+          <th><input type="checkbox" aria-label="Select All" ng-click="clickAllOrder($event)"/></th>
           <th>ID</th>
-          <th style="width: 100px">Enrolee Name</th>
+          <th style="width: 100px !important">Enrolee Name</th>
           <th>Enrolee-ID</th>
           <th>Provider</th>
           <th>Diagnosis</th>
@@ -148,6 +153,7 @@
       </thead>
       <thead>
           <tr class="searchParam">
+            <th></th>
                   <th>S/N</th>
                    <th><input type="text" id = "extended1" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Enrolee Name" /></th>
               <th><input type="text" id = "extended2" ng-keyup="listenForEvoke($event)" class="form form-control elsKey" placeholder="Search Enrolee-ID" /></th>
@@ -172,6 +178,7 @@
       </thead>
       <tbody style="font-weight:lighter !important">
         <tr ng-repeat="x in encounters">
+            <td style="border-bottom:none"><input type="checkbox" class="sels" ng-click="updateSelection($index, $event.currentTarget.checked)" id="ord{{$index}}" /></td>
             <th>{{$index + 1}} <i class="fa fa-flag btn" ng-if="x.flag" ng-click="fetchFlagged(x)" title="Flagged as duplicate or fraudulent"></i></th>
        <th>{{x.enroleeName}}</th>
             <th>{{x.enroleeID}}</th>
@@ -182,7 +189,7 @@
         <!--    <th>{{x.cardSerial}}</th> 
             <th>{{x.summary}}</th>-->
             <th>{{pricer(x.price)}}</th>
-            <th>{{ pricer(x.finalPrice) }}</th>
+            <th>{{pricer(x.finalPrice) }}</th>
       <!--      <th>{{x.duration}}</th>
             <th>{{x.frequency}}</th> 
             <th>{{dateFormater(x.transDate)}}</th>          
@@ -213,8 +220,23 @@
         </tr>
         </tbody>
     </table>
-  </div>
-
+    <div class="row">
+      <div class="col-sm-6" align="right">
+        <div>
+          <select class="form-control" id="massApply">
+            <option value="-">Select Option to apply</option>
+            <option value="-1">Reject</option>
+            <option value="1">Accept</option>
+            <option value="10" disabled>Reprocess</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-6" align="left">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="massUpdate()">[{{selectedOrder.length}}] Update Selected
+              <span class="caret"></span></button>
+      </div>
+    </div>
+  </div> 
 
   <div id="concludeTransaction" class="modal fade" role="dialog" style="z-index:19999">
       <div class="modal-dialog">
@@ -295,7 +317,76 @@
         </div>
     
       </div>
-    </div>
+  </div>
+
+  <div id="concludeTransactionV2" class="modal fade" role="dialog" style="z-index:19999">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" id="closeB" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><span class="fa fa-money"> </span> Conclude Transaction</h4>
+          </div>
+          <div class="modal-body">
+              <div class="alert alert-success">
+                  <ul class="fa-ul">
+                      <li>
+                          <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
+                              <strong class="sr-only">Note:</strong>
+                              You will not be able to alter this Transaction beyond this point;
+                      </li>
+                  </ul>
+              </div>
+              <div class="form-group" style="font-size:18px;" align="center">
+                      {{headerStatus}}
+              </div> 
+              <div ng-if="status == 1">
+                  <div class="form-group">
+                    Set Status of {{selectedOrder.length}} claims to "Accepted"
+                  </div>
+                  <div class="form-group">
+                      <p> Comment</p>
+                      <textarea class="form-control" id="comment2">{{comments}}</textarea>
+                  </div>
+              </div>
+              <div ng-if="status == -1">
+                <div class="form-group">
+                    Set Status of {{selectedOrder.length}} claims to "Rejected"
+                </div>
+                <div class="form-group">
+                      <p> Reason</p>
+                      <textarea class="form-control" id="comment2">{{comments}}</textarea>
+                </div>
+              </div>
+              <div ng-if="status == 10">
+                  <div class="form-group hidden">
+                      <p> Please enter amount</p>
+                      <input type="text" name="text" value="{{finalPrice}}" class="form-control" id="amount2"/>
+                  </div>
+                  <div class="form-group">
+                      <p> Please enter email</p>
+                      <input type="text" name="text" value="" class="form-control" id="email"/>
+                  </div>
+                  <div class="form-group">
+                      <p>Comment/Reason *Required</p>
+                      <textarea class="form-control" id="comment">{{comments}}</textarea>
+                  </div>
+                  <div class="form-group" style="font-size:18px;" align="right">
+                        <span>₦</span><span>{{pricer(finalPrice)}}</span>
+                </div>
+                <input type="hidden" value="{{transID}}" id="transID">
+                <input type="hidden" value="{{providerID}}" id="providerID">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <span id="workr3" style="display: none;"><i class="fa fa-spinner fa-spin"></i> working...</span> 
+            <button class="btn btn-danger" id="closeBtn2" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" id="fpointBtn" ng-click="conclude2(status, $event)">Update <i class="fa fa-chevron-circle-right"></i></button>
+          </div>
+        </div>
+    
+      </div>
+  </div>
 
 <style>
   .table-details tbody tr th{
@@ -390,9 +481,17 @@
                     <table class="table table-details">
                         <tbody>
                             <tr>
+                                <th>Fullname</th>
+                                <td>{{ae.enroleeName}}</td>
+                            </tr>
+                            <tr>
+                                <th>Provider</th>
+                                <td>{{ae.providerName}}</td>
+                            </tr>
+                            <tr>
                                 <th>Diagnosis</th>
                                 <td>{{ae.diagnosis}}</td>
-                              </tr>
+                            </tr>
                             <tr>
                               <th>Claims Arrival Date</th>
                               <td>{{dateFormater(ae.transDate)}}</td>
@@ -434,7 +533,7 @@
                                 <td>{{ae.pEnrolee}}</td>
                             </tr>-->
                             <tr>
-                                <th>Provider Tota</th>
+                                <th>Provider Total</th>
                                 <td>{{pricer(ae.price)}}</td>
                             </tr> 
                             <tr>
@@ -465,32 +564,48 @@
                     </table>
                     <!---drugs-->
                     <div>
-                      <h4 class="modal-title" style="margin-bottom: 10px">Drugs </h4>
-                    <table class="table table-bordered bordered table-striped table-condensed datatable"  datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                      <h4 class="modal-title" style="margin-bottom: 10px">Drugs <a style="font-size: 14px; color: #31708f; text-decoration: underline; cursor: pointer;" href="javascript:void(0)" ng-click="appendDrug()"><i class="fa fa-plus"></i> Add New</a>  </h4>
+                    <table id="table12" class="table table-bordered bordered table-striped table-condensed datatable"  datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
                             <thead>
                               <tr style="color: black">
                                 <th>ID</th>
                                 <th>Drug Name</th>
-                                <th>Tarrif Amount</th>
+                                <th>Tariff Amount</th>
                                 <th>Duration</th>
                                 <th>Quantity</th>
                                 <th>Provider Amount</th>
                                 <th>Final Amount</th>
                                 <th>Notes</th>
                                 <th>Dosage</th>
+                                <th>Action</th>
                               </tr>
-                            </thead>                        
+                            </thead>
                             <tbody style="font-weight:lighter !important">
                               <tr ng-repeat="x in drugs">
-                                  <th>{{$index + 1}}</th>
-                                  <th>{{x.drugName}}</th>
-                                  <th>{{getUnitPrice(x.finalCost, x.quantity)}}</th>
-                                  <th>{{x.duration}}</th>
-                                  <th>{{x.quantity}}</th>
-                                  <th>{{x.amount}}</th>
-                                  <th><input type="number" value="{{x.finalCost}}" class="form form-control" ng-keyup="updateDrug(x, $event, $index, 0)" ></th>
-                                  <th><input type="text" value="{{x.finalComment}}" class="form formcontrol" ng-keyup="updateDrug(x, $event, $index, 1)" /></th>
-                                  <th>{{x.dosage}}</th>
+                                  <th><span>{{$index + 1}}</span>
+                                  </th>
+                                  <th><span ng-if="x.id">{{x.drugName}}</span>
+                                    <input ng-if="x.editing" type="text" class="form form control" id="dnam{{$index}}" value="" placeholder="Enter Drug Name here" style="width: 120px" ng-keyup="updateDrug(x, $event, $index, -1)">
+                                  </th>
+                                  <th><span ng-if="x.id">{{getUnitPrice(x.finalCost, x.quantity)}}</span>
+                                  </th>
+                                  <th><span ng-if="x.id">{{x.duration}}</span>
+                                    <input ng-if="x.editing" type="text" class="form form control" id="pnam{{$index}}" value="" placeholder="Enter Duration here" style="width: 120px" ng-keyup="updateDrug(x, $event, $index, -2)">
+                                  </th>
+                                  <th><span ng-if="x.id">{{x.quantity}}</span>
+                                    <input ng-if="x.editing" type="text" class="form form control" id="pnam{{$index}}" value="" placeholder="Enter Quantity here" style="width: 120px" ng-keyup="updateDrug(x, $event, $index, -3)">
+                                  </th>
+                                  <th><span ng-if="x.id">{{x.amount}}</span>
+                                    <input ng-if="x.editing" type="text" class="form form control" id="pnam{{$index}}" value="0" placeholder="Enter Provider amount here" style="width: 120px" ng-keyup="updateDrug(x, $event, $index, -4)">
+                                  </th>
+                                  <th style="width: 100px !important"><input type="number" style="width: 100px !important" value="{{x.finalCost}}" class="form form-control" ng-keyup="updateDrug(x, $event, $index, 0)" ></th>
+                                  <th style="width: 100px !important"><input style="width: 100px !important" type="text" value="{{x.finalComment}}" class="form formcontrol" ng-keyup="updateDrug(x, $event, $index, 1)" /></th>
+                                  <th><span ng-if="x.id">{{x.dosage}}</span>
+                                      <input ng-if="x.editing" type="text" class="form form control" id="pnam{{$index}}" value="" placeholder="Enter Procedure here" style="width: 120px !important" ng-keyup="updateDrug(x, $event, $index, -5)">
+                                  </th>
+                                  <td><button ng-if="x.id" class="btn btn-danger btn-xs btn-icon loading-demo mr5" ng-click="deleteService(x, $event, 0)"><i class="fa fa-trash"></i>Delete</button>
+                                    <button ng-if="x.editing" class="btn btn-info" ng-click="sendDrug(x, $event)">Add Drug</button>
+                                  </td>
                               </tr>
                               </tbody>
                           </table>
@@ -498,34 +613,46 @@
                     <!---End Drugs-->
 
                     <!---Procedure-->
-                    <div>
-                      <h4 class="modal-title" style="margin-bottom: 10px">Procedures </h4>
-                    <table class="table table-bordered bordered table-striped table-condensed datatable"  datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
+                    <div style="overflow-x: auto"
+                      <h4 class="modal-title" style="margin-bottom: 10px">Procedures <a style="font-size: 14px; color: #31708f; text-decoration: underline; cursor: pointer;" href="javascript:void(0)" ng-click="appendProcedure()"><i class="fa fa-plus"></i> Add New</a></h4>
+                    <table id="table6" class="table table-bordered bordered table-striped table-condensed datatable" dt-options="dtOptions" dt-instance="dtInstance">
                               <thead>
                                 <tr style="color: black">
                                   <th>ID</th>
-                                  <th style="width: 100px">Procedure Name</th>
-                                  <th>Tarrif Amount</th>
+                                  <th style="width: 100px !important">Procedure Name</th>
                                   <th>Description</th>
                                   <th>Provider Amount</th>
-                                  <th>Tarrif Amount</th>
+                                  <th>Tariff Amount</th>
                                   <th>Final Amount</th>
                                   <th>Notes</th>
                                   <th>Image</th>
+                                  <th>Action</th>
                                 </tr>
                               </thead>
                               <tbody style="font-weight:lighter !important">
-                                <tr ng-repeat="x in procedures">
-                                  <th>{{$index + 1}}</th>
-                                  <th>{{x.procedureName}}</th>
-                                  <th>{{x.finalCost}}</th>
-                                  <th>{{x.description}}</th>
-                                  <th>{{pricer(x.cost)}}</th>
-                                  <th>{{pricer(x.finalCost)}}</th>
-                                  <th><input type="number" value="{{x.finalCost}}" class="form form-control" ng-keyup="updateProcedure(x, $event, $index, 0)" ></th>
-                                  <th><input type="text" value="{{x.comment}}" class="form formcontrol" ng-keyup="updateProcedure(x, $event, $index, 1)" /></th>
-                                  <th><img src="{{pointFile(x.file)}}" style="max-width:250px" ng-if="x.file != ''" /></th>
-                                </tr>
+                                  <tr ng-repeat="x in procedures">
+                                    <th>{{$index + 1}}</th>
+                                    <th>
+                                      <span ng-if="x.id">{{x.procedureName}}</span> 
+                                      <input ng-if="x.editing" type="text" class="form form control" id="pnam{{$index}}" value="" placeholder="Enter Procedure here" style="width: 120px" ng-keyup="updateProcedure(x, $event, $index, -1)">
+                                    </th>                                    
+                                    <th><span ng-if="x.id">{{x.description}}</span>
+                                      <input ng-if="x.editing" type="text" class="form form control" id="pdescr{{$index}}" value="" placeholder="Enter Description here" style="width: 120px" ng-keyup="updateProcedure(x, $event, $index, -2)">
+                                    </th>
+                                    <th> <span ng-if="x.id">{{pricer(x.cost)}}</span>
+                                      <input ng-if="x.editing" type="text" class="form form control" id="pcost{{$index}}" value="0" placeholder="0" style="width: 120px" ng-keyup="updateProcedure(x, $event, $index, -3)">
+                                    </th>
+                                    <th><span ng-if="x.id">{{pricer(x.finalCost)}}</span>
+                                      <input ng-if="x.editing" type="text" class="form form control" id="pfcost{{$index}}" value="0" placeholder="Enter Procedure here" style="width: 120px" ng-keyup="updateProcedure(x, $event, $index, 0)">
+                                    </th>
+                                    <th style="width: 100px !important"><input type="number" value="{{x.finalCost}}" class="form form-control" ng-keyup="updateProcedure(x, $event, $index, 0)" style="width: 100px !important" ></th>
+                                    <th style="width: 100px !important"><input type="text" value="{{x.finalComment}}" class="form formcontrol" ng-keyup="updateProcedure(x, $event, $index, 1)" style="width: 100px !important" /></th>
+                                    <th><img src="{{pointFile(x.file)}}" style="max-width:250px" ng-if="x.file" /></th>
+                                    <td>
+                                      <button ng-if="x.editing" class="btn btn-info" ng-click="sendProcedure(x, $event)">Add Procedure</button>
+                                      <button ng-if="x.id" class="btn btn-danger btn-xs btn-icon loading-demo mr5" ng-click="deleteService(x, $event)"><i class="fa fa-trash"></i>Delete</button>
+                                    </td>
+                                  </tr>
                                 </tbody>
                             </table>
                     </div>
@@ -545,12 +672,13 @@
                       <li class="text-success" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(1, ae, $index)" style="padding:7px"><span class="fa fa-check"></span> Accept</li>
                       <li class="text-info" data-toggle="modal" data-target="#concludeTransaction" ng-click="updateTransaction(10, ae, $index)" style="padding:7px"><span class="fa fa-refresh"></span> Reprocess</li>
                     </ul>
-                  </div>
+              </div>
                   <button type="button" id="btnPrint" class="btn btn-info">Print</button>
               <button class="btn btn-danger" id="closeBtn" data-dismiss="modal">Close</button>              
             </div>
           </div>
       
         </div>
-      </div>
+    </div>
+
 </div>

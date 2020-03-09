@@ -110,6 +110,7 @@
                                            <th>Date Generated</th>
                                            <th>Total Amount</th>
                                            <th>Status</th>
+                                           <th>File Status</th>
                                            <th>Action<input type="hidden" id="total" value="{{canteenData.length}}"></th>
                                        </tr>
                                    </thead>
@@ -123,6 +124,10 @@
                                            <td>₦{{pricer(x.amount)}}</td>
                                            <td><div class="" align="center" ng-if="x.status == 0" title="Payment is awaiting confirmation"><i class="fa fa-check-circle fa-2x" style="color: grey"></i></div>
                                             <div align="center" ng-if="x.status == 1" title="Payment Confirmed"><i class="fa fa-check-circle fa-2x" style="color: green"></i></div></td>
+                                            <td>
+                                              <span ng-if="x.filestat = 0">PDF creation on-going</span>
+                                              <span ng-if="x.filestat = 1">PDF creation Complete</span>
+                                            </td>
                                            <td>
                                             <div style="padding:5px">
                                                 <button class="btn btn-dark" data-toggle="modal" data-target="#updateAdvice" ng-click="updateAdvice(x)" ng-if="x.status == 0"><i class="fa fa-money-check-alt"> </i> Confirm Payment</button>
@@ -144,6 +149,7 @@
                                             <th>Date Generated</th>
                                             <th>Total Amount</th>
                                             <th>Status</th>
+                                            <th>File Status</th>
                                             <th>Action</th>
                                        </tr>
                                    </thead>

@@ -201,7 +201,7 @@ var App = angular
                 var a = new Date(UNIX_timestamp * 1000);
                 //var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
                 var year = a.getFullYear();
-                var month = a.getMonth();
+                var month = a.getMonth() + 1;
                 var day = a.getDate();
                 if (month < 10) 
                     month = "0" + month;

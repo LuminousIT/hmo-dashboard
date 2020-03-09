@@ -10,10 +10,11 @@
     </ol>
   </div>
   <div style="padding:40px">
-    <h4>Tariff Name: {{tariffDetails.tariffName}}</h4>
-    <h4>Plan Name: {{tariffDetails.planName}}</h4>
-    <h4>Assigned Provider: {{tariffDetails.providername}}</h4>
+    <h4>Tariff Name: {{tariffDetails.name}}</h4>
+    <h4>Description: {{tariffDetails.description}}</h4>
+    <h4>Assigned Provider: -List</h4>
   </div>
+  <div style="padding-left: 20px; padding-bottom: 12px"><button class="btn btn-success btn-sm btn-icon loading-demo mr5" ng-click="initService($event)"><i class="fa fa-plus"></i> Add New Service</button></div>
   <div class="panel-body">    
     <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng" dt-options="dtOptions" dt-instance="dtInstance">
       <thead>
@@ -23,12 +24,14 @@
           <td style="width: 20%">Amount Range</td>
           <td style="width: 20%">Frequency Range</td>
           <td style="width: 20%">Duration Range</td>
+          <td style="width: 20%">Action</td>
         </tr>
       </thead>
       <tr ng-repeat="x in tariffServices">
         <td>{{$index + 1}}</td>
           <td>
-            {{ x.serviceName || 'empty' }}
+            <span ng-if="x.id">{{ x.serviceName || 'empty' }}</span>
+            <input ng-if="x.editing" type="text" class="form-control" id="name" value="{{x.serviceName}}" ng-keyup="updatePrice(-1, $index, $event)" />
           </td>
           <td>
             <input type="text" class="form-control" ng-keyup="updatePrice(0, $index, $event)" required="required" value="{{x.price}}" placeholder="{{x.price}}" style="border-top: 1px; border-left: 1px; border-right: 1px;">
@@ -39,6 +42,10 @@
             <td>
                 <input type="text" class="form-control" ng-keyup="updatePrice(2, $index, $event)" required="required" value="{{x.duration}}" placeholder="{{x.duration}}" style="border-top: 1px; border-left: 1px; border-right: 1px;">
               </td>
+            <td>
+              <button ng-if="x.id" class="btn btn-danger btn-xs btn-icon loading-demo mr5" ng-click="deleteService(x, $event)"><i class="fa fa-trash"></i>Delete</button>
+              <button ng-if="x.editing" class="btn btn-success btn-xs btn-icon loading-demo mr5" ng-click="saveService(x, $event)"><i class="fa fa-plus"></i> Save</button>
+            </td>
         </tr>
     </table>
     <hr/>

@@ -1,0 +1,115 @@
+<div class="panel" data-ng-controller="customProviderCtrl">
+  <div class="panel-heading border" style="padding: 33px">
+    <div class="col-sm-12 col-xs-12" style="padding-left: 0px">
+      <div class="col-sm-6 col-xs-6" style="padding-left: 0px">
+        <ol class="breadcrumb mb0 no-padding">
+          <li>
+            <a href="javascript:;">Home</a>
+          </li>
+          <li class="active">Custom Providers</li>
+        </ol>
+      </div>
+      <div class="col-sm-6 col-xs-6" style="float: right; text-align: right;">
+        <div ng-controller="ModalDemoCtrl">
+          <button type="button" class="btn btn-primary btn-sm btn-icon loading-demo mr5" ng-click="open()">
+            <i class="fa fa-medkit"></i>
+            <span>Create Custom Provider</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <table class="table table-bordered bordered table-striped table-condensed datatable" datatable="ng"
+      dt-options="dtOptions" dt-instance="dtInstance">
+      <thead>
+        <tr>
+          <td>S/N</td>
+          <th style="width:35%">Name</th>
+          <th style="width:35%">Plan</th>
+          <th style="width:35%">Address </th>
+          <th style="width:30%">State</th>
+        </tr>
+      </thead>
+      <tr ng-repeat="x in providers">
+        <td>
+          {{$index + 1}}
+        </td>
+        <td>
+          <span editable-text="x.name" e-name="name" e-form="rowform" onbeforesave="checkName($data, x.name)"
+            e-required>
+            {{ x.name || 'empty' }}
+          </span>
+        </td>
+        <td>
+          <span editable-text="x.description" e-name="description" e-form="rowform"
+            onbeforesave="checkName($data, x.planName)" e-required>
+            {{ x.planName || 'empty' }}
+          </span>
+        </td>
+        <td>
+          <span editable-text="x.annualSub" e-name="annualSub" e-form="rowform"
+            onbeforesave="checkName($data, x.address)" e-required>
+            {{ x.address || 'empty' }}
+          </span>
+        </td>
+        <td>
+          <span editable-text="x.annualSub" e-name="annualSub" e-form="rowform"
+            onbeforesave="checkName($data, x.stateName)" e-required>
+            {{ x.stateName || 'empty' }}
+          </span>
+        </td>
+        <!-- <td style="white-space: nowrap">
+          <form editable-form name="rowform" onbeforesave="savePlan($data, x.id)" ng-show="rowform.$visible"
+            class="form-buttons form-inline" shown="inserted == user">
+            <button type="submit" ng-disabled="rowform.$waiting" id="savePlan{{x.id}}" class="btn btn-primary btn-xs">
+              save
+            </button>
+            <button type="button" ng-disabled="rowform.$waiting" id="cancelPlan{{x.id}}" ng-click="rowform.$cancel()"
+              class="btn btn-default btn-xs">
+              cancel
+            </button>
+          </form>
+          <div class="buttons" ng-show="!rowform.$visible">
+            <button type="button" class="btn btn-edit btn-sm btn-icon loading-demo mr5" ng-click="rowform.$show()">
+              <i class="fa fa-edit"></i>
+              <span>Edit Plan</span>
+            </button>
+            <button type="button" class="btn btn-success btn-sm btn-icon loading-demo mr5" ng-click="addservices(x)">
+              <i class="fa fa-edit"></i>
+              <span>Add Services</span>
+            </button>
+          </div>
+        </td> -->
+      </tr>
+    </table>
+  </div>
+  <script type="text/ng-template" id="tariffModalContent.html">
+    <div class="modal-header">
+      <h3 class="modal-title">Create Custom Providers</h3>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+            <select class="form-control" id="states">
+                <option ng-repeat="x in states" value="{{x.id}}">{{x.name}}</option>
+                <option value="0" selected selected>Select a State</option>
+              </select>
+        </div>
+        <div>Select Plan</div>
+        <select class="form-control" id="plan">
+          <option ng-repeat="x in plans" value="{{x.id}}">{{x.name}}</option>
+          <option value="0" selected>Select an option</option>
+        </select>
+        <div class="form-group">
+            <p>Upload Provider File</p>
+            <input type="file" onchange="angular.element(this).scope().filePicked(this)"  id="providers" class="form-group" />
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success btn-sm" ng-click="addProviders($event)">Save</button>
+      <button class="btn btn-warning btn-sm" ng-click="cancel()">Cancel</button>
+    </div>
+  </script>
+</div>
